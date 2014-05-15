@@ -4,12 +4,12 @@
  * and open the template in the editor.
  */
 
-package pacman_infd;
+package pacman_infd.Elements;
 
 /**
  *
  * @author ivanweller
  */
-public class Pellet extends PickupElement{
+public class Wall {
     
 }

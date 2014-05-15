@@ -4,7 +4,11 @@
  * and open the template in the editor.
  */
 
-package pacman_infd;
+package pacman_infd.Elements;
+
+import java.awt.Graphics;
+import pacman_infd.Cell;
+import pacman_infd.GameElement;
 
 /**
  *
@@ -12,8 +16,18 @@ package pacman_infd;
  */
 public class PickupElement extends GameElement{
     
+    public PickupElement(Cell cell)
+    {
+        super(cell);
+    }
+    
     public void pickMeUp(){
         
+    }
+    
+    public void draw(Graphics g)
+    {
+        //
     }
     
 }

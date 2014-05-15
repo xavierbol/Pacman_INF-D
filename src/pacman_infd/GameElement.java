@@ -6,14 +6,32 @@
 
 package pacman_infd;
 
+import java.awt.Graphics;
+
 
 /**
  *
  * @author ivanweller
  */
-public class GameElement {
+public abstract class GameElement {
     
     private Cell cell;
-//    private Sprite Image;
     
+    public GameElement(Cell cell)
+    {
+        this.cell = cell;
+        cell.addElement(this);
+    }
+
+    public abstract void draw(Graphics g);
+    
+    /**
+     * returns the cell containing this GameElement.
+     * @return 
+     */
+    public Cell getCell()
+    {
+        return cell;
+    }
+ 
 }

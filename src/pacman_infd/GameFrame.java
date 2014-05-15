@@ -6,9 +6,10 @@
 
 package pacman_infd;
 
+import java.awt.BorderLayout;
+import java.awt.Container;
 import java.awt.Dimension;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 /**
  *
@@ -19,12 +20,12 @@ public class GameFrame extends JFrame {
     private static final int FRAME_WIDTH = 800;
     private static final int FRAME_HEIGHT = 600;
     
-    private JPanel gamePanel;
     private GameWorld gameWorld;
+    private Container contentPane;
     
     public GameFrame()
     {
-        initComponents();
+        initComponents();      
     }
     
     private void initComponents()
@@ -34,8 +35,15 @@ public class GameFrame extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         
-        gamePanel = new JPanel();
-        gamePanel.setPreferredSize(new Dimension(FRAME_WIDTH,FRAME_HEIGHT));
+        contentPane = getContentPane();
+        contentPane.setLayout(new BorderLayout());
         
+        gameWorld = new GameWorld();
+        gameWorld.setPreferredSize(new Dimension(500,500));
+        
+        contentPane.add(gameWorld, BorderLayout.CENTER);     
+       
     }
+    
+            
 }

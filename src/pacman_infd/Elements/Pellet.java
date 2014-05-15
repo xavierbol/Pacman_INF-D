@@ -4,12 +4,19 @@
  * and open the template in the editor.
  */
 
-package pacman_infd;
+package pacman_infd.Elements;
+
+import pacman_infd.Cell;
 
 /**
  *
  * @author ivanweller
  */
 public class Pellet extends PickupElement{
+    
+    public Pellet(Cell cell)
+    {
+        super(cell);
+    }
     
 }
