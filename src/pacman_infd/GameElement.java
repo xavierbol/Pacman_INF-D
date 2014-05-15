@@ -33,5 +33,10 @@ public abstract class GameElement {
     {
         return cell;
     }
+    
+    public void setCell(Cell cell)
+    {
+        this.cell = cell;
+    }
  
 }

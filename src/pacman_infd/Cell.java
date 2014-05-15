@@ -11,6 +11,7 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import pacman_infd.Elements.Wall;
 
 /**
  *
@@ -58,6 +59,19 @@ public class Cell {
         }
     }
     
+    public boolean hasWall()
+    {
+        boolean hasWall = false;
+        for (GameElement element : elements)
+        {
+            if(element instanceof Wall)
+            {
+                hasWall =  true;
+            }
+        }  
+        return hasWall;
+    }
+    
     /**
      * Add a GameElement to this cell.
      * @param e GameElement
@@ -81,11 +95,21 @@ public class Cell {
     
     /**
      * Set the neighboring cells for this cell
-     * @param neighbours List of neighbor cells.
+     * @param neighbors List of neighbor cells.
      */
     public void setNeighbor(Direction dir, Cell cell)
     {
         neighbors.put(dir, cell);
+    }
+    
+    /**
+     * 
+     * @param dir Direction of cell
+     * @return Cell neighbor of this cell in the direction specified.
+     */
+    public Cell getNeighbor(Direction dir)
+    {
+        return neighbors.get(dir);
     }
     
     /**
