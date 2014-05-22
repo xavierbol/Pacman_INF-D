@@ -15,7 +15,7 @@ public class Pacman_INFD
     
     public static void main(String[] args) 
     {
-        GameFrame frame = new GameFrame();
+        GameView frame = new GameView();
         frame.setVisible(true);
     }
 
