@@ -7,8 +7,6 @@ package pacman_infd.Elements;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import pacman_infd.Cell;
 import pacman_infd.Direction;
 import pacman_infd.GameElement;
@@ -27,12 +25,14 @@ public class Pacman extends GameElement{
         Cell moveTo = getCell().getNeighbor(direction);
         if(moveTo != null && !moveTo.hasWall())
         {
+            moveTo.removePellet();
             moveTo.addElement(this);
             getCell().removeElement(this);
             setCell(moveTo);
         }
         
     }
+    
 
     public void draw(Graphics g) {
         int size = getCell().getSize();
