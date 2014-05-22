@@ -17,11 +17,12 @@ import javax.swing.JFrame;
  */
 public class GameFrame extends JFrame {
     
-    private static final int FRAME_WIDTH = 800;
+    private static final int FRAME_WIDTH = 900;
     private static final int FRAME_HEIGHT = 600;
     
     private GameWorld gameWorld;
     private Container contentPane;
+    private ScorePanel scorePanel;
     
     public GameFrame()
     {
@@ -39,9 +40,13 @@ public class GameFrame extends JFrame {
         contentPane.setLayout(new BorderLayout());
         
         gameWorld = new GameWorld();
-        gameWorld.setPreferredSize(new Dimension(500,500));
+        //gameWorld.setPreferredSize(new Dimension(500,500));
         
-        contentPane.add(gameWorld, BorderLayout.CENTER);     
+        scorePanel = new ScorePanel();
+        scorePanel.setPreferredSize(new Dimension(130,500));
+        
+        contentPane.add(gameWorld, BorderLayout.CENTER);
+        contentPane.add(scorePanel, BorderLayout.EAST);
        
     }
     

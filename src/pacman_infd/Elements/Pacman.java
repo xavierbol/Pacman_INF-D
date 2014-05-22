@@ -10,6 +10,7 @@ import java.awt.Graphics;
 import pacman_infd.Cell;
 import pacman_infd.Direction;
 import pacman_infd.GameElement;
+import pacman_infd.GameEventListener;
 
 /**
  *
@@ -17,27 +18,25 @@ import pacman_infd.GameElement;
  */
 public class Pacman extends GameElement{
 
-    public Pacman(Cell cell) {
-        super(cell);
+    public Pacman(Cell cell, GameEventListener gameEventListener) {
+        super(cell, gameEventListener);
     }
 
     public void move(Direction direction) {
         Cell moveTo = getCell().getNeighbor(direction);
         if(moveTo != null && !moveTo.hasWall())
         {
-            moveTo.removePellet();
+            moveTo.removePellet(); // niet de juiste plek???
             moveTo.addElement(this);
             getCell().removeElement(this);
             setCell(moveTo);
+            updatePosition();
         }
         
     }
-    
-
+   
+    @Override
     public void draw(Graphics g) {
-        int size = getCell().getSize();
-        int x = getCell().getXpos() * size;
-        int y = getCell().getYPos() * size;
 
         g.setColor(Color.ORANGE);
         g.fillOval(x, y, size, size);

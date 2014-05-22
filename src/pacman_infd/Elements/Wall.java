@@ -18,15 +18,12 @@ import pacman_infd.GameElement;
 public class Wall extends GameElement{
 
     public Wall(Cell cell) {
-        super(cell);
+        super(cell, null);
     }
 
     @Override
     public void draw(Graphics g) {
-        int size = getCell().getSize();
-        int x = getCell().getXpos() * size;
-        int y = getCell().getYPos() * size;
-
+        
         g.setColor(Color.BLACK);
         g.fillRect(x, y, size, size);
     }

@@ -19,16 +19,18 @@ public class Pellet extends GameElement{
     
     public Pellet(Cell cell)
     {
-        super(cell);
+        super(cell, null);
     }
     
     public void draw(Graphics g)
     {
-        int size = getCell().getSize();
-        int x = getCell().getXpos() * size;
-        int y = getCell().getYPos() * size;
         g.setColor(Color.PINK);
         g.fillOval(x + size/2 - 5, y + size/2 - 5, 10, 10);
+    }
+    
+    public void collect()
+    {
+        
     }
     
 }

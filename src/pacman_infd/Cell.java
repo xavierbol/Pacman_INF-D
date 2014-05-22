@@ -11,6 +11,8 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.PriorityQueue;
+import java.util.Stack;
 import pacman_infd.Elements.Pellet;
 import pacman_infd.Elements.Wall;
 
@@ -52,7 +54,7 @@ public class Cell {
     public void drawElements(Graphics g)
     {
         if(elements != null)
-        {
+        {          
             for(GameElement element : elements)
             {
                 element.draw(g);
