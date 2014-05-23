@@ -5,6 +5,7 @@
  */
 package pacman_infd;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import javax.swing.JPanel;
@@ -90,7 +91,7 @@ public class GameWorld {
                 cells.add(cell);
             }
         }
-    }
+    }    
 
     /**
      * Finds all neighbors for each cell and adds them to the neighbors Map of
@@ -143,9 +144,16 @@ public class GameWorld {
         }
     }
 
-    public void draw(Graphics g) {
+    public void draw(Graphics g) { 
         g.clearRect(0, 0, WIDTH * CELL_SIZE, HEIGHT * CELL_SIZE);
+        g.setColor(Color.WHITE);
+        g.fillRect(0, 0, WIDTH * CELL_SIZE, HEIGHT * CELL_SIZE);
         drawCells(g);
+    }
+    
+    public Pacman getPacman()
+    {
+        return pacman;
     }
 
     private void neighborTest() {

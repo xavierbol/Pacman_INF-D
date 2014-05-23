@@ -19,11 +19,14 @@ public class KeyManager implements KeyListener {
     private boolean keyPressed = false;
     private Pacman pacman;
     private GameWorld gameWorld;
+    private GameView gameView;
     
-    public KeyManager(GameWorld gameWorld, Pacman pacman)
+    public KeyManager(GameWorld gameWorld, GameView gameView)
     {
         this.gameWorld = gameWorld;
-        this.pacman = pacman;
+        this.gameView = gameView;
+        
+        pacman = gameWorld.getPacman();
     }
 
     @Override
@@ -48,8 +51,8 @@ public class KeyManager implements KeyListener {
                     pacman.move(Direction.RIGHT);
                     break;
             }
-            gameWorld.repaint();
-            gameWorld.requestFocus();
+            gameView.drawGameWorld();
+            gameView.requestFocus();
             keyPressed = true;
         }
     }

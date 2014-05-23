@@ -16,14 +16,14 @@ public class GameController implements GameEventListener {
 
     private GameWorld gameWorld;
     private GameView gameView;
-
+    private KeyManager keyManager;
+    
     public GameController(GameView gameview) {
         gameWorld = new GameWorld(this);
         gameView = gameview;
 
-//        keyManager = new KeyManager(this, pacman);
-//
-//        addKeyListener(keyManager);
+        keyManager = new KeyManager(gameWorld, gameView);
+        gameView.addKeyListener(keyManager);
     }
 
     @Override
