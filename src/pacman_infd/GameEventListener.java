@@ -7,7 +7,7 @@
 package pacman_infd;
 
 import java.util.EventListener;
-import pacman_infd.Elements.Pellet;
+import pacman_infd.Elements.Pacman;
 
 /**
  *
@@ -15,6 +15,9 @@ import pacman_infd.Elements.Pellet;
  */
 public interface GameEventListener extends EventListener{
     
-    public void GameElementPerfomedAction(GameElement e);
-    public void PacmanFoundPellet(Pellet p);
+    public void gameElementPerfomedAction(GameElement e);
+    public void pacmanMoved();
+    public void pacmanFoundPellet();
+    public void pacmanDied(Pacman pacman);
+
 }

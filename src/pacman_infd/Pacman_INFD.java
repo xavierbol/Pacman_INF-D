@@ -11,12 +11,11 @@ package pacman_infd;
  */
 public class Pacman_INFD 
 {
-
     
     public static void main(String[] args) 
     {
-        GameView frame = new GameView();
-        frame.setVisible(true);
+        View view = new View();
+        view.setVisible(true);
     }
 
 }

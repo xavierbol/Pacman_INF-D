@@ -9,7 +9,9 @@ import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -17,7 +19,7 @@ import javax.swing.JPanel;
  *
  * @author Marinus
  */
-public class GameView extends JFrame {
+public class View extends JFrame {
 
     private static final int FRAME_WIDTH = 900;
     private static final int FRAME_HEIGHT = 600;
@@ -31,9 +33,14 @@ public class GameView extends JFrame {
 
     private JPanel gamePanel;
     private ScorePanel scorePanel;
+    
+    private JButton startButton;
 
-    public GameView() {
+    public View(){
         initComponents();
+        
+        gameController = new GameController(this, scorePanel);
+        image = new BufferedImage(770,600,BufferedImage.TYPE_INT_ARGB);
     }
 
     private void initComponents() {
@@ -45,15 +52,19 @@ public class GameView extends JFrame {
         contentPane = getContentPane();
         contentPane.setLayout(new BorderLayout());
 
-        gameController = new GameController(this);
-
         scorePanel = new ScorePanel();
         scorePanel.setPreferredSize(new Dimension(130, 600));
 
         gamePanel = new JPanel();
+        startButton = new JButton("Start");
+        startButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                startButtontActionPerformed(evt);
+            }
 
-        image = new BufferedImage(770,600,BufferedImage.TYPE_INT_ARGB);
-
+        });
+        
+        contentPane.add(startButton, BorderLayout.SOUTH);
         contentPane.add(gamePanel, BorderLayout.CENTER);
         contentPane.add(scorePanel, BorderLayout.EAST);
 
@@ -66,15 +77,14 @@ public class GameView extends JFrame {
 
     }
 
-//    @Override
-//    public void paintComponents(Graphics g) {
-//        gamePanel.getGraphics().fillRect(100, 100, 100, 100);
-//        drawGameWorld();
-//    }
     public void drawGameWorld() {
 
         gamePanel.getGraphics().drawImage(image, 0, 0, null);
 
+    }
+    
+    private void startButtontActionPerformed(ActionEvent evt) {
+        gameController.newGame();
     }
 
 }

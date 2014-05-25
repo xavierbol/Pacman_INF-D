@@ -8,7 +8,6 @@ package pacman_infd;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
-import javax.swing.JPanel;
 import pacman_infd.Elements.*;
 import pacman_infd.Strategies.MoveRandom;
 
@@ -54,38 +53,34 @@ public class GameWorld {
 
             };
 
-    private boolean keyPressed = false;
-
-    private Pacman pacman;
-
-    private Ghost ghost;
-
-    private KeyManager keyManager;
-
     public GameWorld(GameController gameController) {
-        createCells();
+        createCells(WIDTH, HEIGHT);
         findNeighbors();
-        createWalls();
+        placeWalls(wallMap, cellMap);
         placePellets();
 
         this.gameController = gameController;
 
-        pacman = new Pacman(cellMap[1][1], gameController);
-        ghost = new Ghost(cellMap[1][1], gameController, new MoveRandom());
+        Pacman pacman = new Pacman(cellMap[1][1], gameController);
+        gameController.getView().addKeyListener(pacman);
+        
+        Ghost ghost = new Ghost(cellMap[1][1], gameController, new MoveRandom());
 
         //neighborTest();
-        //pacman.move(Direction.DOWN);
+
     }
 
     /**
-     * Create a grid of cells using the WIDTH and HEIGHT.
+     * Create a grid of cells.
+     * @param width
+     * @param height 
      */
-    private void createCells() {
+    private void createCells(int width, int height) {
         cells = new ArrayList<>();
-        cellMap = new Cell[WIDTH][HEIGHT];
+        cellMap = new Cell[width][height];
 
-        for (int x = 0; x < WIDTH; x++) {
-            for (int y = 0; y < HEIGHT; y++) {
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
                 Cell cell = new Cell(x, y, CELL_SIZE);
                 cellMap[x][y] = cell;
                 cells.add(cell);
@@ -116,7 +111,12 @@ public class GameWorld {
         }
     }
 
-    private void createWalls() {
+    /**
+     * Places walls on the cellMap according to wallMap
+     * @param wMap array of integers representing the walls (1=wall, 0=no wall)
+     * @param cMap cell array of level.
+     */
+    private void placeWalls(int[][] wallMap, Cell[][] cellMap) {
 
         for (int x = 0; x < 22; x++) {
             for (int y = 0; y < 30; y++) {
@@ -150,16 +150,12 @@ public class GameWorld {
         g.fillRect(0, 0, WIDTH * CELL_SIZE, HEIGHT * CELL_SIZE);
         drawCells(g);
     }
-    
-    public Pacman getPacman()
-    {
-        return pacman;
-    }
+
 
     private void neighborTest() {
         for (Cell cell : cells) {
             System.out.println(cell);
         }
-    }
+    }          
 
 }

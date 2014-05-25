@@ -26,7 +26,6 @@ public class ScorePanel extends JPanel {
     {
         score = 0;
         lives = 3;
-
     }
     
     public void setScore(int n)
@@ -37,6 +36,16 @@ public class ScorePanel extends JPanel {
     public void addScore(int n)
     {
         score += n;
+    }
+    
+    public void looseLife()
+    {
+        lives--;
+    }
+    
+    public int getLives()
+    {
+        return lives;
     }
     
     @Override

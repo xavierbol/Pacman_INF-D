@@ -7,6 +7,7 @@
 package pacman_infd;
 
 import java.awt.Graphics;
+import java.awt.Point;
 
 
 /**
@@ -18,29 +19,15 @@ public abstract class GameElement {
     private Cell cell;
     protected GameEventListener gameEventListener;
     
-    protected int size;
-    protected int x;
-    protected int y;
-    
     public GameElement(Cell cell, GameEventListener gameEventListener)
     {
         this.cell = cell;
         this.gameEventListener = gameEventListener;
         cell.addElement(this);
-        
-        size = cell.getSize();
-        updatePosition();
     }
     
-    /**
-     * Update the x and y variables used for drawing this element.
-     * This is necessary when a GameElement relocates to a different cell 
-     * to draw itself at the correct position.
-     */
-    protected void updatePosition()
-    {
-        x = cell.getXpos() * size;
-        y = cell.getYPos() * size;
+    protected Point getPosition(){
+        return new Point(getCell().getXpos() * getCell().getSize(), getCell().getYPos() * getCell().getSize());
     }
 
     public abstract void draw(Graphics g);

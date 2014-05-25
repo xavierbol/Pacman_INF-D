@@ -25,7 +25,12 @@ public class Wall extends GameElement{
     public void draw(Graphics g) {
         
         g.setColor(Color.BLACK);
-        g.fillRect(x, y, size, size);
+        g.fillRect(
+                (int)getPosition().getX(), 
+                (int)getPosition().getY(), 
+                getCell().getSize(), 
+                getCell().getSize()
+        );
     }
     
 }

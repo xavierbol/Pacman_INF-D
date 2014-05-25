@@ -12,7 +12,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import pacman_infd.Cell;
 import pacman_infd.GameElement;
-import pacman_infd.Strategies.MoveRandom;
 import pacman_infd.Strategy;
 import javax.swing.Timer;
 import pacman_infd.GameEventListener;
@@ -23,10 +22,10 @@ import pacman_infd.GameEventListener;
  */
 public class Ghost extends GameElement implements ActionListener{
     
-    Strategy strategy;
-    Timer timer;
+    private Strategy strategy;
+    private Timer timer;
     
-    public Ghost(Cell cell, GameEventListener gameEventListener, MoveRandom strategy)
+    public Ghost(Cell cell, GameEventListener gameEventListener, Strategy strategy)
     {
         super(cell, gameEventListener);
         this.strategy = strategy;
@@ -39,20 +38,43 @@ public class Ghost extends GameElement implements ActionListener{
     public void draw(Graphics g)
     {
         g.setColor(Color.BLUE);
-        g.fillRoundRect(x, y, size, size, 10, 5);
+        g.fillRoundRect(
+                (int)getPosition().getX(), 
+                (int)getPosition().getY(), 
+                getCell().getSize(), 
+                getCell().getSize(), 
+                10, 5
+        );
     }
     
     private void move()
     {
            setCell(strategy.giveNextCell(getCell()));
-           updatePosition();
+           checkCollisions();
+    }
+    
+    private void checkCollisions()
+    {
+        for(GameElement e : getCell().getElements())
+        {
+            if(e instanceof Pacman){
+                Pacman pacman = (Pacman)e;
+                if(pacman.isInvincible()){
+                    // die
+                }
+                else{
+                    getCell().removeElement(e);
+                    gameEventListener.pacmanDied(pacman);
+                    break;
+                }
+            }
+        }
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         move();
-        gameEventListener.GameElementPerfomedAction(this);
+        gameEventListener.gameElementPerfomedAction(this);
     }
-    
-    
+     
 }

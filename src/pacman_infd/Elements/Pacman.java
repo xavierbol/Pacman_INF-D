@@ -5,8 +5,11 @@
  */
 package pacman_infd.Elements;
 
+import com.sun.java.accessibility.util.AWTEventMonitor;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import pacman_infd.Cell;
 import pacman_infd.Direction;
 import pacman_infd.GameElement;
@@ -16,31 +19,97 @@ import pacman_infd.GameEventListener;
  *
  * @author ivanweller
  */
-public class Pacman extends GameElement{
+public class Pacman extends GameElement implements KeyListener {
+
+        
+    private boolean isInvincible;
+    private boolean keyPressed;
+    private Cell startCell;
 
     public Pacman(Cell cell, GameEventListener gameEventListener) {
         super(cell, gameEventListener);
+        startCell = cell;
+        keyPressed = false;
+        isInvincible = false;
+
     }
 
     public void move(Direction direction) {
         Cell moveTo = getCell().getNeighbor(direction);
-        if(moveTo != null && !moveTo.hasWall())
-        {
-            moveTo.removePellet(); // niet de juiste plek???
+        if (moveTo != null && !moveTo.hasWall()) {
             moveTo.addElement(this);
             getCell().removeElement(this);
             setCell(moveTo);
-            updatePosition();
+            
+            checkCollisions();    
         }
-        
     }
-   
+
     @Override
     public void draw(Graphics g) {
 
         g.setColor(Color.ORANGE);
-        g.fillOval(x, y, size, size);
+        g.fillOval(
+                (int)getPosition().getX(), 
+                (int)getPosition().getY(), 
+                getCell().getSize(), 
+                getCell().getSize()
+        );
+    }
+    
+    private void checkCollisions()
+    {
+        for(GameElement e : getCell().getElements())
+        {
+            if(e instanceof Pellet){
+                getCell().removeElement(e);
+                gameEventListener.pacmanFoundPellet();
+                break;
+            }
+        }
+    }
+    
+    public void resetPacman()
+    {
+        setCell(startCell);
+    }
+    
+    public boolean isInvincible()
+    {
+        return isInvincible;
+    }
+    
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+        //not implemented.
     }
 
-    
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if (!keyPressed) {
+            switch (e.getKeyCode()) {
+                case KeyEvent.VK_UP:
+                    move(Direction.UP);
+                    break;
+                case KeyEvent.VK_DOWN:
+                    move(Direction.DOWN);
+                    break;
+                case KeyEvent.VK_LEFT:
+                    move(Direction.LEFT);
+                    break;
+                case KeyEvent.VK_RIGHT:
+                    move(Direction.RIGHT);
+                    break;
+            }
+            gameEventListener.pacmanMoved();
+            keyPressed = true;
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        keyPressed = false;
+    }
+
 }

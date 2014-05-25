@@ -123,6 +123,11 @@ public class Cell {
         }
     }
     
+    public ArrayList<GameElement> getElements()
+    {
+        return elements;
+    }
+    
     /**
      * Set the neighboring cells for this cell
      * @param neighbors List of neighbor cells.

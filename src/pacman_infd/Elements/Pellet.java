@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package pacman_infd.Elements;
 
 import java.awt.Color;
@@ -15,22 +14,23 @@ import pacman_infd.GameElement;
  *
  * @author ivanweller
  */
-public class Pellet extends GameElement{
-    
-    public Pellet(Cell cell)
-    {
+public class Pellet extends GameElement {
+
+    public Pellet(Cell cell) {
         super(cell, null);
     }
-    
-    public void draw(Graphics g)
-    {
+
+    public void draw(Graphics g) {
         g.setColor(Color.PINK);
-        g.fillOval(x + size/2 - 5, y + size/2 - 5, 10, 10);
+        g.fillOval(
+                (int)getPosition().getX() + getCell().getSize()/ 2 - 5, 
+                (int)getPosition().getY() + getCell().getSize()/ 2 - 5, 
+                10, 10
+        );
     }
-    
-    public void collect()
-    {
-        
+
+    public void collect() {
+
     }
-    
+
 }
