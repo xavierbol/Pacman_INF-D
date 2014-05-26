@@ -15,7 +15,7 @@ import pacman_infd.Strategy;
  *
  * @author Marinus
  */
-public class MoveRandom implements Strategy{
+public class MoveRandomStrategy implements Strategy{
 
     private Cell oldCell;
     

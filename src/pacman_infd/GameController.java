@@ -8,6 +8,7 @@ package pacman_infd;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import pacman_infd.Elements.Ghost;
 import pacman_infd.Elements.Pacman;
 
 
@@ -20,6 +21,8 @@ public class GameController implements GameEventListener, KeyListener {
     private GameWorld gameWorld;
     private View view;
     private ScorePanel scorePanel;
+    
+    private String level1 = "D:\\Dropbox\\School\\INF-D\\+Project INF-D\\leve1.txt";
     //private KeyManager keyManager;
     
     public GameController(View view, ScorePanel scorePanel) {
@@ -55,6 +58,23 @@ public class GameController implements GameEventListener, KeyListener {
         pacman.resetPacman();
     }
     
+    @Override
+    public void pacmanFoundSuperPellet() {
+        scorePanel.addScore(50);
+        scorePanel.repaint();
+    }
+
+    @Override
+    public void pacmanEatsGhost(Ghost ghost) {
+        scorePanel.addScore(500);
+        scorePanel.repaint();
+    }
+    
+    @Override
+    public void pacmanChangedState(boolean state){
+        
+    }
+    
     private void drawGame() {
 
         Graphics g = view.getGameWorldGraphics();
@@ -72,7 +92,8 @@ public class GameController implements GameEventListener, KeyListener {
     
     public void newGame()
     {
-        gameWorld = new GameWorld(this);
+        gameWorld = new GameWorld(this, level1);
+        scorePanel.initStats();
     }
 
     @Override
@@ -89,6 +110,8 @@ public class GameController implements GameEventListener, KeyListener {
     public void keyReleased(KeyEvent e) {
         //
     }
+
+
 
     
 

@@ -23,12 +23,14 @@ import pacman_infd.GameEventListener;
 public class Ghost extends GameElement implements ActionListener{
     
     private Strategy strategy;
+    private Strategy initialStrategy;
     private Timer timer;
     
     public Ghost(Cell cell, GameEventListener gameEventListener, Strategy strategy)
     {
         super(cell, gameEventListener);
         this.strategy = strategy;
+        initialStrategy = strategy;
         
         int delay = 100;
         timer = new Timer(delay, this);
@@ -60,7 +62,10 @@ public class Ghost extends GameElement implements ActionListener{
             if(e instanceof Pacman){
                 Pacman pacman = (Pacman)e;
                 if(pacman.isInvincible()){
-                    // die
+                    //timer.stop();
+                    //getCell().removeElement(this);
+                    //gameEventListener.pacmanEatsGhost(this);
+                    break;
                 }
                 else{
                     getCell().removeElement(e);
@@ -69,6 +74,16 @@ public class Ghost extends GameElement implements ActionListener{
                 }
             }
         }
+    }
+    
+    public void runFromPacman()
+    {
+        this.strategy = strategy;
+    }
+    
+    public void revertStrategy()
+    {
+        strategy = initialStrategy;
     }
 
     @Override

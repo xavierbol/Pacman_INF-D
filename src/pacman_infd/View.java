@@ -21,8 +21,8 @@ import javax.swing.JPanel;
  */
 public class View extends JFrame {
 
-    private static final int FRAME_WIDTH = 900;
-    private static final int FRAME_HEIGHT = 600;
+    private static final int FRAME_WIDTH = 850;
+    private static final int FRAME_HEIGHT = 900;
 
     private BufferedImage image;
 
@@ -40,7 +40,7 @@ public class View extends JFrame {
         initComponents();
         
         gameController = new GameController(this, scorePanel);
-        image = new BufferedImage(770,600,BufferedImage.TYPE_INT_ARGB);
+        image = new BufferedImage(700,800,BufferedImage.TYPE_INT_ARGB);
     }
 
     private void initComponents() {

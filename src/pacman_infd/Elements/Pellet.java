@@ -29,8 +29,4 @@ public class Pellet extends GameElement {
         );
     }
 
-    public void collect() {
-
-    }
-
 }

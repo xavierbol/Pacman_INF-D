@@ -5,11 +5,13 @@
  */
 package pacman_infd.Elements;
 
-import com.sun.java.accessibility.util.AWTEventMonitor;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import javax.swing.Timer;
 import pacman_infd.Cell;
 import pacman_infd.Direction;
 import pacman_infd.GameElement;
@@ -19,19 +21,16 @@ import pacman_infd.GameEventListener;
  *
  * @author ivanweller
  */
-public class Pacman extends GameElement implements KeyListener {
+public class Pacman extends MovingGameElement implements ActionListener, KeyListener {
 
-        
     private boolean isInvincible;
     private boolean keyPressed;
-    private Cell startCell;
+    private Direction currentDirection;
 
-    public Pacman(Cell cell, GameEventListener gameEventListener) {
-        super(cell, gameEventListener);
-        startCell = cell;
+    public Pacman(Cell cell, GameEventListener gameEventListener, int speed) {
+        super(cell, gameEventListener, speed);
         keyPressed = false;
-        isInvincible = false;
-
+        isInvincible = false;   
     }
 
     public void move(Direction direction) {
@@ -57,7 +56,7 @@ public class Pacman extends GameElement implements KeyListener {
         );
     }
     
-    private void checkCollisions()
+    protected void checkCollisions()
     {
         for(GameElement e : getCell().getElements())
         {
@@ -66,17 +65,28 @@ public class Pacman extends GameElement implements KeyListener {
                 gameEventListener.pacmanFoundPellet();
                 break;
             }
+            if(e instanceof SuperPellet) {
+                getCell().removeElement(e);
+                becomeInvincible();
+                gameEventListener.pacmanFoundSuperPellet();
+                break;
+            }
         }
     }
     
     public void resetPacman()
     {
-        setCell(startCell);
+        setCell(getStartCell());
     }
     
     public boolean isInvincible()
     {
         return isInvincible;
+    }
+    
+    private void becomeInvincible()
+    {
+        isInvincible = true;
     }
     
 
@@ -90,16 +100,24 @@ public class Pacman extends GameElement implements KeyListener {
         if (!keyPressed) {
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_UP:
-                    move(Direction.UP);
+                    if(!getCell().getNeighbor(Direction.UP).hasWall()){  
+                        currentDirection = Direction.UP;
+                    }
                     break;
                 case KeyEvent.VK_DOWN:
-                    move(Direction.DOWN);
+                    if(!getCell().getNeighbor(Direction.DOWN).hasWall()){
+                        currentDirection = Direction.DOWN;
+                    }
                     break;
                 case KeyEvent.VK_LEFT:
-                    move(Direction.LEFT);
+                    if(!getCell().getNeighbor(Direction.LEFT).hasWall()){
+                        currentDirection = Direction.LEFT;
+                    }
                     break;
                 case KeyEvent.VK_RIGHT:
-                    move(Direction.RIGHT);
+                    if(!getCell().getNeighbor(Direction.RIGHT).hasWall()){
+                        currentDirection = Direction.RIGHT;
+                    }
                     break;
             }
             gameEventListener.pacmanMoved();
@@ -110,6 +128,11 @@ public class Pacman extends GameElement implements KeyListener {
     @Override
     public void keyReleased(KeyEvent e) {
         keyPressed = false;
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        move(currentDirection);
     }
 
 }

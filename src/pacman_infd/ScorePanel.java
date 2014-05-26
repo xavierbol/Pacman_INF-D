@@ -24,6 +24,11 @@ public class ScorePanel extends JPanel {
     
     public ScorePanel()
     {
+        initStats();
+    }
+    
+    public void initStats()
+    {
         score = 0;
         lives = 3;
     }

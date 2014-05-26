@@ -7,6 +7,7 @@
 package pacman_infd;
 
 import java.util.EventListener;
+import pacman_infd.Elements.Ghost;
 import pacman_infd.Elements.Pacman;
 
 /**
@@ -18,6 +19,9 @@ public interface GameEventListener extends EventListener{
     public void gameElementPerfomedAction(GameElement e);
     public void pacmanMoved();
     public void pacmanFoundPellet();
+    public void pacmanFoundSuperPellet();
     public void pacmanDied(Pacman pacman);
+    public void pacmanEatsGhost(Ghost ghost);
+    public void pacmanChangedState(boolean state);
 
 }

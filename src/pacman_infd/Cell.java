@@ -11,8 +11,6 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.PriorityQueue;
-import java.util.Stack;
 import pacman_infd.Elements.Pellet;
 import pacman_infd.Elements.Wall;
 
@@ -75,32 +73,32 @@ public class Cell {
         return hasWall;
     }
     
-    public boolean hasPellet()
-    {
-        boolean hasPellet = false;
-        for (GameElement element : elements)
-        {
-            if(element instanceof Pellet)
-            {
-                hasPellet =  true;
-            }
-        }  
-        return hasPellet;
-    }
+//    public boolean hasPellet()
+//    {
+//        boolean hasPellet = false;
+//        for (GameElement element : elements)
+//        {
+//            if(element instanceof Pellet)
+//            {
+//                hasPellet =  true;
+//            }
+//        }  
+//        return hasPellet;
+//    }
     
-    public void removePellet()
-    {
-        Pellet p = null;
-        for (GameElement e : elements)
-        {
-            if(e instanceof Pellet)
-            {
-                p = (Pellet)e;
-                break;
-            } 
-        }
-        elements.remove(p);
-    }
+//    public void removePellet()
+//    {
+//        Pellet p = null;
+//        for (GameElement e : elements)
+//        {
+//            if(e instanceof Pellet)
+//            {
+//                p = (Pellet)e;
+//                break;
+//            } 
+//        }
+//        elements.remove(p);
+//    }
     
     /**
      * Add a GameElement to this cell.
