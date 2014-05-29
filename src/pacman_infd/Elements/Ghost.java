@@ -12,35 +12,36 @@ import java.awt.event.ActionListener;
 import pacman_infd.Cell;
 import pacman_infd.GameElement;
 import pacman_infd.Strategy;
-import javax.swing.Timer;
 import pacman_infd.GameEventListener;
 import pacman_infd.PathFinder;
+import pacman_infd.Strategies.FleeStrategy;
 
 /**
  *
  * @author Marinus
  */
-public class Ghost extends GameElement implements ActionListener {
+public class Ghost extends MovingGameElement implements ActionListener {
 
     private Strategy strategy;
     private Strategy initialStrategy;
-    private Timer timer;
+    private boolean isFleeing;
 
     PathFinder pathFinder;
 
-    public Ghost(Cell cell, GameEventListener gameEventListener, Strategy strategy) {
-        super(cell, gameEventListener);
+    public Ghost(Cell cell, GameEventListener gameEventListener, int speed, Strategy strategy) {
+        super(cell, gameEventListener, speed);
         this.strategy = strategy;
         initialStrategy = strategy;
-
-        int delay = 100;
-        timer = new Timer(delay, this);
-        timer.start();
-
+        isFleeing = false;
     }
 
     public void draw(Graphics g) {
-        g.setColor(Color.BLUE);
+        if(isFleeing){
+            g.setColor(Color.BLUE);
+        }
+        else{
+            g.setColor(Color.RED);
+        }
         g.fillRoundRect(
                 (int) getPosition().getX(),
                 (int) getPosition().getY(),
@@ -50,7 +51,7 @@ public class Ghost extends GameElement implements ActionListener {
         );
     }
 
-    private void move() {
+    protected void move() {
         Cell nextCell = strategy.giveNextCell(cell);
         if (nextCell != null) {
             setCell(nextCell);
@@ -59,7 +60,7 @@ public class Ghost extends GameElement implements ActionListener {
         checkCollisions();
     }
 
-    private void checkCollisions() {
+    protected void checkCollisions() {
         for (GameElement e : getCell().getElements()) {
             if (e instanceof Pacman) {
                 Pacman pacman = (Pacman) e;
@@ -78,11 +79,15 @@ public class Ghost extends GameElement implements ActionListener {
     }
 
     public void runFromPacman() {
-        this.strategy = strategy;
+        this.strategy = new FleeStrategy();
+        isFleeing = true;
+        setSpeed(150);
     }
 
-    public void revertStrategy() {
+    public void backToNormal() {
         strategy = initialStrategy;
+        isFleeing = false;
+        setSpeed(100);
     }
 
     @Override

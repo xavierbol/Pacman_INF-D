@@ -27,10 +27,10 @@ public abstract class MovingGameElement extends GameElement implements ActionLis
         super(cell, gameEventListener);
         startCell = cell;
         timer = new Timer(speed, this);
-        timer.start();   
+        timer.start();
     }
     
-    //public abstract void move();
+    protected abstract void move();
     
     protected abstract void checkCollisions();
 
@@ -42,6 +42,11 @@ public abstract class MovingGameElement extends GameElement implements ActionLis
     
     protected Cell getStartCell(){
         return startCell;
+    }
+    
+    public void setSpeed(int speed)
+    {
+        timer.setDelay(speed);
     }
     
 }

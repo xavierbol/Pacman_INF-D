@@ -10,7 +10,7 @@ import java.awt.Graphics;
 import java.io.IOException;
 import java.util.ArrayList;
 import pacman_infd.Elements.*;
-import pacman_infd.Strategies.FleeStrategy;
+import pacman_infd.Strategies.ChasePacmanStrategy;
 
 /**
  *
@@ -29,11 +29,15 @@ public class GameWorld {
     private Cell[][] cellMap;
 
     private int[][] elementMap;
+    
+    private ArrayList<Ghost> ghosts;
 
     public GameWorld(GameController gameController, String mapPath) {
         
         this.gameController  = gameController;
         elementMap = loadMap(mapPath);
+        
+        ghosts = new ArrayList<>();
 
         if (elementMap != null) {
 
@@ -47,7 +51,8 @@ public class GameWorld {
             Pacman pacman = new Pacman(cellMap[1][1], gameController, 100);
             gameController.getView().addKeyListener(pacman);
 
-            Ghost ghost = new Ghost(cellMap[01][26], gameController, new FleeStrategy());
+            Ghost ghost = new Ghost(cellMap[01][26], gameController, 100, new ChasePacmanStrategy());
+            ghosts.add(ghost);
         }
         //neighborTest();
 
@@ -151,6 +156,11 @@ public class GameWorld {
                 cell.draw(g);
             }
         }
+    }
+    
+    public ArrayList<Ghost> getGhosts()
+    {
+        return ghosts;
     }
 
     public void draw(Graphics g) {

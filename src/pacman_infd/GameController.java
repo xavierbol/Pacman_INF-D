@@ -6,6 +6,9 @@
 package pacman_infd;
 
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.Timer;
 import pacman_infd.Elements.Ghost;
 import pacman_infd.Elements.Pacman;
 
@@ -14,11 +17,12 @@ import pacman_infd.Elements.Pacman;
  *
  * @author Marinus
  */
-public class GameController implements GameEventListener {
+public class GameController implements GameEventListener, ActionListener {
 
     private GameWorld gameWorld;
     private View view;
     private ScorePanel scorePanel;
+    private Timer invincibleTimer;
     
     private String level1 = "D:\\Dropbox\\School\\INF-D\\+Project INF-D\\leve1.txt";
     //private KeyManager keyManager;
@@ -27,6 +31,9 @@ public class GameController implements GameEventListener {
         
         this.view = view;
         this.scorePanel = scorePanel;
+        
+        int invincibleDelay = 10000;
+        invincibleTimer = new Timer(invincibleDelay, this);
 
     }
 
@@ -59,6 +66,11 @@ public class GameController implements GameEventListener {
     public void pacmanFoundSuperPellet() {
         scorePanel.addScore(50);
         scorePanel.repaint();
+        for(Ghost ghost : gameWorld.getGhosts())
+        {
+            ghost.runFromPacman();
+        }
+        invincibleTimer.start();
     }
 
     @Override
@@ -93,5 +105,14 @@ public class GameController implements GameEventListener {
         scorePanel.initStats();
         drawGame();
     }  
+
+    @Override
+    public void actionPerformed(ActionEvent e) {  
+        for(Ghost ghost : gameWorld.getGhosts())
+        {
+            ghost.backToNormal();
+        }
+        invincibleTimer.stop();
+    }
 
 }
