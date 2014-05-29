@@ -6,8 +6,6 @@
 package pacman_infd;
 
 import java.awt.Graphics;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import pacman_infd.Elements.Ghost;
 import pacman_infd.Elements.Pacman;
 
@@ -16,7 +14,7 @@ import pacman_infd.Elements.Pacman;
  *
  * @author Marinus
  */
-public class GameController implements GameEventListener, KeyListener {
+public class GameController implements GameEventListener {
 
     private GameWorld gameWorld;
     private View view;
@@ -30,7 +28,6 @@ public class GameController implements GameEventListener, KeyListener {
         this.view = view;
         this.scorePanel = scorePanel;
 
-        view.addKeyListener(this);
     }
 
     @Override
@@ -94,25 +91,7 @@ public class GameController implements GameEventListener, KeyListener {
     {
         gameWorld = new GameWorld(this, level1);
         scorePanel.initStats();
-    }
-
-    @Override
-    public void keyTyped(KeyEvent e) {
-        //
-    }
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-        //System.out.println("test");
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-        //
-    }
-
-
-
-    
+        drawGame();
+    }  
 
 }

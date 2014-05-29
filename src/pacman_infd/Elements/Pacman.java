@@ -11,7 +11,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import javax.swing.Timer;
 import pacman_infd.Cell;
 import pacman_infd.Direction;
 import pacman_infd.GameElement;
@@ -33,11 +32,11 @@ public class Pacman extends MovingGameElement implements ActionListener, KeyList
         isInvincible = false;   
     }
 
-    public void move(Direction direction) {
-        Cell moveTo = getCell().getNeighbor(direction);
+    public void move() {
+        Cell moveTo = cell.getNeighbor(currentDirection);
         if (moveTo != null && !moveTo.hasWall()) {
             moveTo.addElement(this);
-            getCell().removeElement(this);
+            cell.removeElement(this);
             setCell(moveTo);
             
             checkCollisions();    
@@ -51,22 +50,23 @@ public class Pacman extends MovingGameElement implements ActionListener, KeyList
         g.fillOval(
                 (int)getPosition().getX(), 
                 (int)getPosition().getY(), 
-                getCell().getSize(), 
-                getCell().getSize()
+                cell.getSize(), 
+                cell.getSize()
         );
     }
     
+    @Override
     protected void checkCollisions()
     {
-        for(GameElement e : getCell().getElements())
+        for(GameElement e : cell.getElements())
         {
             if(e instanceof Pellet){
-                getCell().removeElement(e);
+                cell.removeElement(e);
                 gameEventListener.pacmanFoundPellet();
                 break;
             }
             if(e instanceof SuperPellet) {
-                getCell().removeElement(e);
+                cell.removeElement(e);
                 becomeInvincible();
                 gameEventListener.pacmanFoundSuperPellet();
                 break;
@@ -97,32 +97,27 @@ public class Pacman extends MovingGameElement implements ActionListener, KeyList
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if (!keyPressed) {
-            switch (e.getKeyCode()) {
-                case KeyEvent.VK_UP:
-                    if(!getCell().getNeighbor(Direction.UP).hasWall()){  
-                        currentDirection = Direction.UP;
-                    }
-                    break;
-                case KeyEvent.VK_DOWN:
-                    if(!getCell().getNeighbor(Direction.DOWN).hasWall()){
-                        currentDirection = Direction.DOWN;
-                    }
-                    break;
-                case KeyEvent.VK_LEFT:
-                    if(!getCell().getNeighbor(Direction.LEFT).hasWall()){
-                        currentDirection = Direction.LEFT;
-                    }
-                    break;
-                case KeyEvent.VK_RIGHT:
-                    if(!getCell().getNeighbor(Direction.RIGHT).hasWall()){
-                        currentDirection = Direction.RIGHT;
-                    }
-                    break;
-            }
-            gameEventListener.pacmanMoved();
-            keyPressed = true;
+        Direction newDirection = currentDirection;
+        
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_UP:
+                newDirection = Direction.UP;
+                break;
+            case KeyEvent.VK_DOWN:
+                newDirection = Direction.DOWN;
+                break;
+            case KeyEvent.VK_LEFT:
+                newDirection = Direction.LEFT;
+                break;
+            case KeyEvent.VK_RIGHT:
+                newDirection = Direction.RIGHT;
+                break;
         }
+        if(!cell.getNeighbor(newDirection).hasWall()){
+            currentDirection = newDirection;
+        }
+        gameEventListener.pacmanMoved();
+
     }
 
     @Override
@@ -132,7 +127,8 @@ public class Pacman extends MovingGameElement implements ActionListener, KeyList
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        move(currentDirection);
+        move();
+        gameEventListener.gameElementPerfomedAction(this);
     }
 
 }

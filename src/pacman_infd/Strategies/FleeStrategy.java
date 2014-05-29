@@ -7,10 +7,9 @@
 package pacman_infd.Strategies;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import pacman_infd.Cell;
-import pacman_infd.Direction;
-import pacman_infd.Elements.Pacman;
-import pacman_infd.GameElement;
+import pacman_infd.PathFinder;
 import pacman_infd.Strategy;
 
 /**
@@ -19,106 +18,32 @@ import pacman_infd.Strategy;
  */
 public class FleeStrategy implements Strategy {
 
-    private static ArrayList<Cell> checkedCells = new ArrayList<>();
-    private Cell lastCell;
-    private ArrayList<Direction> bestDirections;
-    
+    PathFinder pathFinder;
+    Cell previousCell;
+
+    public FleeStrategy(){
+        pathFinder = new PathFinder();
+    }
     @Override
     public Cell giveNextCell(Cell currentCell) {
         
-        Cell pacCell = findPacman(currentCell); 
-        Cell nextCell = currentCell;
+        ArrayList<Cell> possibleCell = new ArrayList<>();
+        Cell towardsPacman = pathFinder.nextCellInPathToPacman(currentCell);
+       
+        for(Cell cell : (Collection<Cell>)currentCell.getNeighbors().values()){
+            if(!cell.hasWall() && cell != towardsPacman && cell != previousCell){
+                possibleCell.add(cell);
+            }    
+        }
+//        if(previousCell != null) {
+//            possibleCell.add(previousCell);
+//        }
         
-        bestDirections = new ArrayList<Direction>();
-        if(pacCell != null){ 
-            checkedCells = new ArrayList<>();
-
-            int dx = currentCell.getXpos() - pacCell.getXpos();
-            int dy = currentCell.getYPos() - pacCell.getYPos();
-            
-            if(dx < dy){
-                if(dx < 0) {
-                    bestDirections.add(Direction.LEFT);
-                    if(dy < 0){
-                        bestDirections.add(Direction.UP);
-                        bestDirections.add(Direction.DOWN);
-                    }
-                    else{
-                        bestDirections.add(Direction.DOWN);
-                        bestDirections.add(Direction.UP);
-                    }
-                    bestDirections.add(Direction.RIGHT);
-                }
-                else{
-                    bestDirections.add(Direction.RIGHT);
-                    if(dy < 0){
-                        bestDirections.add(Direction.UP);
-                        bestDirections.add(Direction.DOWN);
-                    }
-                    else{
-                        bestDirections.add(Direction.DOWN);
-                        bestDirections.add(Direction.UP);
-                    }
-                    bestDirections.add(Direction.LEFT);
-                }
-            }
-            else{
-                if(dy < 0){
-                    bestDirections.add(Direction.UP);
-                    if(dx > 0){
-                        bestDirections.add(Direction.RIGHT);
-                        bestDirections.add(Direction.LEFT);
-                    }
-                    else{
-                        bestDirections.add(Direction.LEFT);
-                        bestDirections.add(Direction.RIGHT);
-                    }
-                    bestDirections.add(Direction.DOWN);
-                }
-                else {
-                    bestDirections.add(Direction.DOWN);
-                    if(dx > 0){
-                        bestDirections.add(Direction.RIGHT);
-                        bestDirections.add(Direction.LEFT);
-                    }
-                    else{
-                        bestDirections.add(Direction.LEFT);
-                        bestDirections.add(Direction.RIGHT);
-                    }
-                    bestDirections.add(Direction.UP);
-                }
-            }
-        }
+        possibleCell.add(towardsPacman);
         
-        for(Direction d : bestDirections)
-        {
-            if(!currentCell.getNeighbor(d).hasWall() && currentCell.getNeighbor(d) != lastCell){
-                nextCell = currentCell.getNeighbor(d);
-                break;
-            }
-        }
-        lastCell = currentCell;
-        return nextCell;
-    }
-    
-    private Cell findPacman(Cell cell)
-    {
-        for(GameElement e : cell.getElements()){
-            if(e instanceof Pacman){
-                return cell;
-            }
-        }
-        checkedCells.add(cell);
+        previousCell = currentCell;
+        return possibleCell.get(0);
         
-        for(Object o : cell.getNeighbors().values().toArray())
-        {
-            Cell c = (Cell)o;
-            if(!checkedCells.contains(o)){
-                return findPacman(c);
-            }
-            
-        }
-        return null;
     }
     
 }

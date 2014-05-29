@@ -34,8 +34,8 @@ public abstract class MovingGameElement extends GameElement implements ActionLis
     
     protected abstract void checkCollisions();
 
-    @Override
-    public abstract void draw(Graphics g); 
+//    @Override
+//    public abstract void draw(Graphics g); 
 
     @Override
     public abstract void actionPerformed(ActionEvent e); 

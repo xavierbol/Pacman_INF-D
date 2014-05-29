@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package pacman_infd.Elements;
 
 import java.awt.Color;
@@ -15,59 +14,61 @@ import pacman_infd.GameElement;
 import pacman_infd.Strategy;
 import javax.swing.Timer;
 import pacman_infd.GameEventListener;
+import pacman_infd.PathFinder;
 
 /**
  *
  * @author Marinus
  */
-public class Ghost extends GameElement implements ActionListener{
-    
+public class Ghost extends GameElement implements ActionListener {
+
     private Strategy strategy;
     private Strategy initialStrategy;
     private Timer timer;
-    
-    public Ghost(Cell cell, GameEventListener gameEventListener, Strategy strategy)
-    {
+
+    PathFinder pathFinder;
+
+    public Ghost(Cell cell, GameEventListener gameEventListener, Strategy strategy) {
         super(cell, gameEventListener);
         this.strategy = strategy;
         initialStrategy = strategy;
-        
+
         int delay = 100;
         timer = new Timer(delay, this);
         timer.start();
+
     }
-    
-    public void draw(Graphics g)
-    {
+
+    public void draw(Graphics g) {
         g.setColor(Color.BLUE);
         g.fillRoundRect(
-                (int)getPosition().getX(), 
-                (int)getPosition().getY(), 
-                getCell().getSize(), 
-                getCell().getSize(), 
+                (int) getPosition().getX(),
+                (int) getPosition().getY(),
+                getCell().getSize(),
+                getCell().getSize(),
                 10, 5
         );
     }
-    
-    private void move()
-    {
-           setCell(strategy.giveNextCell(getCell()));
-           checkCollisions();
+
+    private void move() {
+        Cell nextCell = strategy.giveNextCell(cell);
+        if (nextCell != null) {
+            setCell(nextCell);
+        }
+
+        checkCollisions();
     }
-    
-    private void checkCollisions()
-    {
-        for(GameElement e : getCell().getElements())
-        {
-            if(e instanceof Pacman){
-                Pacman pacman = (Pacman)e;
-                if(pacman.isInvincible()){
+
+    private void checkCollisions() {
+        for (GameElement e : getCell().getElements()) {
+            if (e instanceof Pacman) {
+                Pacman pacman = (Pacman) e;
+                if (pacman.isInvincible()) {
                     //timer.stop();
                     //getCell().removeElement(this);
                     //gameEventListener.pacmanEatsGhost(this);
                     break;
-                }
-                else{
+                } else {
                     getCell().removeElement(e);
                     gameEventListener.pacmanDied(pacman);
                     break;
@@ -75,14 +76,12 @@ public class Ghost extends GameElement implements ActionListener{
             }
         }
     }
-    
-    public void runFromPacman()
-    {
+
+    public void runFromPacman() {
         this.strategy = strategy;
     }
-    
-    public void revertStrategy()
-    {
+
+    public void revertStrategy() {
         strategy = initialStrategy;
     }
 
@@ -91,5 +90,5 @@ public class Ghost extends GameElement implements ActionListener{
         move();
         gameEventListener.gameElementPerfomedAction(this);
     }
-     
+
 }

@@ -16,7 +16,7 @@ import java.awt.Point;
  */
 public abstract class GameElement {
     
-    private Cell cell;
+    protected Cell cell;
     protected GameEventListener gameEventListener;
     
     public GameElement(Cell cell, GameEventListener gameEventListener)
@@ -27,7 +27,7 @@ public abstract class GameElement {
     }
     
     protected Point getPosition(){
-        return new Point(getCell().getXpos() * getCell().getSize(), getCell().getYPos() * getCell().getSize());
+        return new Point(cell.getXpos() * cell.getSize(), cell.getYPos() * cell.getSize());
     }
 
     public abstract void draw(Graphics g);

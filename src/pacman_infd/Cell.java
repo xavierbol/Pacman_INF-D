@@ -20,13 +20,14 @@ import pacman_infd.Elements.Wall;
  */
 public class Cell {
     
-    private static final int DIRECTIONS = 4;
     private int xPos;
     private int yPos;
     private int size;
     
     private Map<Direction, Cell> neighbors;
     private ArrayList<GameElement> elements;
+    
+    public Cell pathParent;
         
     public Cell(int x, int y, int size)
     {
@@ -49,7 +50,7 @@ public class Cell {
      * Draw all elements contained by this cell.
      * @param g Graphics object
      */
-    public void drawElements(Graphics g)
+    private void drawElements(Graphics g)
     {
         if(elements != null)
         {          

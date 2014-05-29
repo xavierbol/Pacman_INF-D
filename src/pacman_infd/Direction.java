@@ -32,4 +32,34 @@ public enum Direction {
         }
         return d;
     }
+    
+    public Direction nextDirectionClockwise() {
+        Direction d = null;
+        switch (this) {
+            case UP:
+                d = RIGHT; break;
+            case DOWN:
+                d = LEFT; break;
+            case LEFT:
+                d = UP; break;
+            case RIGHT:
+                d = DOWN; break;
+        }
+        return d;
+    }
+    
+    public Direction nextDirectionCounterClockwise() {
+        Direction d = null;
+        switch (this) {
+            case UP:
+                d = LEFT; break;
+            case DOWN:
+                d = RIGHT; break;
+            case LEFT:
+                d = DOWN; break;
+            case RIGHT:
+                d = UP; break;
+        }
+        return d;
+    }
 }

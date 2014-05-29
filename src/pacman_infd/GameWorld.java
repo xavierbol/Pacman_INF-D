@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import pacman_infd.Elements.*;
 import pacman_infd.Strategies.FleeStrategy;
-import pacman_infd.Strategies.MoveRandomStrategy;
 
 /**
  *
@@ -48,7 +47,7 @@ public class GameWorld {
             Pacman pacman = new Pacman(cellMap[1][1], gameController, 100);
             gameController.getView().addKeyListener(pacman);
 
-            Ghost ghost = new Ghost(cellMap[1][1], gameController, new FleeStrategy());
+            Ghost ghost = new Ghost(cellMap[01][26], gameController, new FleeStrategy());
         }
         //neighborTest();
 
@@ -96,6 +95,10 @@ public class GameWorld {
                 }
             }
         }
+        
+        //Special case voor portal
+        //cellMap[14][0].setNeighbor(Direction.LEFT, cellMap[14][27]);
+        //cellMap[14][27].setNeighbor(Direction.RIGHT, cellMap[14][0]);
     }
 
     /**
@@ -141,6 +144,7 @@ public class GameWorld {
 //            }
 //        }
 //    }
+    
     private void drawCells(Graphics g) {
         if (cells != null) {
             for (Cell cell : cells) {
