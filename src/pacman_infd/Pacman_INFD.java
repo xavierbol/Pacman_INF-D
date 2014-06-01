@@ -16,7 +16,7 @@ public class Pacman_INFD
     {
         View view = new View();
         view.setVisible(true);
-        System.out.println(System.getProperty("java.classpath"));
+
     }
 
 }

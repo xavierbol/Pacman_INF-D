@@ -17,7 +17,7 @@ import pacman_infd.Strategy;
  */
 public class MoveRandomStrategy implements Strategy{
 
-    private Cell oldCell;
+    private Cell previousCell;
     
     /**
      * 
@@ -42,9 +42,9 @@ public class MoveRandomStrategy implements Strategy{
         
         // remove the last cell that the element was on from the list so it doesn't
         // move back and forth between the same cells except if it's the only available cell.
-        if(availableCells.size() > 1 && oldCell != null)
+        if(availableCells.size() > 1 && previousCell != null)
         {
-            availableCells.remove(oldCell);
+            availableCells.remove(previousCell);
         }
 
         // select a random cell from the remaining list of cells.
@@ -52,7 +52,7 @@ public class MoveRandomStrategy implements Strategy{
         Cell nextCell = availableCells.get(r.nextInt(availableCells.size()));
         
         // make the current cell the old cell.
-        oldCell = currentCell;
+        previousCell = currentCell;
 
         return nextCell;
     }

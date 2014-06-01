@@ -46,27 +46,26 @@ public class FileLoader {
     
     /**
      * Opens a file using openFile() and parses the string array to a 
-     * 2D array of integers. This is used by the gameWorld to populate the gameworld
+     * 2D array of characters. This is used by the gameWorld to populate the gameworld
      * with different GameElements.
      * @return elementMap
      * @throws IOException 
      */
-    public int[][] openMap() throws IOException {
+    public char[][] openMap() throws IOException {
         String[] textData = openFile();
         
         int mapWidth = textData[0].length();
         int mapHeight = textData.length;
       
-        int[][] map = new int[mapHeight][mapWidth];
+        char[][] map = new char[mapHeight][mapWidth];
         
         for(int i = 0; i < mapHeight; i++){
             for(int j = 0; j < mapWidth; j++){
-                map[i][j] = Character.getNumericValue(textData[i].charAt(j));
+                map[i][j] = textData[i].charAt(j);
             }
         }
         
-        return map;
-                
+        return map;        
     }
     
     /**

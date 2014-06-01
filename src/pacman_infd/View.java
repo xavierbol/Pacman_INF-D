@@ -40,7 +40,7 @@ public class View extends JFrame {
         initComponents();
         
         gameController = new GameController(this, scorePanel);
-        image = new BufferedImage(700,800,BufferedImage.TYPE_INT_ARGB);
+        image = new BufferedImage(730,800,BufferedImage.TYPE_INT_ARGB);
     }
 
     private void initComponents() {
@@ -53,7 +53,7 @@ public class View extends JFrame {
         contentPane.setLayout(new BorderLayout());
 
         scorePanel = new ScorePanel();
-        scorePanel.setPreferredSize(new Dimension(130, 600));
+        scorePanel.setPreferredSize(new Dimension(100, 600));
 
         gamePanel = new JPanel();
         startButton = new JButton("Start");

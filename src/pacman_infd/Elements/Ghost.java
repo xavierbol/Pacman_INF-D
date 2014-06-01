@@ -47,10 +47,10 @@ public class Ghost extends MovingGameElement implements ActionListener {
             g.setColor(Color.RED);
         }
         g.fillRoundRect(
-                (int) getPosition().getX(),
-                (int) getPosition().getY(),
-                getCell().getSize(),
-                getCell().getSize(),
+                (int) getPosition().getX() - 5,
+                (int) getPosition().getY() - 5,
+                getCell().getSize() + 10,
+                getCell().getSize() + 10,
                 10, 5
         );
     }
@@ -64,7 +64,7 @@ public class Ghost extends MovingGameElement implements ActionListener {
             setCell(nextCell);
         }
 
-        checkCollisions();
+        
     }
 
     /**
@@ -91,7 +91,7 @@ public class Ghost extends MovingGameElement implements ActionListener {
             //gameEventListener.pacmanEatsGhost(this);
 
         } else {
-            cell.removeElement(pacman);
+            //cell.removeElement(pacman);
             gameEventListener.pacmanDied(pacman);
         }
     }
@@ -124,6 +124,7 @@ public class Ghost extends MovingGameElement implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         move();
+        checkCollisions();
         gameEventListener.gameElementPerfomedAction(this);
     }
 

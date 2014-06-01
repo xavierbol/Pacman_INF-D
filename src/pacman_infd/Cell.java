@@ -9,6 +9,7 @@ package pacman_infd;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import pacman_infd.Elements.Wall;
@@ -40,8 +41,8 @@ public class Cell {
     
     public void draw(Graphics g)
     {
-        g.setColor(Color.BLACK);
-        g.drawRect(xPos * size, yPos * size, size, size);
+//        g.setColor(Color.BLACK);
+//        g.drawRect(xPos * size, yPos * size, size, size);
         drawElements(g);
     }
     
@@ -49,7 +50,7 @@ public class Cell {
      * Draw all elements contained by this cell.
      * @param g Graphics object
      */
-    private void drawElements(Graphics g)
+    public void drawElements(Graphics g)
     {
         if(elements != null)
         {          

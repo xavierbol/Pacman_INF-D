@@ -18,7 +18,7 @@ import pacman_infd.Strategies.ChasePacmanStrategy;
  */
 public class GameWorld {
 
-    private static final int CELL_SIZE = 25; //pixels
+    private static final int CELL_SIZE = 26; //pixels
 
     private int width;
     private int height;
@@ -28,7 +28,7 @@ public class GameWorld {
     private ArrayList<Cell> cells;
     private Cell[][] cellMap;
 
-    private int[][] elementMap;
+    private char[][] elementMap;
     
     private ArrayList<Ghost> ghosts;
 
@@ -112,17 +112,17 @@ public class GameWorld {
      * @param wMap array of integers representing the walls (1=wall, 0=no wall)
      * @param cMap cell array of level.
      */
-    private void placeElements(int[][] elementMap, Cell[][] cellMap) {
+    private void placeElements(char[][] elementMap, Cell[][] cellMap) {
 
         for (int x = 0; x < height; x++) {
             for (int y = 0; y < width; y++) {
-                if (elementMap[x][y] == 0) {
+                if (elementMap[x][y] == '0') {
                     Pellet p = new Pellet(cellMap[x][y]);
                 }
-                if (elementMap[x][y] == 1) {
+                if (elementMap[x][y] == '1') {
                     Wall w = new Wall(cellMap[x][y]);
                 }
-                if (elementMap[x][y] == 2) {
+                if (elementMap[x][y] == '2') {
                     SuperPellet s = new SuperPellet(cellMap[x][y]);
                 }
             }
@@ -134,7 +134,7 @@ public class GameWorld {
      * @param path file path
      * @return elementMap
      */
-    private int[][] loadMap(String path) {
+    private char[][] loadMap(String path) {
 
         try {
             FileLoader file = new FileLoader(path);
@@ -182,7 +182,7 @@ public class GameWorld {
      */
     public void draw(Graphics g) {
         g.clearRect(0, 0, width * CELL_SIZE, height * CELL_SIZE);
-        g.setColor(Color.WHITE);
+        g.setColor(Color.BLACK);
         g.fillRect(0, 0, width * CELL_SIZE, height * CELL_SIZE);
         drawCells(g);
     }

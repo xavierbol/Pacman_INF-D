@@ -44,7 +44,7 @@ public class Pacman extends MovingGameElement implements ActionListener, KeyList
             cell.removeElement(this);
             setCell(moveTo);
             
-            checkCollisions();    
+  
         }
     }
 
@@ -57,10 +57,10 @@ public class Pacman extends MovingGameElement implements ActionListener, KeyList
 
         g.setColor(Color.ORANGE);
         g.fillOval(
-                (int)getPosition().getX(), 
-                (int)getPosition().getY(), 
-                cell.getSize(), 
-                cell.getSize()
+                (int)getPosition().getX() - 5, 
+                (int)getPosition().getY() - 5, 
+                cell.getSize() + 10, 
+                cell.getSize() + 10
         );
     }
     
@@ -96,7 +96,8 @@ public class Pacman extends MovingGameElement implements ActionListener, KeyList
     
     public void resetPacman()
     {
-        setCell(getStartCell());
+        cell.removeElement(this);
+        cell = getStartCell();
     }
     
     public boolean isInvincible()
@@ -148,6 +149,7 @@ public class Pacman extends MovingGameElement implements ActionListener, KeyList
     @Override
     public void actionPerformed(ActionEvent e) {
         move();
+        checkCollisions();  
         gameEventListener.gameElementPerfomedAction(this);
     }
 
