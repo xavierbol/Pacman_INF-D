@@ -22,6 +22,11 @@ public class FileLoader {
         this.path = path;
     }
     
+    /**
+     * Opens a text file and reads all lines and puts then in a String array.
+     * @return String[] of all lines in the text file.
+     * @throws IOException 
+     */
     public String[] openFile() throws IOException {
         
         FileReader fr = new FileReader(path);
@@ -39,6 +44,13 @@ public class FileLoader {
         
     }
     
+    /**
+     * Opens a file using openFile() and parses the string array to a 
+     * 2D array of integers. This is used by the gameWorld to populate the gameworld
+     * with different GameElements.
+     * @return elementMap
+     * @throws IOException 
+     */
     public int[][] openMap() throws IOException {
         String[] textData = openFile();
         
@@ -57,6 +69,12 @@ public class FileLoader {
                 
     }
     
+    /**
+     * Counts the number of lines in a textFile. This is used to create the
+     * String array in openFile() with the correct size.
+     * @return number of lines
+     * @throws IOException 
+     */
     int readLines() throws IOException {
         FileReader file_to_read = new FileReader(path);
         BufferedReader bf = new BufferedReader(file_to_read);

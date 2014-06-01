@@ -129,6 +129,11 @@ public class GameWorld {
         }
     }
 
+    /**
+     * Loads an elementMap from a file on the given path location.
+     * @param path file path
+     * @return elementMap
+     */
     private int[][] loadMap(String path) {
 
         try {
@@ -150,6 +155,10 @@ public class GameWorld {
 //        }
 //    }
     
+    /**
+     * Draw each cell in the game world.
+     * @param g Graphics object
+     */
     private void drawCells(Graphics g) {
         if (cells != null) {
             for (Cell cell : cells) {
@@ -158,11 +167,19 @@ public class GameWorld {
         }
     }
     
+    /**
+     * 
+     * @return a list of all Ghost Objects in the game world.
+     */
     public ArrayList<Ghost> getGhosts()
     {
         return ghosts;
     }
 
+    /**
+     * Draw the game world.
+     * @param g 
+     */
     public void draw(Graphics g) {
         g.clearRect(0, 0, width * CELL_SIZE, height * CELL_SIZE);
         g.setColor(Color.WHITE);

@@ -32,6 +32,11 @@ public class Pacman extends MovingGameElement implements ActionListener, KeyList
         isInvincible = false;   
     }
 
+    /**
+     * Move to the next cell accoring to currentDirection. Will not move if the
+     * next cell has a wall.
+     * Check for collisions after move is complete.
+     */
     public void move() {
         Cell moveTo = cell.getNeighbor(currentDirection);
         if (moveTo != null && !moveTo.hasWall()) {
@@ -43,6 +48,10 @@ public class Pacman extends MovingGameElement implements ActionListener, KeyList
         }
     }
 
+    /**
+     * Draw Pacman.
+     * @param g 
+     */
     @Override
     public void draw(Graphics g) {
 
@@ -55,23 +64,34 @@ public class Pacman extends MovingGameElement implements ActionListener, KeyList
         );
     }
     
+    /**
+     * Looks for GameElements that are in the same cell and interacts with them accordingly.
+     */
     @Override
     protected void checkCollisions()
     {
         for(GameElement e : cell.getElements())
         {
             if(e instanceof Pellet){
-                cell.removeElement(e);
-                gameEventListener.pacmanFoundPellet();
+                interactWithPellet((Pellet)e);
                 break;
             }
             if(e instanceof SuperPellet) {
-                cell.removeElement(e);
-                becomeInvincible();
-                gameEventListener.pacmanFoundSuperPellet();
+                interactWithSuperPellet((SuperPellet)e);
                 break;
             }
         }
+    }
+
+    private void interactWithSuperPellet(SuperPellet sp) {
+        cell.removeElement(sp);
+        becomeInvincible();
+        gameEventListener.pacmanFoundSuperPellet();
+    }
+
+    private void interactWithPellet(Pellet p) {
+        cell.removeElement(p);
+        gameEventListener.pacmanFoundPellet();
     }
     
     public void resetPacman()

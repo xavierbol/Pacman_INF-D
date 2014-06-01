@@ -6,7 +6,6 @@
 
 package pacman_infd.Elements;
 
-import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.Timer;
@@ -33,9 +32,6 @@ public abstract class MovingGameElement extends GameElement implements ActionLis
     protected abstract void move();
     
     protected abstract void checkCollisions();
-
-//    @Override
-//    public abstract void draw(Graphics g); 
 
     @Override
     public abstract void actionPerformed(ActionEvent e); 

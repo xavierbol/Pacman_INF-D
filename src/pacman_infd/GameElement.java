@@ -30,17 +30,25 @@ public abstract class GameElement {
         return new Point(cell.getXpos() * cell.getSize(), cell.getYPos() * cell.getSize());
     }
 
+    /**
+     * Draw this GameElement. Must be implemented in all child classes.
+     * @param g Graphic object
+     */
     public abstract void draw(Graphics g);
     
     /**
      * returns the cell containing this GameElement.
-     * @return 
+     * @return cell
      */
     public Cell getCell()
     {
         return cell;
     }
     
+    /**
+     * Set the cell of this GameElement, effectively repositions it.
+     * @param cell target cell
+     */
     public void setCell(Cell cell)
     {
         this.cell = cell;

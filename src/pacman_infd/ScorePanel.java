@@ -8,7 +8,6 @@ package pacman_infd;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
@@ -27,32 +26,54 @@ public class ScorePanel extends JPanel {
         initStats();
     }
     
+    /**
+     * initialize the score and lives to what they should be at the start of the game.
+     */
     public void initStats()
     {
         score = 0;
         lives = 3;
     }
     
+    /**
+     * Set score
+     * @param n amount
+     */
     public void setScore(int n)
     {
         score = n;
     }
     
+    /**
+     * Add to current score
+     * @param n amount
+     */
     public void addScore(int n)
     {
         score += n;
     }
     
+    /**
+     * Subtract one life from the life total.
+     */
     public void looseLife()
     {
         lives--;
     }
     
+    /**
+     * 
+     * @return lives
+     */
     public int getLives()
     {
         return lives;
     }
     
+    /**
+     * Paint this panel
+     * @param g Graphics object.
+     */
     @Override
     public void paintComponent(Graphics g) {
         g.clearRect(0, 0, PANEL_WIDTH, PANEL_HEIGHT);

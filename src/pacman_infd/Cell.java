@@ -11,7 +11,6 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import pacman_infd.Elements.Pellet;
 import pacman_infd.Elements.Wall;
 
 /**
@@ -27,7 +26,7 @@ public class Cell {
     private Map<Direction, Cell> neighbors;
     private ArrayList<GameElement> elements;
     
-    public Cell pathParent;
+    private Cell pathParent;
         
     public Cell(int x, int y, int size)
     {
@@ -61,6 +60,10 @@ public class Cell {
         }
     }
     
+    /**
+     * Returns true if one of the elements on this Cell is a Wall.
+     * @return 
+     */
     public boolean hasWall()
     {
         boolean hasWall = false;
@@ -122,6 +125,10 @@ public class Cell {
         }
     }
     
+    /**
+     * 
+     * @return a list of all GameElements on this cell.
+     */
     public ArrayList<GameElement> getElements()
     {
         return elements;
@@ -182,6 +189,25 @@ public class Cell {
         return yPos;
     }
     
+    /**
+     * Set the parent for this Cell. This is used by the PathFinder class to create
+     * a path between two cells.
+     * @param cell parent of this Cell.
+     */
+    public void setPathParent(Cell cell){
+        pathParent = cell;
+    }
+    
+   /**
+    * 
+    * @return parent of this Cell in a path
+    */
+    public Cell getPathParent()
+    {
+        return pathParent;
+    }
+    
+    @Override
     public String toString()
     {
         return "xPos: " + xPos + "\nYPos: " + yPos + "\nNumber of Neighbors: " + neighbors.size();
