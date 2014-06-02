@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import pacman_infd.Elements.*;
 import pacman_infd.Strategies.ChasePacmanStrategy;
+import pacman_infd.Strategies.MoveRandomStrategy;
 
 /**
  *
@@ -31,6 +32,8 @@ public class GameWorld {
     private char[][] elementMap;
     
     private ArrayList<Ghost> ghosts;
+    
+    private int gameSpeed = 150;
 
     public GameWorld(GameController gameController, String mapPath) {
         
@@ -48,11 +51,11 @@ public class GameWorld {
 
             placeElements(elementMap, cellMap);
 
-            Pacman pacman = new Pacman(cellMap[1][1], gameController, 100);
+            Pacman pacman = new Pacman(cellMap[1][1], gameController, gameSpeed);
             gameController.getView().addKeyListener(pacman);
-
-            Ghost ghost = new Ghost(cellMap[01][26], gameController, 100, new ChasePacmanStrategy());
-            ghosts.add(ghost);
+//
+//            Ghost ghost = new Ghost(cellMap[01][26], gameController, 100, new ChasePacmanStrategy());
+//            ghosts.add(ghost);
         }
         //neighborTest();
 
@@ -124,6 +127,25 @@ public class GameWorld {
                 }
                 if (elementMap[x][y] == '2') {
                     SuperPellet s = new SuperPellet(cellMap[x][y]);
+                }
+                if (elementMap[x][y] == 'w'){
+                    OneWayWall ow = new OneWayWall(cellMap[x][y], Direction.UP);
+                }
+                if(elementMap[x][y] == 'a'){
+                    Ghost blinky = new Ghost(cellMap[x][y], gameController, gameSpeed, new ChasePacmanStrategy(), Color.RED);
+                    ghosts.add(blinky);
+                }
+                if(elementMap[x][y] == 'b'){
+                     Ghost pinky = new Ghost(cellMap[x][y], gameController, gameSpeed, new ChasePacmanStrategy(), Color.PINK);
+                     ghosts.add(pinky);
+                }
+                if(elementMap[x][y] == 'c'){
+                    Ghost inky = new Ghost(cellMap[x][y], gameController, gameSpeed, new MoveRandomStrategy(), Color.CYAN);  
+                    ghosts.add(inky);
+                }
+                if(elementMap[x][y] == 'd'){
+                    Ghost clyde = new Ghost(cellMap[x][y], gameController, gameSpeed, new MoveRandomStrategy(), Color.ORANGE); 
+                    ghosts.add(clyde);
                 }
             }
         }

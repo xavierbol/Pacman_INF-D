@@ -21,7 +21,7 @@ public class Pellet extends GameElement {
     }
 
     public void draw(Graphics g) {
-        g.setColor(Color.PINK);
+        g.setColor(Color.WHITE);
         g.fillOval(
                 (int)getPosition().getX() + getCell().getSize()/ 2 - 5, 
                 (int)getPosition().getY() + getCell().getSize()/ 2 - 5, 

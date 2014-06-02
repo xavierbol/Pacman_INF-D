@@ -17,15 +17,27 @@ import pacman_infd.GameEventListener;
  *
  * @author Marinus
  */
-public abstract class MovingGameElement extends GameElement implements ActionListener{
+public abstract class MovingGameElement extends GameElement{
 
-    private Cell startCell;
+    protected Cell startCell;
     private Timer timer;
+    protected int speed;
     
     public MovingGameElement(Cell cell, GameEventListener gameEventListener, int speed) {
         super(cell, gameEventListener);
         startCell = cell;
-        timer = new Timer(speed, this);
+        this.speed = speed;
+        
+        ActionListener moveTimerActionListener = new java.awt.event.ActionListener(){
+
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                moveTimerActionPerformed(evt);
+            }
+
+        };
+        
+        timer = new Timer(speed, moveTimerActionListener);
         timer.start();
     }
     
@@ -33,8 +45,7 @@ public abstract class MovingGameElement extends GameElement implements ActionLis
     
     protected abstract void checkCollisions();
 
-    @Override
-    public abstract void actionPerformed(ActionEvent e); 
+    public abstract void moveTimerActionPerformed(ActionEvent e); 
     
     protected Cell getStartCell(){
         return startCell;
@@ -44,5 +55,7 @@ public abstract class MovingGameElement extends GameElement implements ActionLis
     {
         timer.setDelay(speed);
     }
+    
+
     
 }

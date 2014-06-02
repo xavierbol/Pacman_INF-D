@@ -20,16 +20,14 @@ import pacman_infd.GameEventListener;
  *
  * @author ivanweller
  */
-public class Pacman extends MovingGameElement implements ActionListener, KeyListener {
+public class Pacman extends MovingGameElement implements KeyListener {
 
-    private boolean isInvincible;
     private boolean keyPressed;
     private Direction currentDirection;
 
     public Pacman(Cell cell, GameEventListener gameEventListener, int speed) {
         super(cell, gameEventListener, speed);
         keyPressed = false;
-        isInvincible = false;   
     }
 
     /**
@@ -43,8 +41,6 @@ public class Pacman extends MovingGameElement implements ActionListener, KeyList
             moveTo.addElement(this);
             cell.removeElement(this);
             setCell(moveTo);
-            
-  
         }
     }
 
@@ -55,13 +51,36 @@ public class Pacman extends MovingGameElement implements ActionListener, KeyList
     @Override
     public void draw(Graphics g) {
 
-        g.setColor(Color.ORANGE);
+        g.setColor(Color.YELLOW);
         g.fillOval(
                 (int)getPosition().getX() - 5, 
                 (int)getPosition().getY() - 5, 
                 cell.getSize() + 10, 
                 cell.getSize() + 10
         );
+        g.setColor(Color.WHITE);
+        g.fillOval(
+                (int)getPosition().getX() + 13, 
+                (int)getPosition().getY() - 1, 
+                10, 
+                10
+        );        
+        g.setColor(Color.BLACK);
+        g.fillOval(
+                (int)getPosition().getX() + 16, 
+                (int)getPosition().getY() + 1, 
+                5, 
+                5
+        ); 
+        g.fillArc(
+                (int)getPosition().getX() - 5, 
+                (int)getPosition().getY() - 5, 
+                cell.getSize() + 10, 
+                cell.getSize() + 10, 
+                -25, 
+                45
+        );
+
     }
     
     /**
@@ -85,7 +104,6 @@ public class Pacman extends MovingGameElement implements ActionListener, KeyList
 
     private void interactWithSuperPellet(SuperPellet sp) {
         cell.removeElement(sp);
-        becomeInvincible();
         gameEventListener.pacmanFoundSuperPellet();
     }
 
@@ -97,19 +115,9 @@ public class Pacman extends MovingGameElement implements ActionListener, KeyList
     public void resetPacman()
     {
         cell.removeElement(this);
-        cell = getStartCell();
+        cell = startCell;
+        cell.addElement(this);
     }
-    
-    public boolean isInvincible()
-    {
-        return isInvincible;
-    }
-    
-    private void becomeInvincible()
-    {
-        isInvincible = true;
-    }
-    
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -147,7 +155,7 @@ public class Pacman extends MovingGameElement implements ActionListener, KeyList
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
+    public void moveTimerActionPerformed(ActionEvent e) {
         move();
         checkCollisions();  
         gameEventListener.gameElementPerfomedAction(this);

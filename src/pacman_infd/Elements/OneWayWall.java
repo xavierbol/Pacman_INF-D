@@ -21,8 +21,8 @@ public class OneWayWall extends GameElement {
 
     Direction passableDirection;
     
-    public OneWayWall(Cell cell, GameEventListener gameEventListener, Direction passableDirection) {
-        super(cell, gameEventListener);
+    public OneWayWall(Cell cell,Direction passableDirection) {
+        super(cell, null);
         this.passableDirection = passableDirection;
     }
 

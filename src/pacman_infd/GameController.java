@@ -22,7 +22,6 @@ public class GameController implements GameEventListener, ActionListener {
     private GameWorld gameWorld;
     private View view;
     private ScorePanel scorePanel;
-    private Timer invincibleTimer;
     
     private String level1 = "D:\\Dropbox\\School\\INF-D\\+Project INF-D\\leve1.txt";
     //private KeyManager keyManager;
@@ -32,8 +31,6 @@ public class GameController implements GameEventListener, ActionListener {
         this.view = view;
         this.scorePanel = scorePanel;
         
-        int invincibleDelay = 10000;
-        invincibleTimer = new Timer(invincibleDelay, this);
 
     }
 
@@ -60,6 +57,10 @@ public class GameController implements GameEventListener, ActionListener {
         scorePanel.looseLife();
         scorePanel.repaint();
         pacman.resetPacman();
+        for(Ghost ghost : gameWorld.getGhosts())
+        {
+            ghost.resetGhost();
+        }
     }
     
     @Override
@@ -70,7 +71,7 @@ public class GameController implements GameEventListener, ActionListener {
         {
             ghost.runFromPacman();
         }
-        invincibleTimer.start();
+
     }
 
     @Override
@@ -112,7 +113,7 @@ public class GameController implements GameEventListener, ActionListener {
         {
             ghost.backToNormal();
         }
-        invincibleTimer.stop();
+
     }
 
 }

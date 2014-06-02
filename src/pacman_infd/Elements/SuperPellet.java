@@ -22,7 +22,7 @@ public class SuperPellet extends GameElement {
     }
 
     public void draw(Graphics g) {
-        g.setColor(Color.CYAN);
+        g.setColor(Color.LIGHT_GRAY);
         g.fillOval(
                 (int)getPosition().getX() + getCell().getSize()/ 2 - 8, 
                 (int)getPosition().getY() + getCell().getSize()/ 2 - 8, 

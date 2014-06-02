@@ -49,6 +49,17 @@ public class PathFinder {
         }           
     }
     
+        public Cell nextCellInPath(Cell rootCell, Cell targetCell)
+    {
+        List<Cell> path = findPathToCell(rootCell, targetCell);
+        if(path != null && !path.isEmpty()){
+            return path.get(0);
+        }
+        else{
+            return rootCell;
+        }           
+    }
+    
     /**
      * Constructs a path (List of cells in order) by 'walking' back along 
      * cellParents of each cell starting with the given cell.
@@ -91,6 +102,44 @@ public class PathFinder {
             }
             
             //if pacman not found
+            visitedCells.add(cell);
+            
+            for (Cell cellChild : (Collection<Cell>)cell.getNeighbors().values()) {
+                if(!cellChild.hasWall() && !visitedCells.contains(cellChild) && !queue.contains(cellChild)){
+                    cellChild.setPathParent(cell);
+                    queue.add(cellChild);
+                }
+                
+            }
+        }
+        
+        //no path found
+        return null;
+    }
+    
+        /**
+     * Uses a Breath-First search algorithm to determine the shortest path from 
+     * the start cell to the target cell.
+     * @param startCell
+     * @return 
+     */
+    private List findPathToCell(Cell startCell, Cell targetCell){
+
+        LinkedList visitedCells = new LinkedList();
+        
+        Queue queue = new LinkedList();
+        queue.offer(startCell);
+        startCell.setPathParent(null);
+        
+        while(!queue.isEmpty()){
+            Cell cell = (Cell)queue.poll();
+            
+            if(cell == targetCell){
+                //targetCell found
+                return contructPath(cell);
+            }
+            
+            //targetCell not found
             visitedCells.add(cell);
             
             for (Cell cellChild : (Collection<Cell>)cell.getNeighbors().values()) {

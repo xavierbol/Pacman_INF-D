@@ -9,43 +9,73 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.Timer;
 import pacman_infd.Cell;
 import pacman_infd.GameElement;
 import pacman_infd.Strategy;
 import pacman_infd.GameEventListener;
-import pacman_infd.PathFinder;
 import pacman_infd.Strategies.FleeStrategy;
+import pacman_infd.Strategies.ReturnHomeSrategy;
 
 /**
  *
  * @author Marinus
  */
-public class Ghost extends MovingGameElement implements ActionListener {
+public class Ghost extends MovingGameElement {
 
     private Strategy strategy;
     private Strategy initialStrategy;
-    private boolean isFleeing;
+    private boolean isVulnerable;
+    private boolean isDead;
+    private Color color;
 
-    PathFinder pathFinder;
+    private Timer vulnerabilityTimer;
+    private Timer deathTimer;
+    private final int VULTIMER_DELAY = 10000;
+    private final int DEATH_TIMER_DELAY = 20000;
 
-    public Ghost(Cell cell, GameEventListener gameEventListener, int speed, Strategy strategy) {
+    public Ghost(Cell cell, GameEventListener gameEventListener, int speed, Strategy strategy, Color color) {
         super(cell, gameEventListener, speed);
         this.strategy = strategy;
+        this.color = color;
         initialStrategy = strategy;
-        isFleeing = false;
+        isVulnerable = false;
+        isDead = false;
+
+        ActionListener vulnerabilityTimerAction = new java.awt.event.ActionListener() {
+
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                vulnerabilityTimerActionPerformed(evt);
+            }
+        };
+
+        ActionListener deathTimerAction = new java.awt.event.ActionListener() {
+
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deathTimerActionPerformed(evt);
+            }
+        };
+
+        vulnerabilityTimer = new Timer(VULTIMER_DELAY, vulnerabilityTimerAction);
+        deathTimer = new Timer(DEATH_TIMER_DELAY, deathTimerAction);
     }
 
     /**
      * Draw this Ghost
-     * @param g 
+     *
+     * @param g
      */
     public void draw(Graphics g) {
-        if(isFleeing){
+        if (isVulnerable) {
             g.setColor(Color.BLUE);
+        } else if (isDead) {
+            g.setColor(Color.BLACK);
+        } else {
+            g.setColor(color);
         }
-        else{
-            g.setColor(Color.RED);
-        }
+        //body
         g.fillRoundRect(
                 (int) getPosition().getX() - 5,
                 (int) getPosition().getY() - 5,
@@ -53,10 +83,44 @@ public class Ghost extends MovingGameElement implements ActionListener {
                 getCell().getSize() + 10,
                 10, 5
         );
+        // eyes
+        g.setColor(Color.WHITE);
+        // left eye
+        g.fillOval(
+                (int) getPosition().getX(),
+                (int) getPosition().getY(),
+                12,
+                12
+        );
+        // right eye
+        g.fillOval(
+                (int) getPosition().getX() + 20,
+                (int) getPosition().getY(),
+                12,
+                12
+        );
+        // pupils
+        g.setColor(Color.BLACK);
+        // left pupil
+        g.fillOval(
+                (int) getPosition().getX() + 4,
+                (int) getPosition().getY() + 2,
+                6,
+                6
+        );
+        // right pupil
+        g.fillOval(
+                (int) getPosition().getX() + 24,
+                (int) getPosition().getY() + 2,
+                6,
+                6
+        );
+
     }
 
     /**
-     * Move to the next cell. Uses its current strategy to determine which cell to move to.
+     * Move to the next cell. Uses its current strategy to determine which cell
+     * to move to.
      */
     protected void move() {
         Cell nextCell = strategy.giveNextCell(cell);
@@ -64,11 +128,11 @@ public class Ghost extends MovingGameElement implements ActionListener {
             setCell(nextCell);
         }
 
-        
     }
 
     /**
-     * Looks for GameElements that are in the same cell and interacts with them accordingly.
+     * Looks for GameElements that are in the same cell and interacts with them
+     * accordingly.
      */
     protected void checkCollisions() {
         for (GameElement e : getCell().getElements()) {
@@ -80,31 +144,35 @@ public class Ghost extends MovingGameElement implements ActionListener {
     }
 
     /**
-     * Interact with Pacman. If Pacman is invincible then the ghost will die. 
-     * If not then Pacman will die.
-     * @param pacman 
+     * Interact with Pacman. If Pacman is invincible then the ghost will die. If
+     * not then Pacman will die.
+     *
+     * @param pacman
      */
     private void interactWithPacman(Pacman pacman) {
-        if (pacman.isInvincible()) {
-            //timer.stop();
-            //getCell().removeElement(this);
-            //gameEventListener.pacmanEatsGhost(this);
-
+        if (isVulnerable) {
+            dead();
+            gameEventListener.pacmanEatsGhost(this);
         } else {
-            //cell.removeElement(pacman);
             gameEventListener.pacmanDied(pacman);
         }
     }
-    
 
     /**
-     * Change current strategy to FleeStrategy and lowers the speed of this Ghost by 50%
-     * This is called when Pacman eats a superPellet.
+     * Change current strategy to FleeStrategy and lowers the speed of this
+     * Ghost by 50% This is called when Pacman eats a superPellet.
      */
     public void runFromPacman() {
-        this.strategy = new FleeStrategy();
-        isFleeing = true;
-        setSpeed(150);
+        if (!isDead) {
+            if (isVulnerable) {
+                vulnerabilityTimer.restart();
+            } else {
+                this.strategy = new FleeStrategy();
+                isVulnerable = true;
+                setSpeed((int) (speed * 1.50));
+                vulnerabilityTimer.start();
+            }
+        }
     }
 
     /**
@@ -112,20 +180,45 @@ public class Ghost extends MovingGameElement implements ActionListener {
      */
     public void backToNormal() {
         strategy = initialStrategy;
-        isFleeing = false;
-        setSpeed(100);
+        isVulnerable = false;
+        isDead = false;
+        setSpeed(speed);
+        vulnerabilityTimer.stop();
+        deathTimer.stop();
+    }
+
+    private void dead() {
+        backToNormal();
+        strategy = new ReturnHomeSrategy(startCell);
+        isDead = true;
+        deathTimer.start();
+    }
+    
+    public void resetGhost(){
+        cell.getElements().remove(this);
+        cell = startCell;
+        cell.addElement(this);
+        backToNormal();
     }
 
     /**
-     * This is called each 'tick' of the timer.
-     * This is used by the GameWorld to 
-     * @param e 
+     * This is called each 'tick' of the timer. This is used by the GameWorld to
+     *
+     * @param e
      */
     @Override
-    public void actionPerformed(ActionEvent e) {
+    public void moveTimerActionPerformed(ActionEvent e) {
         move();
         checkCollisions();
         gameEventListener.gameElementPerfomedAction(this);
+    }
+
+    private void vulnerabilityTimerActionPerformed(ActionEvent evt) {
+        backToNormal();
+    }
+
+    private void deathTimerActionPerformed(ActionEvent evt) {
+        backToNormal();
     }
 
 }
