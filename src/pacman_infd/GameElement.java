@@ -19,11 +19,15 @@ public abstract class GameElement {
     protected Cell cell;
     protected GameEventListener gameEventListener;
     
+    public GameElement(){
+        
+    }
+    
     public GameElement(Cell cell, GameEventListener gameEventListener)
     {
         this.cell = cell;
         this.gameEventListener = gameEventListener;
-        cell.addElement(this);
+        cell.setStaticElement(this);
     }
     
     protected Point getPosition(){

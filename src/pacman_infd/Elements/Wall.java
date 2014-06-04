@@ -105,16 +105,33 @@ public class Wall extends GameElement{
         g.drawArc(
                 (int)getPosition().getX() + 9, 
                 (int)getPosition().getY() + 9, 
-                26, 
-                26, 
+                32, 
+                32, 
                 90, 
                 90
         );
         g.drawArc(
                 (int)getPosition().getX() + 15, 
                 (int)getPosition().getY() + 15, 
-                13, 
-                13, 
+                20, 
+                20, 
+                90, 
+                90
+        );
+        g.setColor(Color.BLUE);
+        g.drawArc(
+                (int)getPosition().getX() + 8, 
+                (int)getPosition().getY() + 8, 
+                32, 
+                32, 
+                90, 
+                90
+        );
+        g.drawArc(
+                (int)getPosition().getX() + 16, 
+                (int)getPosition().getY() + 16, 
+                20, 
+                20, 
                 90, 
                 90
         );
@@ -124,17 +141,34 @@ public class Wall extends GameElement{
         g.setColor(Color.cyan);
         g.drawArc(
                 (int)getPosition().getX() + 9, 
-                (int)getPosition().getY() - 9, 
-                26, 
-                26, 
+                (int)getPosition().getY() - 17, 
+                32, 
+                32, 
                 180, 
                 90
         );
         g.drawArc(
-                (int)getPosition().getX() + 17, 
-                (int)getPosition().getY() - 4, 
-                13, 
-                13, 
+                (int)getPosition().getX() + 15, 
+                (int)getPosition().getY() - 11, 
+                20, 
+                20, 
+                180, 
+                90
+        );
+        g.setColor(Color.BLUE);
+        g.drawArc(
+                (int)getPosition().getX() + 8, 
+                (int)getPosition().getY() - 16, 
+                32, 
+                32, 
+                180, 
+                90
+        );
+        g.drawArc(
+                (int)getPosition().getX() + 16, 
+                (int)getPosition().getY() - 11, 
+                19, 
+                19, 
                 180, 
                 90
         );
@@ -143,18 +177,35 @@ public class Wall extends GameElement{
     private void drawRightUpCorner(Graphics g){
         g.setColor(Color.cyan);
         g.drawArc(
-                (int)getPosition().getX() - 12, 
+                (int)getPosition().getX() - 16, 
                 (int)getPosition().getY() + 9, 
-                25, 
-                25, 
+                31, 
+                31, 
                 0, 
                 90
         );
         g.drawArc(
-                (int)getPosition().getX() - 6, 
+                (int)getPosition().getX() - 11, 
                 (int)getPosition().getY() + 15, 
-                13, 
-                13, 
+                20, 
+                20, 
+                0, 
+                90
+        );
+        g.setColor(Color.BLUE);
+        g.drawArc(
+                (int)getPosition().getX() - 15, 
+                (int)getPosition().getY() + 8, 
+                31, 
+                31, 
+                0, 
+                90
+        );
+        g.drawArc(
+                (int)getPosition().getX() - 12, 
+                (int)getPosition().getY() + 16, 
+                20, 
+                20, 
                 0, 
                 90
         );
@@ -163,18 +214,35 @@ public class Wall extends GameElement{
     private void drawRightDownCorner(Graphics g){
         g.setColor(Color.cyan);
         g.drawArc(
-                (int)getPosition().getX() - 9, 
-                (int)getPosition().getY() - 9, 
-                25, 
-                25, 
+                (int)getPosition().getX() - 17, 
+                (int)getPosition().getY() - 17, 
+                32, 
+                32, 
                 270, 
                 90
         );
         g.drawArc(
-                (int)getPosition().getX() - 4, 
-                (int)getPosition().getY() - 4, 
-                13, 
-                13, 
+                (int)getPosition().getX() - 11, 
+                (int)getPosition().getY() - 11, 
+                20, 
+                20, 
+                270, 
+                90
+        );
+        g.setColor(Color.BLUE);
+        g.drawArc(
+                (int)getPosition().getX() - 17, 
+                (int)getPosition().getY() - 17, 
+                33, 
+                33, 
+                270, 
+                90
+        );
+        g.drawArc(
+                (int)getPosition().getX() - 11, 
+                (int)getPosition().getY() - 11, 
+                19, 
+                19, 
                 270, 
                 90
         );
@@ -214,13 +282,13 @@ public class Wall extends GameElement{
         g.drawLine(
                 (int)getPosition().getX(),
                 (int)getPosition().getY() + 8,
-                (int)getPosition().getX() + cell.getSize(), 
+                (int)getPosition().getX() + cell.getSize() - 1, 
                 (int)getPosition().getY() + 8
         );
         g.drawLine(
                 (int)getPosition().getX(),
                 (int)getPosition().getY() + 16,
-                (int)getPosition().getX() + cell.getSize(), 
+                (int)getPosition().getX() + cell.getSize() - 1, 
                 (int)getPosition().getY() + 16
         );
 
@@ -228,13 +296,13 @@ public class Wall extends GameElement{
         g.drawLine(
                 (int)getPosition().getX(),
                 (int)getPosition().getY() + 9,
-                (int)getPosition().getX() + cell.getSize(), 
+                (int)getPosition().getX() + cell.getSize() - 1, 
                 (int)getPosition().getY() + 9
         );
         g.drawLine(
                 (int)getPosition().getX(),
                 (int)getPosition().getY() + 15,
-                (int)getPosition().getX() + cell.getSize(), 
+                (int)getPosition().getX() + cell.getSize() - 1, 
                 (int)getPosition().getY() + 15
         );
     }

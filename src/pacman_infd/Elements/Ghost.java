@@ -25,22 +25,24 @@ public class Ghost extends MovingGameElement {
 
     private Strategy strategy;
     private Strategy initialStrategy;
-    private boolean isVulnerable;
-    private boolean isDead;
     private Color color;
+    private GhostState state;
 
     private Timer vulnerabilityTimer;
     private Timer deathTimer;
     private final int VULTIMER_DELAY = 10000;
     private final int DEATH_TIMER_DELAY = 20000;
+    
+    private enum GhostState{
+        NORMAL, DEAD, VULNERABLE
+    }
 
     public Ghost(Cell cell, GameEventListener gameEventListener, int speed, Strategy strategy, Color color) {
         super(cell, gameEventListener, speed);
         this.strategy = strategy;
         this.color = color;
         initialStrategy = strategy;
-        isVulnerable = false;
-        isDead = false;
+        state = GhostState.NORMAL;
 
         ActionListener vulnerabilityTimerAction = new java.awt.event.ActionListener() {
 
@@ -68,9 +70,9 @@ public class Ghost extends MovingGameElement {
      * @param g
      */
     public void draw(Graphics g) {
-        if (isVulnerable) {
+        if (state == GhostState.VULNERABLE) {
             g.setColor(Color.BLUE);
-        } else if (isDead) {
+        } else if (state == GhostState.DEAD) {
             g.setColor(Color.BLACK);
         } else {
             g.setColor(color);
@@ -150,10 +152,10 @@ public class Ghost extends MovingGameElement {
      * @param pacman
      */
     private void interactWithPacman(Pacman pacman) {
-        if (isVulnerable) {
+        if (state == GhostState.VULNERABLE) {
             dead();
             gameEventListener.pacmanEatsGhost(this);
-        } else {
+        } else if (state == GhostState.NORMAL){
             gameEventListener.pacmanDied(pacman);
         }
     }
@@ -163,16 +165,16 @@ public class Ghost extends MovingGameElement {
      * Ghost by 50% This is called when Pacman eats a superPellet.
      */
     public void runFromPacman() {
-        if (!isDead) {
-            if (isVulnerable) {
-                vulnerabilityTimer.restart();
-            } else {
-                this.strategy = new FleeStrategy();
-                isVulnerable = true;
-                setSpeed((int) (speed * 1.50));
-                vulnerabilityTimer.start();
-            }
+
+        if (state == GhostState.VULNERABLE) {
+            vulnerabilityTimer.restart();
+        } else if (state == GhostState.NORMAL){
+            this.strategy = new FleeStrategy();
+            state = GhostState.VULNERABLE;
+            setSpeed((int) (speed * 1.50));
+            vulnerabilityTimer.start();
         }
+
     }
 
     /**
@@ -180,17 +182,16 @@ public class Ghost extends MovingGameElement {
      */
     public void backToNormal() {
         strategy = initialStrategy;
-        isVulnerable = false;
-        isDead = false;
+        state = GhostState.NORMAL;
         setSpeed(speed);
         vulnerabilityTimer.stop();
         deathTimer.stop();
     }
 
     private void dead() {
-        backToNormal();
+        setSpeed(speed);
         strategy = new ReturnHomeSrategy(startCell);
-        isDead = true;
+        state = GhostState.DEAD;
         deathTimer.start();
     }
     
@@ -214,7 +215,12 @@ public class Ghost extends MovingGameElement {
     }
 
     private void vulnerabilityTimerActionPerformed(ActionEvent evt) {
-        backToNormal();
+        if(state == GhostState.VULNERABLE){
+            backToNormal();
+        }
+        if(state == GhostState.DEAD){
+            deathTimer.restart();
+        }
     }
 
     private void deathTimerActionPerformed(ActionEvent evt) {

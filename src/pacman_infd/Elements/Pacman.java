@@ -8,7 +8,6 @@ package pacman_infd.Elements;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import pacman_infd.Cell;
@@ -89,27 +88,32 @@ public class Pacman extends MovingGameElement implements KeyListener {
     @Override
     protected void checkCollisions()
     {
-        for(GameElement e : cell.getElements())
-        {
-            if(e instanceof Pellet){
-                interactWithPellet((Pellet)e);
-                break;
-            }
-            if(e instanceof SuperPellet) {
-                interactWithSuperPellet((SuperPellet)e);
-                break;
-            }
+        GameElement e = cell.getStaticElement();
+        if(e instanceof Pellet){
+            interactWithPellet((Pellet)e);
         }
+        else if(e instanceof SuperPellet) {
+            interactWithSuperPellet((SuperPellet)e);
+        }
+        else if(e instanceof Cherry){
+            interactWithCherry((Cherry)e);
+        }
+
     }
 
     private void interactWithSuperPellet(SuperPellet sp) {
-        cell.removeElement(sp);
+        cell.setStaticElement(null);
         gameEventListener.pacmanFoundSuperPellet();
     }
 
     private void interactWithPellet(Pellet p) {
-        cell.removeElement(p);
+        cell.setStaticElement(null);
         gameEventListener.pacmanFoundPellet();
+    }
+    
+    private void interactWithCherry(Cherry c){
+        cell.setStaticElement(null);
+        gameEventListener.pacmanFoundCherry();
     }
     
     public void resetPacman()

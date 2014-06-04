@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 import pacman_infd.Elements.*;
 import pacman_infd.Strategies.ChasePacmanStrategy;
 import pacman_infd.Strategies.MoveRandomStrategy;
@@ -20,26 +21,24 @@ import pacman_infd.Strategies.MoveRandomStrategy;
 public class GameWorld {
 
     private static final int CELL_SIZE = 26; //pixels
-
     private int width;
     private int height;
-
     private GameController gameController;
-
     private ArrayList<Cell> cells;
     private Cell[][] cellMap;
-
     private char[][] elementMap;
-    
     private ArrayList<Ghost> ghosts;
-    
-    private int gameSpeed = 150;
+    private int gameSpeed = 100;
+    private int numberOfPelletsAtStart;
 
     public GameWorld(GameController gameController, String mapPath) {
-        
-        this.gameController  = gameController;
-        elementMap = loadMap(mapPath);
-        
+
+        this.gameController = gameController;
+
+        if (mapPath != null) {
+            elementMap = loadMap(mapPath);
+        }
+
         ghosts = new ArrayList<>();
 
         if (elementMap != null) {
@@ -50,6 +49,8 @@ public class GameWorld {
             findNeighbors();
 
             placeElements(elementMap, cellMap);
+
+            numberOfPelletsAtStart = countPellets();
 
             Pacman pacman = new Pacman(cellMap[1][1], gameController, gameSpeed);
             gameController.getView().addKeyListener(pacman);
@@ -103,10 +104,10 @@ public class GameWorld {
                 }
             }
         }
-        
+
         //Special case voor portal
-        //cellMap[14][0].setNeighbor(Direction.LEFT, cellMap[14][27]);
-        //cellMap[14][27].setNeighbor(Direction.RIGHT, cellMap[14][0]);
+        cellMap[14][0].setNeighbor(Direction.LEFT, cellMap[14][27]);
+        cellMap[14][27].setNeighbor(Direction.RIGHT, cellMap[14][0]);
     }
 
     /**
@@ -128,23 +129,23 @@ public class GameWorld {
                 if (elementMap[x][y] == '2') {
                     SuperPellet s = new SuperPellet(cellMap[x][y]);
                 }
-                if (elementMap[x][y] == 'w'){
+                if (elementMap[x][y] == 'w') {
                     OneWayWall ow = new OneWayWall(cellMap[x][y], Direction.UP);
                 }
-                if(elementMap[x][y] == 'a'){
+                if (elementMap[x][y] == 'a') {
                     Ghost blinky = new Ghost(cellMap[x][y], gameController, gameSpeed, new ChasePacmanStrategy(), Color.RED);
                     ghosts.add(blinky);
                 }
-                if(elementMap[x][y] == 'b'){
-                     Ghost pinky = new Ghost(cellMap[x][y], gameController, gameSpeed, new ChasePacmanStrategy(), Color.PINK);
-                     ghosts.add(pinky);
+                if (elementMap[x][y] == 'b') {
+                    Ghost pinky = new Ghost(cellMap[x][y], gameController, gameSpeed, new ChasePacmanStrategy(), Color.PINK);
+                    ghosts.add(pinky);
                 }
-                if(elementMap[x][y] == 'c'){
-                    Ghost inky = new Ghost(cellMap[x][y], gameController, gameSpeed, new MoveRandomStrategy(), Color.CYAN);  
+                if (elementMap[x][y] == 'c') {
+                    Ghost inky = new Ghost(cellMap[x][y], gameController, gameSpeed, new MoveRandomStrategy(), Color.CYAN);
                     ghosts.add(inky);
                 }
-                if(elementMap[x][y] == 'd'){
-                    Ghost clyde = new Ghost(cellMap[x][y], gameController, gameSpeed, new MoveRandomStrategy(), Color.ORANGE); 
+                if (elementMap[x][y] == 'd') {
+                    Ghost clyde = new Ghost(cellMap[x][y], gameController, gameSpeed, new MoveRandomStrategy(), Color.ORANGE);
                     ghosts.add(clyde);
                 }
             }
@@ -153,6 +154,7 @@ public class GameWorld {
 
     /**
      * Loads an elementMap from a file on the given path location.
+     *
      * @param path file path
      * @return elementMap
      */
@@ -169,16 +171,9 @@ public class GameWorld {
 
     }
 
-//    private void placePellets() {
-//        for (Cell cell : cells) {
-//            if (!cell.hasWall()) {
-//                Pellet p = new Pellet(cell);
-//            }
-//        }
-//    }
-    
     /**
      * Draw each cell in the game world.
+     *
      * @param g Graphics object
      */
     private void drawCells(Graphics g) {
@@ -188,19 +183,19 @@ public class GameWorld {
             }
         }
     }
-    
+
     /**
-     * 
+     *
      * @return a list of all Ghost Objects in the game world.
      */
-    public ArrayList<Ghost> getGhosts()
-    {
+    public ArrayList<Ghost> getGhosts() {
         return ghosts;
     }
 
     /**
      * Draw the game world.
-     * @param g 
+     *
+     * @param g
      */
     public void draw(Graphics g) {
         g.clearRect(0, 0, width * CELL_SIZE, height * CELL_SIZE);
@@ -213,6 +208,35 @@ public class GameWorld {
         for (Cell cell : cells) {
             System.out.println(cell);
         }
+    }
+
+    public int getNumberOfPelletsAtStart() {
+        return numberOfPelletsAtStart;
+    }
+
+    public int countPellets() {
+        int number = 0;
+        for (Cell cell : cells) {
+            if (cell.getStaticElement() instanceof Pellet) {
+                number++;
+            }
+        }
+        return number;
+    }
+
+    public void placeCherryOnRandomEmptyCell() {
+        ArrayList<Cell> emptyCells = new ArrayList<>();
+        for (Cell cell : cells) {
+            if (cell.getStaticElement() == null) {
+                emptyCells.add(cell);
+            }
+        }
+
+        Random r = new Random();
+        if (!emptyCells.isEmpty()) {
+            Cherry c = new Cherry(emptyCells.get(r.nextInt(emptyCells.size() - 1)));
+        }
+
     }
 
 }

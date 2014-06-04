@@ -24,7 +24,9 @@ public abstract class MovingGameElement extends GameElement{
     protected int speed;
     
     public MovingGameElement(Cell cell, GameEventListener gameEventListener, int speed) {
-        super(cell, gameEventListener);
+        this.cell = cell;
+        this.gameEventListener = gameEventListener;
+        cell.addElement(this);
         startCell = cell;
         this.speed = speed;
         
@@ -54,6 +56,14 @@ public abstract class MovingGameElement extends GameElement{
     public void setSpeed(int speed)
     {
         timer.setDelay(speed);
+    }
+    
+    public void startTimer(){
+        timer.start();
+    }
+    
+    public void stopTimer(){
+        timer.stop();
     }
     
 

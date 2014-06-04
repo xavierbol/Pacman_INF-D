@@ -11,22 +11,25 @@ import java.awt.Graphics;
 import pacman_infd.Cell;
 import pacman_infd.GameElement;
 
+
 /**
  *
  * @author Marinus
  */
-public class SuperPellet extends GameElement {
+public class Cherry extends GameElement{
 
-        public SuperPellet(Cell cell) {
+    public Cherry(Cell cell) {
         super(cell, null);
     }
 
+    @Override
     public void draw(Graphics g) {
-        g.setColor(Color.WHITE);
-        g.fillOval(
-                (int)getPosition().getX() + getCell().getSize()/ 2 - 10, 
-                (int)getPosition().getY() + getCell().getSize()/ 2 - 10, 
-                20, 20
+        g.setColor(Color.red);
+        g.drawOval(
+                (int)getPosition().getX(),
+                (int)getPosition().getY(), 
+                15, 
+                15
         );
     }
     
