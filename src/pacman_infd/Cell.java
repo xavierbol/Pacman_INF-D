@@ -37,6 +37,10 @@ public class Cell {
         neighbors = new HashMap<Direction, Cell>();
     }
 
+    /**
+     * Draw this cell and all elements in it.
+     * @param g 
+     */
     public void draw(Graphics g) {
 //        g.setColor(Color.BLACK);
 //        g.drawRect(xPos * size, yPos * size, size, size);
@@ -44,11 +48,11 @@ public class Cell {
     }
 
     /**
-     * Draw all movingElements contained by this cell.
+     * Draw all elements contained by this cell.
      *
      * @param g Graphics object
      */
-    public void drawElements(Graphics g) {
+    private void drawElements(Graphics g) {
         if (staticElement != null) {
             staticElement.draw(g);
         }

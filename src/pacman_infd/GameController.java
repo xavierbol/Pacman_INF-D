@@ -9,6 +9,7 @@ import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
+import javax.swing.Timer;
 import pacman_infd.Elements.Ghost;
 import pacman_infd.Elements.Pacman;
 
@@ -16,25 +17,36 @@ import pacman_infd.Elements.Pacman;
  *
  * @author Marinus
  */
-public class GameController implements GameEventListener, ActionListener {
+public class GameController implements GameEventListener {
 
     private GameWorld gameWorld;
     private View view;
     private ScorePanel scorePanel;
-
     private boolean cherrySpawned;
-
     private String level1 = "D:\\Dropbox\\School\\INF-D\\+Project INF-D\\leve1.txt";
-
     private GameState gameState;
+    private SoundManager soundManager;
+    private Timer gameTimer;
+    private StopWatch stopWatch;
 
     public GameController(View view, ScorePanel scorePanel) {
 
         this.view = view;
         this.scorePanel = scorePanel;
         cherrySpawned = false;
-
+        soundManager = new SoundManager();
         gameState = GameState.PREGAME;
+        
+        ActionListener gameTimerAction = new java.awt.event.ActionListener() {
+
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                gameTimerActionPerformed(evt);
+            }
+        };
+        
+        gameTimer = new Timer(100, gameTimerAction);
+        stopWatch = new StopWatch();
 
     }
 
@@ -61,6 +73,7 @@ public class GameController implements GameEventListener, ActionListener {
                 cherrySpawned = true;
             }
         }
+        //soundManager.playWaka();
     }
 
     @Override
@@ -115,9 +128,12 @@ public class GameController implements GameEventListener, ActionListener {
     public void newGame() {
 //        if (gameState == GameState.PREGAME) {
             gameWorld = new GameWorld(this, level1);
-            scorePanel.initStats();
+            scorePanel.resetStats();
             gameState = GameState.RUNNING;
             drawGame();
+            gameTimer.start();
+            stopWatch.reset();
+            stopWatch.start();
 //        }
     }
 
@@ -126,21 +142,24 @@ public class GameController implements GameEventListener, ActionListener {
             for (Ghost ghost : gameWorld.getGhosts()) {
                 ghost.stopTimer();
             }
+            gameTimer.stop();
+            stopWatch.stop();
             gameState = GameState.PAUSED;
         }
         else if (gameState == GameState.PAUSED){
             for (Ghost ghost : gameWorld.getGhosts()) {
                 ghost.startTimer();
             }
+            gameTimer.start();
+            stopWatch.start();
             gameState = GameState.RUNNING;
         }
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        for (Ghost ghost : gameWorld.getGhosts()) {
-            ghost.backToNormal();
-        }
+    public void gameTimerActionPerformed(ActionEvent e) {
+        scorePanel.setTime(stopWatch.getElepsedTimeMinutesSeconds());
+        scorePanel.repaint();
+        
     }
 
     @Override
@@ -155,6 +174,8 @@ public class GameController implements GameEventListener, ActionListener {
         gameWorld = null;
         gameState = GameState.PREGAME;
         view.repaint();
+        gameTimer.stop();
+        stopWatch.stop();
     }
     
     public GameState getGameState(){

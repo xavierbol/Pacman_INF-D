@@ -28,7 +28,7 @@ public class GameWorld {
     private Cell[][] cellMap;
     private char[][] elementMap;
     private ArrayList<Ghost> ghosts;
-    private int gameSpeed = 100;
+    private int gameSpeed = 150;
     private int numberOfPelletsAtStart;
 
     public GameWorld(GameController gameController, String mapPath) {
@@ -210,10 +210,18 @@ public class GameWorld {
         }
     }
 
+    /**
+     * 
+     * @return number of Pellets at the start of the game.
+     */
     public int getNumberOfPelletsAtStart() {
         return numberOfPelletsAtStart;
     }
 
+    /**
+     * Counts the number of pellets currently in the GameWorld.
+     * @return number of pellets
+     */
     public int countPellets() {
         int number = 0;
         for (Cell cell : cells) {
@@ -224,19 +232,31 @@ public class GameWorld {
         return number;
     }
 
+    /**
+     * Places a cherry on a random cell that has no static element.
+     */
     public void placeCherryOnRandomEmptyCell() {
-        ArrayList<Cell> emptyCells = new ArrayList<>();
-        for (Cell cell : cells) {
-            if (cell.getStaticElement() == null) {
-                emptyCells.add(cell);
-            }
-        }
+        ArrayList<Cell> emptyCells = getEmptyCells();
 
         Random r = new Random();
         if (!emptyCells.isEmpty()) {
             Cherry c = new Cherry(emptyCells.get(r.nextInt(emptyCells.size() - 1)));
         }
 
+    }
+
+    /**
+     * Returns a list of all cells that have no static element placed on them.
+     * @return list of cells
+     */
+    private ArrayList<Cell> getEmptyCells() {
+        ArrayList<Cell> emptyCells = new ArrayList<>();
+        for (Cell cell : cells) {
+            if (cell.getStaticElement() == null) {
+                emptyCells.add(cell);
+            }
+        }
+        return emptyCells;
     }
 
 }

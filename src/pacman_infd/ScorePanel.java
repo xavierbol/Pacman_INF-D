@@ -18,22 +18,24 @@ import javax.swing.JPanel;
 public class ScorePanel extends JPanel {
     private int score;
     private int lives;
+    private String time;
     
     private static final int PANEL_WIDTH = 730;
     private static final int PANEL_HEIGHT = 50;
     
     public ScorePanel()
     {
-        initStats();
+        resetStats();
     }
     
     /**
      * initialize the score and lives to what they should be at the start of the game.
      */
-    public void initStats()
+    public void resetStats()
     {
         score = 0;
         lives = 3;
+        time = "00:00";
     }
     
     /**
@@ -76,6 +78,14 @@ public class ScorePanel extends JPanel {
     }
     
     /**
+     * Set time
+     * @param time 
+     */
+    public void setTime(String time){
+        this.time = time;
+    }
+    
+    /**
      * Paint this panel
      * @param g Graphics object.
      */
@@ -88,7 +98,8 @@ public class ScorePanel extends JPanel {
         g.drawString("PACMAN", 275, 35);
         g.setColor(Color.ORANGE);
         g.setFont(new Font("TimesRoman", Font.PLAIN, 15));
-        g.drawString("SCORE: " + score, 100, 25);
+        g.drawString("SCORE: " + score, 50, 25);
+        g.drawString("TIME: " + time, 150, 25);
         g.drawString("LIVES: " + lives, 520, 25);
 
     }

@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Collection;
 import javax.swing.Timer;
 import pacman_infd.Cell;
 import pacman_infd.GameElement;
@@ -31,7 +32,7 @@ public class Ghost extends MovingGameElement {
     private Timer vulnerabilityTimer;
     private Timer deathTimer;
     private final int VULTIMER_DELAY = 10000;
-    private final int DEATH_TIMER_DELAY = 20000;
+    private final int DEATH_TIMER_DELAY = 15000;
     
     private enum GhostState{
         NORMAL, DEAD, VULNERABLE
@@ -137,11 +138,19 @@ public class Ghost extends MovingGameElement {
      * accordingly.
      */
     protected void checkCollisions() {
-        for (GameElement e : getCell().getElements()) {
+        for (GameElement e : cell.getElements()) {
             if (e instanceof Pacman) {
                 interactWithPacman((Pacman) e);
                 break;
             }
+        }
+        for(Cell c : (Collection<Cell>)cell.getNeighbors().values()){
+           for (GameElement e : cell.getElements()) {
+                if (e instanceof Pacman) {
+                    interactWithPacman((Pacman) e);
+                    break;
+                }
+            } 
         }
     }
 
@@ -178,7 +187,7 @@ public class Ghost extends MovingGameElement {
     }
 
     /**
-     * Revert back to the initial Strategy and initial speed.
+     * Revert back to the initial Strategy and initial speed and stops.
      */
     public void backToNormal() {
         strategy = initialStrategy;
@@ -221,10 +230,12 @@ public class Ghost extends MovingGameElement {
         if(state == GhostState.DEAD){
             deathTimer.restart();
         }
+        vulnerabilityTimer.stop();
     }
 
     private void deathTimerActionPerformed(ActionEvent evt) {
         backToNormal();
+        deathTimer.stop();
     }
 
 }
