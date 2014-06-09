@@ -122,31 +122,26 @@ public class GameWorld {
             for (int y = 0; y < width; y++) {
                 if (elementMap[x][y] == '0') {
                     Pellet p = new Pellet(cellMap[x][y]);
-                }
-                if (elementMap[x][y] == '1') {
-                    Wall w = new Wall(cellMap[x][y]);
-                }
-                if (elementMap[x][y] == '2') {
+                } else if (elementMap[x][y] == '2') {
                     SuperPellet s = new SuperPellet(cellMap[x][y]);
-                }
-                if (elementMap[x][y] == 'w') {
+                } else if (elementMap[x][y] == 'w') {
                     OneWayWall ow = new OneWayWall(cellMap[x][y], Direction.UP);
-                }
-                if (elementMap[x][y] == 'a') {
+                } else if (elementMap[x][y] == 'a') {
                     Ghost blinky = new Ghost(cellMap[x][y], gameController, gameSpeed, new ChasePacmanStrategy(), Color.RED);
                     ghosts.add(blinky);
-                }
-                if (elementMap[x][y] == 'b') {
+                } else if (elementMap[x][y] == 'b') {
                     Ghost pinky = new Ghost(cellMap[x][y], gameController, gameSpeed, new ChasePacmanStrategy(), Color.PINK);
                     ghosts.add(pinky);
-                }
-                if (elementMap[x][y] == 'c') {
+                } else if (elementMap[x][y] == 'c') {
                     Ghost inky = new Ghost(cellMap[x][y], gameController, gameSpeed, new MoveRandomStrategy(), Color.CYAN);
                     ghosts.add(inky);
-                }
-                if (elementMap[x][y] == 'd') {
+                } else if (elementMap[x][y] == 'd') {
                     Ghost clyde = new Ghost(cellMap[x][y], gameController, gameSpeed, new MoveRandomStrategy(), Color.ORANGE);
                     ghosts.add(clyde);
+                } else if (elementMap[x][y] == '-') {
+                        // niks
+                } else {
+                    Wall w = new Wall(cellMap[x][y], elementMap[x][y]);
                 }
             }
         }
@@ -211,7 +206,7 @@ public class GameWorld {
     }
 
     /**
-     * 
+     *
      * @return number of Pellets at the start of the game.
      */
     public int getNumberOfPelletsAtStart() {
@@ -220,6 +215,7 @@ public class GameWorld {
 
     /**
      * Counts the number of pellets currently in the GameWorld.
+     *
      * @return number of pellets
      */
     public int countPellets() {
@@ -247,6 +243,7 @@ public class GameWorld {
 
     /**
      * Returns a list of all cells that have no static element placed on them.
+     *
      * @return list of cells
      */
     private ArrayList<Cell> getEmptyCells() {
