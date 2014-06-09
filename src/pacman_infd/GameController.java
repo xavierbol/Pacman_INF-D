@@ -8,11 +8,11 @@ package pacman_infd;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.URI;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
 import pacman_infd.Elements.Cherry;
 import pacman_infd.Elements.Ghost;
-import pacman_infd.Elements.Pacman;
 import pacman_infd.Elements.Pellet;
 import pacman_infd.Elements.SuperPellet;
 
@@ -26,7 +26,7 @@ public class GameController implements GameEventListener {
     private View view;
     private ScorePanel scorePanel;
     private boolean cherrySpawned;
-    private String level1 = "D:\\Dropbox\\School\\INF-D Project Pacman\\Pacman_INF-D\\build\\classes\\pacman_infd\\assets\\level1.txt";
+    private URI level1;
     private GameState gameState;
     private SoundManager soundManager;
     private Timer gameTimer;
@@ -40,6 +40,12 @@ public class GameController implements GameEventListener {
         cherrySpawned = false;
         soundManager = new SoundManager();
         gameState = GameState.PREGAME;
+        try{
+            level1  =  ClassLoader.getSystemResource("Resources/Levels/level1.txt").toURI();
+        }
+        catch(Exception e){
+            System.out.println(e);
+        }
         
         ActionListener gameTimerAction = new java.awt.event.ActionListener() {
 
@@ -229,8 +235,8 @@ public class GameController implements GameEventListener {
         gameState = GameState.PREGAME;
         view.repaint();
         drawGame();
-        gameTimer.stop();
-        stopWatch.stop();
+//        gameTimer.stop();
+//        stopWatch.stop();
     }
     
     public GameState getGameState(){

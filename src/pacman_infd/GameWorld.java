@@ -8,6 +8,8 @@ package pacman_infd;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
 import pacman_infd.Elements.*;
@@ -32,7 +34,7 @@ public class GameWorld {
     private int gameSpeed = 150;
     private int numberOfPelletsAtStart;
 
-    public GameWorld(GameController gameController, String mapPath) {
+    public GameWorld(GameController gameController, URI mapPath) {
 
         this.gameController = gameController;
 
@@ -159,7 +161,7 @@ public class GameWorld {
      * @param path file path
      * @return elementMap
      */
-    private char[][] loadMap(String path) {
+    private char[][] loadMap(URI path) {
 
         try {
             FileLoader file = new FileLoader(path);
