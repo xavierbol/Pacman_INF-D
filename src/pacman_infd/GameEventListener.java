@@ -18,11 +18,10 @@ public interface GameEventListener extends EventListener{
     
     public void gameElementPerfomedAction(GameElement e);
     public void pacmanMoved();
-    public void pacmanFoundPellet();
-    public void pacmanFoundSuperPellet();
-    public void pacmanFoundCherry();
-    public void pacmanDied(Pacman pacman);
-    public void pacmanEatsGhost(Ghost ghost);
+//    public void pacmanFoundPellet();
+//    public void pacmanFoundSuperPellet();
+//    public void pacmanFoundCherry();
     public void pacmanChangedState(boolean state);
+    public void gameElementMovedToCell(Cell cell);
 
 }

@@ -10,8 +10,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
+import pacman_infd.Elements.Cherry;
 import pacman_infd.Elements.Ghost;
 import pacman_infd.Elements.Pacman;
+import pacman_infd.Elements.Pellet;
+import pacman_infd.Elements.SuperPellet;
 
 /**
  *
@@ -28,6 +31,7 @@ public class GameController implements GameEventListener {
     private SoundManager soundManager;
     private Timer gameTimer;
     private StopWatch stopWatch;
+    private Timer updateTimer;
 
     public GameController(View view, ScorePanel scorePanel) {
 
@@ -45,25 +49,33 @@ public class GameController implements GameEventListener {
             }
         };
         
-        gameTimer = new Timer(100, gameTimerAction);
+//        ActionListener updateTimerAction = new java.awt.event.ActionListener() {
+//
+//            @Override
+//            public void actionPerformed(java.awt.event.ActionEvent evt) {
+//                updateTimerActionPerformed(evt);
+//            }
+//        };
+        
+        gameTimer = new Timer(10, gameTimerAction);
+//        updateTimer = new Timer(10, updateTimerAction);
         stopWatch = new StopWatch();
 
     }
 
     @Override
     public void gameElementPerfomedAction(GameElement e) {
-        drawGame();
+        //drawGame();
         view.requestFocus();
     }
 
     @Override
     public void pacmanMoved() {
 
-        drawGame();
+        //drawGame();
         view.requestFocus();
     }
 
-    @Override
     public void pacmanFoundPellet() {
         scorePanel.addScore(5);
         scorePanel.repaint();
@@ -76,21 +88,19 @@ public class GameController implements GameEventListener {
         //soundManager.playWaka();
     }
 
-    @Override
-    public void pacmanDied(Pacman pacman) {
+    public void pacmanDied() {
         scorePanel.looseLife();
         scorePanel.repaint();
         if (scorePanel.getLives() <= 0) {
             gameOver();
         } else {
-            pacman.resetPacman();
+            gameWorld.getPacman().resetPacman();
             for (Ghost ghost : gameWorld.getGhosts()) {
                 ghost.resetGhost();
             }
         }
     }
 
-    @Override
     public void pacmanFoundSuperPellet() {
         scorePanel.addScore(50);
         scorePanel.repaint();
@@ -99,15 +109,14 @@ public class GameController implements GameEventListener {
         }
     }
 
-    @Override
-    public void pacmanEatsGhost(Ghost ghost) {
+    public void pacmanEatsGhost() {
         scorePanel.addScore(500);
         scorePanel.repaint();
     }
 
     @Override
     public void pacmanChangedState(boolean state) {
-
+        
     }
 
     private void drawGame() {
@@ -132,6 +141,7 @@ public class GameController implements GameEventListener {
             gameState = GameState.RUNNING;
             drawGame();
             gameTimer.start();
+
             stopWatch.reset();
             stopWatch.start();
 //        }
@@ -142,6 +152,7 @@ public class GameController implements GameEventListener {
             for (Ghost ghost : gameWorld.getGhosts()) {
                 ghost.stopTimer();
             }
+            gameWorld.getPacman().stopTimer();
             gameTimer.stop();
             stopWatch.stop();
             gameState = GameState.PAUSED;
@@ -150,6 +161,7 @@ public class GameController implements GameEventListener {
             for (Ghost ghost : gameWorld.getGhosts()) {
                 ghost.startTimer();
             }
+            gameWorld.getPacman().startTimer();
             gameTimer.start();
             stopWatch.start();
             gameState = GameState.RUNNING;
@@ -157,12 +169,54 @@ public class GameController implements GameEventListener {
     }
 
     public void gameTimerActionPerformed(ActionEvent e) {
+        checkCollisions();
+        drawGame();
         scorePanel.setTime(stopWatch.getElepsedTimeMinutesSeconds());
         scorePanel.repaint();
         
     }
+    
+//    public void updateTimerActionPerformed(ActionEvent e){
+//        
+//        drawGame();
+//        
+//    }
+    
+    private void checkCollisions(){
+        
+        Cell pacCell = gameWorld.getPacman().getCell();
+        GameElement gameElement = pacCell.getStaticElement();
+        
+        if(gameElement instanceof Pellet){
+            pacCell.setStaticElement(null);
+            pacmanFoundPellet();
+        }
+        else if(gameElement instanceof SuperPellet) {
+            pacCell.setStaticElement(null);
+            pacmanFoundSuperPellet();
+        }
+        else if(gameElement instanceof Cherry){
+            pacCell.setStaticElement(null);
+            pacmanFoundCherry();
+        }
+        
+        for(GameElement element: pacCell.getElements()){
+            if(element instanceof Ghost){
+                Ghost ghost = (Ghost)element;
+                if (ghost.getState() == Ghost.GhostState.VULNERABLE) {
+                    ghost.dead();
+                    pacmanEatsGhost();
+                } else if (ghost.getState() == Ghost.GhostState.NORMAL){
+                    pacmanDied();
+                }
+                break;
+            }
+        }
+        
+ 
+    }
 
-    @Override
+
     public void pacmanFoundCherry() {
         scorePanel.addScore(100);
         scorePanel.repaint();
@@ -174,12 +228,18 @@ public class GameController implements GameEventListener {
         gameWorld = null;
         gameState = GameState.PREGAME;
         view.repaint();
+        drawGame();
         gameTimer.stop();
         stopWatch.stop();
     }
     
     public GameState getGameState(){
         return gameState;
+    }
+
+    @Override
+    public void gameElementMovedToCell(Cell cell) {
+        //
     }
 
 }

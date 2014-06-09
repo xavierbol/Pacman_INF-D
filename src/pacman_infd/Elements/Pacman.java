@@ -85,36 +85,35 @@ public class Pacman extends MovingGameElement implements KeyListener {
     /**
      * Looks for GameElements that are in the same cell and interacts with them accordingly.
      */
-    @Override
-    protected void checkCollisions()
-    {
-        GameElement e = cell.getStaticElement();
-        if(e instanceof Pellet){
-            interactWithPellet((Pellet)e);
-        }
-        else if(e instanceof SuperPellet) {
-            interactWithSuperPellet((SuperPellet)e);
-        }
-        else if(e instanceof Cherry){
-            interactWithCherry((Cherry)e);
-        }
-
-    }
-
-    private void interactWithSuperPellet(SuperPellet sp) {
-        cell.setStaticElement(null);
-        gameEventListener.pacmanFoundSuperPellet();
-    }
-
-    private void interactWithPellet(Pellet p) {
-        cell.setStaticElement(null);
-        gameEventListener.pacmanFoundPellet();
-    }
-    
-    private void interactWithCherry(Cherry c){
-        cell.setStaticElement(null);
-        gameEventListener.pacmanFoundCherry();
-    }
+//    protected void checkCollisions()
+//    {
+//        GameElement e = cell.getStaticElement();
+//        if(e instanceof Pellet){
+//            interactWithPellet((Pellet)e);
+//        }
+//        else if(e instanceof SuperPellet) {
+//            interactWithSuperPellet((SuperPellet)e);
+//        }
+//        else if(e instanceof Cherry){
+//            interactWithCherry((Cherry)e);
+//        }
+//
+//    }
+//
+//    private void interactWithSuperPellet(SuperPellet sp) {
+//        cell.setStaticElement(null);
+//        gameEventListener.pacmanFoundSuperPellet();
+//    }
+//
+//    private void interactWithPellet(Pellet p) {
+//        cell.setStaticElement(null);
+//        gameEventListener.pacmanFoundPellet();
+//    }
+//    
+//    private void interactWithCherry(Cherry c){
+//        cell.setStaticElement(null);
+//        gameEventListener.pacmanFoundCherry();
+//    }
     
     public void resetPacman()
     {
@@ -122,6 +121,7 @@ public class Pacman extends MovingGameElement implements KeyListener {
         cell = startCell;
         cell.addElement(this);
     }
+    
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -161,7 +161,7 @@ public class Pacman extends MovingGameElement implements KeyListener {
     @Override
     public void moveTimerActionPerformed(ActionEvent e) {
         move();
-        checkCollisions();  
+        //checkCollisions();  
         gameEventListener.gameElementPerfomedAction(this);
     }
 

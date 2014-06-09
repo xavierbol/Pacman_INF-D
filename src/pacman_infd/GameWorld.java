@@ -28,6 +28,7 @@ public class GameWorld {
     private Cell[][] cellMap;
     private char[][] elementMap;
     private ArrayList<Ghost> ghosts;
+    private Pacman pacman;
     private int gameSpeed = 150;
     private int numberOfPelletsAtStart;
 
@@ -52,7 +53,7 @@ public class GameWorld {
 
             numberOfPelletsAtStart = countPellets();
 
-            Pacman pacman = new Pacman(cellMap[1][1], gameController, gameSpeed);
+            pacman = new Pacman(cellMap[1][1], gameController, gameSpeed);
             gameController.getView().addKeyListener(pacman);
 //
 //            Ghost ghost = new Ghost(cellMap[01][26], gameController, 100, new ChasePacmanStrategy());
@@ -186,6 +187,16 @@ public class GameWorld {
     public ArrayList<Ghost> getGhosts() {
         return ghosts;
     }
+    
+    public Pacman getPacman(){
+        return pacman;
+    }
+       
+    
+    public ArrayList<Cell> getCells(){
+        return cells;
+    }
+    
 
     /**
      * Draw the game world.
