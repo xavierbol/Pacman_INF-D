@@ -34,7 +34,7 @@ public class Ghost extends MovingGameElement {
     private final int VULTIMER_DELAY = 10000;
     private final int DEATH_TIMER_DELAY = 15000;
     
-    private enum GhostState{
+    public enum GhostState{
         NORMAL, DEAD, VULNERABLE
     }
 
@@ -128,6 +128,8 @@ public class Ghost extends MovingGameElement {
     protected void move() {
         Cell nextCell = strategy.giveNextCell(cell);
         if (nextCell != null) {
+            nextCell.addElement(this);
+            cell.removeElement(this);
             setCell(nextCell);
         }
 
@@ -137,22 +139,15 @@ public class Ghost extends MovingGameElement {
      * Looks for GameElements that are in the same cell and interacts with them
      * accordingly.
      */
-    protected void checkCollisions() {
-        for (GameElement e : cell.getElements()) {
-            if (e instanceof Pacman) {
-                interactWithPacman((Pacman) e);
-                break;
-            }
-        }
-        for(Cell c : (Collection<Cell>)cell.getNeighbors().values()){
-           for (GameElement e : cell.getElements()) {
-                if (e instanceof Pacman) {
-                    interactWithPacman((Pacman) e);
-                    break;
-                }
-            } 
-        }
-    }
+//    protected void checkCollisions() {
+//        for (GameElement e : cell.getElements()) {
+//            if (e instanceof Pacman) {
+//                interactWithPacman((Pacman) e);
+//                break;
+//            }
+//        }
+//
+//    }
 
     /**
      * Interact with Pacman. If Pacman is invincible then the ghost will die. If
@@ -160,14 +155,14 @@ public class Ghost extends MovingGameElement {
      *
      * @param pacman
      */
-    private void interactWithPacman(Pacman pacman) {
-        if (state == GhostState.VULNERABLE) {
-            dead();
-            gameEventListener.pacmanEatsGhost(this);
-        } else if (state == GhostState.NORMAL){
-            gameEventListener.pacmanDied(pacman);
-        }
-    }
+//    private void interactWithPacman(Pacman pacman) {
+//        if (state == GhostState.VULNERABLE) {
+//            dead();
+//            gameEventListener.pacmanEatsGhost(this);
+//        } else if (state == GhostState.NORMAL){
+//            gameEventListener.pacmanDied(pacman);
+//        }
+//    }
 
     /**
      * Change current strategy to FleeStrategy and lowers the speed of this
@@ -197,7 +192,7 @@ public class Ghost extends MovingGameElement {
         deathTimer.stop();
     }
 
-    private void dead() {
+    public void dead() {
         setSpeed(speed);
         strategy = new ReturnHomeSrategy(startCell);
         state = GhostState.DEAD;
@@ -210,6 +205,10 @@ public class Ghost extends MovingGameElement {
         cell.addElement(this);
         backToNormal();
     }
+    
+    public GhostState getState(){
+        return state;
+    }
 
     /**
      * This is called each 'tick' of the timer. This is used by the GameWorld to
@@ -219,7 +218,7 @@ public class Ghost extends MovingGameElement {
     @Override
     public void moveTimerActionPerformed(ActionEvent e) {
         move();
-        checkCollisions();
+        //checkCollisions();
         gameEventListener.gameElementPerfomedAction(this);
     }
 

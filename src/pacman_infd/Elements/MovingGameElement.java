@@ -45,7 +45,7 @@ public abstract class MovingGameElement extends GameElement{
     
     protected abstract void move();
     
-    protected abstract void checkCollisions();
+    //protected abstract void checkCollisions();
 
     public abstract void moveTimerActionPerformed(ActionEvent e); 
     
