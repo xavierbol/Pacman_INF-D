@@ -23,7 +23,7 @@ public class GameController implements GameEventListener {
     private View view;
     private ScorePanel scorePanel;
     private boolean cherrySpawned;
-    private String level1 = "D:\\Dropbox\\School\\INF-D\\+Project INF-D\\leve1.txt";
+    private String level1 = "/Users/ivanweller/Dropbox/Project INF-D/level2.txt";
     private GameState gameState;
     private SoundManager soundManager;
     private Timer gameTimer;
