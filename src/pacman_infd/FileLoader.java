@@ -7,8 +7,10 @@
 package pacman_infd;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.URI;
 
 /**
  *
@@ -16,9 +18,9 @@ import java.io.IOException;
  */
 public class FileLoader {
     
-    private String path;
+    private URI path;
     
-    public FileLoader(String path){
+    public FileLoader(URI path){
         this.path = path;
     }
     
@@ -29,7 +31,7 @@ public class FileLoader {
      */
     public String[] openFile() throws IOException {
         
-        FileReader fr = new FileReader(path);
+        FileReader fr = new FileReader(new File(path));
         BufferedReader textReader = new BufferedReader(fr);
         
         int lines = readLines();
@@ -75,7 +77,7 @@ public class FileLoader {
      * @throws IOException 
      */
     int readLines() throws IOException {
-        FileReader file_to_read = new FileReader(path);
+        FileReader file_to_read = new FileReader(new File(path));
         BufferedReader bf = new BufferedReader(file_to_read);
         
         String line;

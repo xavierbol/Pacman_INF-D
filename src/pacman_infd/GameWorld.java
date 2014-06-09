@@ -34,12 +34,12 @@ public class GameWorld {
     private int gameSpeed = 150;
     private int numberOfPelletsAtStart;
 
-    public GameWorld(GameController gameController, URI mapPath) {
+    public GameWorld(GameController gameController, char[][] levelMap) {
 
         this.gameController = gameController;
 
-        if (mapPath != null) {
-            elementMap = loadMap(mapPath);
+        if (levelMap != null) {
+            this.elementMap = levelMap;
         }
 
         ghosts = new ArrayList<>();
@@ -156,18 +156,18 @@ public class GameWorld {
      * @param path file path
      * @return elementMap
      */
-    private char[][] loadMap(URI path) {
-
-        try {
-            FileLoader file = new FileLoader(path);
-
-            return file.openMap();
-        } catch (IOException e) {
-            System.out.println(e);
-            return null;
-        }
-
-    }
+//    private char[][] loadMap(URI path) {
+//
+//        try {
+//            FileLoader file = new FileLoader(path);
+//
+//            return file.openMap();
+//        } catch (IOException e) {
+//            System.out.println(e);
+//            return null;
+//        }
+//
+//    }
 
     /**
      * Draw each cell in the game world.

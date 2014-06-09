@@ -26,26 +26,18 @@ public class GameController implements GameEventListener {
     private View view;
     private ScorePanel scorePanel;
     private boolean cherrySpawned;
-    private URI level1;
     private GameState gameState;
-    private SoundManager soundManager;
     private Timer gameTimer;
     private StopWatch stopWatch;
-    private Timer updateTimer;
+    private ResourceManager resourceManager;
 
     public GameController(View view, ScorePanel scorePanel) {
 
         this.view = view;
         this.scorePanel = scorePanel;
         cherrySpawned = false;
-        soundManager = new SoundManager();
         gameState = GameState.PREGAME;
-        try{
-            level1  =  ClassLoader.getSystemResource("Resources/Levels/level1.txt").toURI();
-        }
-        catch(Exception e){
-            System.out.println(e);
-        }
+        resourceManager = new ResourceManager();
         
         ActionListener gameTimerAction = new java.awt.event.ActionListener() {
 
@@ -55,16 +47,7 @@ public class GameController implements GameEventListener {
             }
         };
         
-//        ActionListener updateTimerAction = new java.awt.event.ActionListener() {
-//
-//            @Override
-//            public void actionPerformed(java.awt.event.ActionEvent evt) {
-//                updateTimerActionPerformed(evt);
-//            }
-//        };
-        
         gameTimer = new Timer(10, gameTimerAction);
-//        updateTimer = new Timer(10, updateTimerAction);
         stopWatch = new StopWatch();
 
     }
@@ -90,6 +73,9 @@ public class GameController implements GameEventListener {
                 gameWorld.placeCherryOnRandomEmptyCell();
                 cherrySpawned = true;
             }
+        }
+        if(gameWorld.countPellets() == 0){
+            nextLevel();
         }
         //soundManager.playWaka();
     }
@@ -142,15 +128,20 @@ public class GameController implements GameEventListener {
 
     public void newGame() {
 //        if (gameState == GameState.PREGAME) {
-            gameWorld = new GameWorld(this, level1);
+            gameWorld = null;
+            gameWorld = new GameWorld(this, resourceManager.getFirstLevel());
             scorePanel.resetStats();
             gameState = GameState.RUNNING;
             drawGame();
             gameTimer.start();
-
             stopWatch.reset();
             stopWatch.start();
 //        }
+    }
+    
+    public void nextLevel(){
+        gameWorld = null;
+        gameWorld = new GameWorld(this, resourceManager.getNextLevel());
     }
 
     public void pauzeGame() {
@@ -230,11 +221,17 @@ public class GameController implements GameEventListener {
 
     private void gameOver() {
         pauzeGame();
-        JOptionPane.showMessageDialog(null, "Game over!\nYour score: " + scorePanel.getScore(), "Game over!", JOptionPane.ERROR_MESSAGE);
-        gameWorld = null;
-        gameState = GameState.PREGAME;
         view.repaint();
         drawGame();
+        JOptionPane.showMessageDialog(
+                null, 
+                "Game over!\nYour score: " + scorePanel.getScore(), 
+                "Game over!", 
+                JOptionPane.ERROR_MESSAGE
+        ); 
+        gameWorld = null;
+        gameState = GameState.PREGAME;
+        
 //        gameTimer.stop();
 //        stopWatch.stop();
     }
