@@ -30,6 +30,7 @@ public class GameController implements GameEventListener {
     private Timer gameTimer;
     private StopWatch stopWatch;
     private ResourceManager resourceManager;
+    private SoundManager soundManager;
 
     public GameController(View view, ScorePanel scorePanel) {
 
@@ -38,7 +39,8 @@ public class GameController implements GameEventListener {
         cherrySpawned = false;
         gameState = GameState.PREGAME;
         resourceManager = new ResourceManager();
-        
+        soundManager = new SoundManager();
+
         ActionListener gameTimerAction = new java.awt.event.ActionListener() {
 
             @Override
@@ -46,7 +48,7 @@ public class GameController implements GameEventListener {
                 gameTimerActionPerformed(evt);
             }
         };
-        
+
         gameTimer = new Timer(10, gameTimerAction);
         stopWatch = new StopWatch();
 
@@ -58,7 +60,6 @@ public class GameController implements GameEventListener {
         view.requestFocus();
     }
 
-    
     @Override
     public void pacmanActionPerformed(Pacman p) {
         //checkCollisions(p.getCell());
@@ -69,13 +70,21 @@ public class GameController implements GameEventListener {
     public void pacmanFoundPellet() {
         scorePanel.addScore(5);
         scorePanel.repaint();
+        soundManager.playSFXPellet();
         if (!cherrySpawned) {
             if (gameWorld.countPellets() <= gameWorld.getNumberOfPelletsAtStart() / 2) {
                 gameWorld.placeCherryOnRandomEmptyCell();
                 cherrySpawned = true;
             }
         }
-        if(gameWorld.countPellets() == 0){
+        if (gameWorld.countPellets() == 0) {
+            drawGame();
+            try {
+                soundManager.playSFXIntermission();
+                Thread.sleep(5000);
+            } catch (InterruptedException ex) {
+                Thread.currentThread().interrupt();
+            }
             nextLevel();
         }
         //soundManager.playWaka();
@@ -84,19 +93,29 @@ public class GameController implements GameEventListener {
     public void pacmanDied() {
         scorePanel.looseLife();
         scorePanel.repaint();
+        soundManager.playSFXDeath();
         if (scorePanel.getLives() <= 0) {
             gameOver();
         } else {
+
+            try {
+
+                Thread.sleep(1000);
+            } catch (InterruptedException ex) {
+                Thread.currentThread().interrupt();
+            }
             gameWorld.getPacman().resetPacman();
             for (Ghost ghost : gameWorld.getGhosts()) {
                 ghost.resetGhost();
             }
+
         }
     }
 
     public void pacmanFoundSuperPellet() {
         scorePanel.addScore(50);
         scorePanel.repaint();
+        soundManager.playSFXPellet();
         for (Ghost ghost : gameWorld.getGhosts()) {
             ghost.runFromPacman();
         }
@@ -105,8 +124,8 @@ public class GameController implements GameEventListener {
     public void pacmanEatsGhost() {
         scorePanel.addScore(500);
         scorePanel.repaint();
+        soundManager.playSFXPacmanEatsGhost();
     }
-
 
     private void drawGame() {
 
@@ -125,31 +144,31 @@ public class GameController implements GameEventListener {
 
     public void newGame() {
 //        if (gameState == GameState.PREGAME) {
-            gameWorld = null;
-            gameWorld = new GameWorld(this, resourceManager.getFirstLevel());
-            scorePanel.resetStats();
-            gameState = GameState.RUNNING;
-            drawGame();
-            gameTimer.start();
-            stopWatch.reset();
-            stopWatch.start();
+        gameWorld = null;
+        gameWorld = new GameWorld(this, resourceManager.getFirstLevel());
+        scorePanel.resetStats();
+        gameState = GameState.RUNNING;
+        drawGame();
+        gameTimer.start();
+        stopWatch.reset();
+        stopWatch.start();
 //        }
     }
-    
-    public void nextLevel(){
-        pauzeGame();
+
+    public void nextLevel() {
+        pauseGame();
         JOptionPane.showMessageDialog(
-                null, 
-                "Well done!\nGet ready for the next level!", 
-                "Level Complete", 
+                null,
+                "Well done!\nGet ready for the next level!",
+                "Level Complete",
                 JOptionPane.ERROR_MESSAGE
-        ); 
-        
+        );
+
         gameWorld = null;
         gameWorld = new GameWorld(this, resourceManager.getNextLevel());
     }
 
-    public void pauzeGame() {
+    public void pauseGame() {
         if (gameState == GameState.RUNNING) {
             for (Ghost ghost : gameWorld.getGhosts()) {
                 ghost.stopTimer();
@@ -158,8 +177,7 @@ public class GameController implements GameEventListener {
             gameTimer.stop();
             stopWatch.stop();
             gameState = GameState.PAUSED;
-        }
-        else if (gameState == GameState.PAUSED){
+        } else if (gameState == GameState.PAUSED) {
             for (Ghost ghost : gameWorld.getGhosts()) {
                 ghost.startTimer();
             }
@@ -175,74 +193,75 @@ public class GameController implements GameEventListener {
         drawGame();
         scorePanel.setTime(stopWatch.getElepsedTimeMinutesSeconds());
         scorePanel.repaint();
-        
+
     }
-    
+
 //    public void updateTimerActionPerformed(ActionEvent e){
 //        
 //        drawGame();
 //        
 //    }
-    
-    private void checkCollisions(Cell cell){
-        
+    private void checkCollisions(Cell cell) {
+
         //Cell cell = gameWorld.getPacman().getCell();
         GameElement gameElement = cell.getStaticElement();
-        
-        if(gameElement instanceof Pellet){
+
+        if (gameElement instanceof Pellet) {
             cell.setStaticElement(null);
             pacmanFoundPellet();
-        }
-        else if(gameElement instanceof SuperPellet) {
+
+        } else if (gameElement instanceof SuperPellet) {
             cell.setStaticElement(null);
             pacmanFoundSuperPellet();
-        }
-        else if(gameElement instanceof Cherry){
+            // soundManager.playSFXSuperWaka();
+        } else if (gameElement instanceof Cherry) {
             cell.setStaticElement(null);
             pacmanFoundCherry();
+
         }
-        
-        for(GameElement element: cell.getElements()){
-            if(element instanceof Ghost){
-                Ghost ghost = (Ghost)element;
+
+        for (GameElement element : cell.getElements()) {
+            if (element instanceof Ghost) {
+                Ghost ghost = (Ghost) element;
                 if (ghost.getState() == Ghost.GhostState.VULNERABLE) {
                     ghost.dead();
                     pacmanEatsGhost();
-                } else if (ghost.getState() == Ghost.GhostState.NORMAL){
+
+                } else if (ghost.getState() == Ghost.GhostState.NORMAL) {
                     pacmanDied();
+
                 }
                 break;
             }
         }
-        
- 
+
     }
 
     public void pacmanFoundCherry() {
         scorePanel.addScore(100);
         scorePanel.repaint();
+        soundManager.playSFXCherry();
     }
 
     private void gameOver() {
-        pauzeGame();
+        pauseGame();
         view.repaint();
         drawGame();
         JOptionPane.showMessageDialog(
-                null, 
-                "Game over!\nYour score: " + scorePanel.getScore(), 
-                "Game over!", 
+                null,
+                "Game over!\nYour score: " + scorePanel.getScore(),
+                "Game over!",
                 JOptionPane.ERROR_MESSAGE
-        ); 
+        );
         gameWorld = null;
         gameState = GameState.PREGAME;
-        
+
 //        gameTimer.stop();
 //        stopWatch.stop();
     }
-    
-    public GameState getGameState(){
+
+    public GameState getGameState() {
         return gameState;
     }
-
 
 }

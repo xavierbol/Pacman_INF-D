@@ -115,7 +115,7 @@ public class View extends JFrame {
     }
     
     private void pauzeButtontActionPerformed(ActionEvent evt) {
-        gameController.pauzeGame();
+        gameController.pauseGame();
         if(gameController.getGameState() == GameState.PAUSED){
             pauzeButton.setText("Resume");
         }
