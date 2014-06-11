@@ -24,9 +24,12 @@ public class ResourceManager {
     }
     
     private void loadLevels(){
-         loadLevel("Resources/Levels/level3.txt");
-        loadLevel("Resources/Levels/level2.txt");
+        
         loadLevel("Resources/Levels/level1.txt");
+        loadLevel("Resources/Levels/level2.txt");
+        loadLevel("Resources/Levels/level3.txt");
+        
+       
         
        
     }
