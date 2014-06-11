@@ -16,7 +16,7 @@ import java.util.Queue;
  */
 public class ResourceManager {
     Queue<char[][]> levels;
-    FileLoader fileLoader;
+
     
     public ResourceManager(){
         levels = new LinkedList();
@@ -24,9 +24,11 @@ public class ResourceManager {
     }
     
     private void loadLevels(){
-        loadLevel("Resources/Levels/level1.txt");
+         loadLevel("Resources/Levels/level3.txt");
         loadLevel("Resources/Levels/level2.txt");
-        loadLevel("Resources/Levels/level3.txt");
+        loadLevel("Resources/Levels/level1.txt");
+        
+       
     }
     
     private void loadLevel(String path){

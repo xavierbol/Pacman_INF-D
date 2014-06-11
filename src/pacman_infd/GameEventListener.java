@@ -17,11 +17,11 @@ import pacman_infd.Elements.Pacman;
 public interface GameEventListener extends EventListener{
     
     public void gameElementPerfomedAction(GameElement e);
-    public void pacmanMoved();
+    public void pacmanActionPerformed(Pacman p);
 //    public void pacmanFoundPellet();
 //    public void pacmanFoundSuperPellet();
 //    public void pacmanFoundCherry();
-    public void pacmanChangedState(boolean state);
-    public void gameElementMovedToCell(Cell cell);
+//    public void pacmanChangedState(boolean state);
+//    public void gameElementMovedToCell(Cell cell);
 
 }

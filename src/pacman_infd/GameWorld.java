@@ -7,9 +7,6 @@ package pacman_infd;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
 import pacman_infd.Elements.*;
@@ -150,24 +147,6 @@ public class GameWorld {
         }
     }
 
-    /**
-     * Loads an elementMap from a file on the given path location.
-     *
-     * @param path file path
-     * @return elementMap
-     */
-//    private char[][] loadMap(URI path) {
-//
-//        try {
-//            FileLoader file = new FileLoader(path);
-//
-//            return file.openMap();
-//        } catch (IOException e) {
-//            System.out.println(e);
-//            return null;
-//        }
-//
-//    }
 
     /**
      * Draw each cell in the game world.

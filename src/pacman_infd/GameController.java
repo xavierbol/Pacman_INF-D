@@ -8,11 +8,11 @@ package pacman_infd;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.net.URI;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
 import pacman_infd.Elements.Cherry;
 import pacman_infd.Elements.Ghost;
+import pacman_infd.Elements.Pacman;
 import pacman_infd.Elements.Pellet;
 import pacman_infd.Elements.SuperPellet;
 
@@ -25,7 +25,7 @@ public class GameController implements GameEventListener {
     private GameWorld gameWorld;
     private View view;
     private ScorePanel scorePanel;
-    private boolean cherrySpawned;
+    private boolean cherrySpawned; //TODO: dit moet hier weg
     private GameState gameState;
     private Timer gameTimer;
     private StopWatch stopWatch;
@@ -58,9 +58,10 @@ public class GameController implements GameEventListener {
         view.requestFocus();
     }
 
+    
     @Override
-    public void pacmanMoved() {
-
+    public void pacmanActionPerformed(Pacman p) {
+        //checkCollisions(p.getCell());
         //drawGame();
         view.requestFocus();
     }
@@ -106,10 +107,6 @@ public class GameController implements GameEventListener {
         scorePanel.repaint();
     }
 
-    @Override
-    public void pacmanChangedState(boolean state) {
-        
-    }
 
     private void drawGame() {
 
@@ -140,6 +137,14 @@ public class GameController implements GameEventListener {
     }
     
     public void nextLevel(){
+        pauzeGame();
+        JOptionPane.showMessageDialog(
+                null, 
+                "Well done!\nGet ready for the next level!", 
+                "Level Complete", 
+                JOptionPane.ERROR_MESSAGE
+        ); 
+        
         gameWorld = null;
         gameWorld = new GameWorld(this, resourceManager.getNextLevel());
     }
@@ -166,7 +171,7 @@ public class GameController implements GameEventListener {
     }
 
     public void gameTimerActionPerformed(ActionEvent e) {
-        checkCollisions();
+        checkCollisions(gameWorld.getPacman().getCell());
         drawGame();
         scorePanel.setTime(stopWatch.getElepsedTimeMinutesSeconds());
         scorePanel.repaint();
@@ -179,25 +184,25 @@ public class GameController implements GameEventListener {
 //        
 //    }
     
-    private void checkCollisions(){
+    private void checkCollisions(Cell cell){
         
-        Cell pacCell = gameWorld.getPacman().getCell();
-        GameElement gameElement = pacCell.getStaticElement();
+        //Cell cell = gameWorld.getPacman().getCell();
+        GameElement gameElement = cell.getStaticElement();
         
         if(gameElement instanceof Pellet){
-            pacCell.setStaticElement(null);
+            cell.setStaticElement(null);
             pacmanFoundPellet();
         }
         else if(gameElement instanceof SuperPellet) {
-            pacCell.setStaticElement(null);
+            cell.setStaticElement(null);
             pacmanFoundSuperPellet();
         }
         else if(gameElement instanceof Cherry){
-            pacCell.setStaticElement(null);
+            cell.setStaticElement(null);
             pacmanFoundCherry();
         }
         
-        for(GameElement element: pacCell.getElements()){
+        for(GameElement element: cell.getElements()){
             if(element instanceof Ghost){
                 Ghost ghost = (Ghost)element;
                 if (ghost.getState() == Ghost.GhostState.VULNERABLE) {
@@ -212,7 +217,6 @@ public class GameController implements GameEventListener {
         
  
     }
-
 
     public void pacmanFoundCherry() {
         scorePanel.addScore(100);
@@ -240,9 +244,5 @@ public class GameController implements GameEventListener {
         return gameState;
     }
 
-    @Override
-    public void gameElementMovedToCell(Cell cell) {
-        //
-    }
 
 }

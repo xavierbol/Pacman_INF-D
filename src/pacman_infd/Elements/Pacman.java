@@ -12,7 +12,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import pacman_infd.Cell;
 import pacman_infd.Direction;
-import pacman_infd.GameElement;
 import pacman_infd.GameEventListener;
 
 /**
@@ -21,12 +20,11 @@ import pacman_infd.GameEventListener;
  */
 public class Pacman extends MovingGameElement implements KeyListener {
 
-    private boolean keyPressed;
     private Direction currentDirection;
 
     public Pacman(Cell cell, GameEventListener gameEventListener, int speed) {
         super(cell, gameEventListener, speed);
-        keyPressed = false;
+
     }
 
     /**
@@ -82,9 +80,9 @@ public class Pacman extends MovingGameElement implements KeyListener {
 
     }
     
-    /**
-     * Looks for GameElements that are in the same cell and interacts with them accordingly.
-     */
+//    /**
+//     * Looks for GameElements that are in the same cell and interacts with them accordingly.
+//     */
 //    protected void checkCollisions()
 //    {
 //        GameElement e = cell.getStaticElement();
@@ -125,7 +123,7 @@ public class Pacman extends MovingGameElement implements KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
-        //not implemented.
+        //Do nothing
     }
 
     @Override
@@ -149,20 +147,20 @@ public class Pacman extends MovingGameElement implements KeyListener {
         if(!cell.getNeighbor(newDirection).hasWall()){
             currentDirection = newDirection;
         }
-        gameEventListener.pacmanMoved();
+        //gameEventListener.pacmanMoved();
 
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        keyPressed = false;
+        //Do nothing
     }
 
     @Override
     public void moveTimerActionPerformed(ActionEvent e) {
         move();
         //checkCollisions();  
-        gameEventListener.gameElementPerfomedAction(this);
+        gameEventListener.pacmanActionPerformed(this);
     }
 
 }

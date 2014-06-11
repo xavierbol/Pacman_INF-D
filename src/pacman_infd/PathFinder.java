@@ -49,7 +49,7 @@ public class PathFinder {
         }           
     }
     
-        public Cell nextCellInPath(Cell rootCell, Cell targetCell)
+    public Cell nextCellInPath(Cell rootCell, Cell targetCell)
     {
         List<Cell> path = findPathToCell(rootCell, targetCell);
         if(path != null && !path.isEmpty()){

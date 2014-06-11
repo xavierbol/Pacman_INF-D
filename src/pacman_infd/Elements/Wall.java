@@ -8,7 +8,6 @@ package pacman_infd.Elements;
 import java.awt.Color;
 import java.awt.Graphics;
 import pacman_infd.Cell;
-import pacman_infd.Direction;
 import pacman_infd.GameElement;
 
 /**
@@ -67,69 +66,6 @@ public class Wall extends GameElement {
             drawLeftUpCorner(g);
         }
 
-//        if (((cell.getNeighbor(Direction.RIGHT) != null && cell.getNeighbor(Direction.RIGHT).hasWall())
-//                && (cell.getNeighbor(Direction.DOWN) != null && cell.getNeighbor(Direction.DOWN).hasWall())
-//                && (cell.getNeighbor(Direction.LEFT) == null
-//                || ((cell.getNeighbor(Direction.LEFT) != null && !cell.getNeighbor(Direction.LEFT).hasWall())))
-//                && ((cell.getNeighbor(Direction.UP) == null)
-//                || (cell.getNeighbor(Direction.UP) != null && !cell.getNeighbor(Direction.UP).hasWall())))) {
-//            drawLeftUpCorner(g);
-//        } else if (((cell.getNeighbor(Direction.RIGHT) != null && cell.getNeighbor(Direction.RIGHT).hasWall())
-//                && (cell.getNeighbor(Direction.UP) != null && cell.getNeighbor(Direction.UP).hasWall())
-//                && (cell.getNeighbor(Direction.LEFT) == null
-//                || ((cell.getNeighbor(Direction.LEFT) != null && !cell.getNeighbor(Direction.LEFT).hasWall())))
-//                && ((cell.getNeighbor(Direction.DOWN) == null)
-//                || (cell.getNeighbor(Direction.DOWN) != null && !cell.getNeighbor(Direction.DOWN).hasWall())))) {
-//            drawLeftDownCorner(g);
-//        } else if (((cell.getNeighbor(Direction.LEFT) != null && cell.getNeighbor(Direction.LEFT).hasWall())
-//                && (cell.getNeighbor(Direction.DOWN) != null && cell.getNeighbor(Direction.DOWN).hasWall())
-//                && (cell.getNeighbor(Direction.RIGHT) == null
-//                || ((cell.getNeighbor(Direction.RIGHT) != null && !cell.getNeighbor(Direction.RIGHT).hasWall())))
-//                && ((cell.getNeighbor(Direction.UP) == null)
-//                || (cell.getNeighbor(Direction.UP) != null && !cell.getNeighbor(Direction.UP).hasWall())))) {
-//            drawRightUpCorner(g);
-//        } else if (((cell.getNeighbor(Direction.LEFT) != null && cell.getNeighbor(Direction.LEFT).hasWall())
-//                && (cell.getNeighbor(Direction.UP) != null && cell.getNeighbor(Direction.UP).hasWall())
-//                && (cell.getNeighbor(Direction.RIGHT) == null
-//                || ((cell.getNeighbor(Direction.RIGHT) != null && !cell.getNeighbor(Direction.RIGHT).hasWall())))
-//                && ((cell.getNeighbor(Direction.DOWN) == null)
-//                || (cell.getNeighbor(Direction.DOWN) != null && !cell.getNeighbor(Direction.DOWN).hasWall())))) {
-//            drawRightDownCorner(g);
-//        } else if ((cell.getNeighbor(Direction.LEFT) != null && cell.getNeighbor(Direction.LEFT).hasWall())
-//                && (cell.getNeighbor(Direction.RIGHT) != null && cell.getNeighbor(Direction.RIGHT).hasWall())) {
-//            drawHorizontalLine(g);
-//        } else if ((cell.getNeighbor(Direction.UP) != null && cell.getNeighbor(Direction.UP).hasWall())
-//                && (cell.getNeighbor(Direction.DOWN) != null && cell.getNeighbor(Direction.DOWN).hasWall())) {
-//            drawVerticalLine(g);
-//        }
-//        if ((cell.getNeighbor(Direction.LEFT) != null && cell.getNeighbor(Direction.LEFT).hasWall())
-//                && (cell.getNeighbor(Direction.RIGHT) != null && cell.getNeighbor(Direction.RIGHT).hasWall())
-//                && (cell.getNeighbor(Direction.UP) != null && cell.getNeighbor(Direction.UP).hasWall())
-//                && (cell.getNeighbor(Direction.DOWN) != null && cell.getNeighbor(Direction.DOWN).hasWall())) {
-//            g.setColor(Color.BLACK);
-//            g.fillRect(
-//                    (int) getPosition().getX(),
-//                    (int) getPosition().getY(),
-//                    cell.getSize(),
-//                    cell.getSize()
-//            );
-//        }
-//        if((cell.getNeighbor(Direction.RIGHT) != null && cell.getNeighbor(Direction.RIGHT).hasWall()) && 
-//                (cell.getNeighbor(Direction.LEFT) != null && cell.getNeighbor(Direction.LEFT).hasWall())){
-//            drawHorizontalLine(g);
-//        }
-//        if((cell.getNeighbor(Direction.UP) != null && cell.getNeighbor(Direction.UP).hasWall()) && 
-//                (cell.getNeighbor(Direction.UP) != null && cell.getNeighbor(Direction.UP).hasWall())){
-//            drawVerticalLine(g);
-//        }
-//        
-//        else{
-//            drawVerticalLine(g);
-//        }
-//        drawHorizontalLine(g);
-//        drawVerticalLine(g);
-//        drawLeftDownCorner(g);
-//        drawRightDownCorner(g);
     }
 
     private void drawLeftUpCorner(Graphics g) {
