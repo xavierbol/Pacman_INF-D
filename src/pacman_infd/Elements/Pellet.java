@@ -8,16 +8,21 @@ package pacman_infd.Elements;
 import java.awt.Color;
 import java.awt.Graphics;
 import pacman_infd.Cell;
+import pacman_infd.Eatable;
+import pacman_infd.ElementEventListener;
 import pacman_infd.GameElement;
+import pacman_infd.SoundManager;
 
 /**
  *
  * @author ivanweller
  */
-public class Pellet extends GameElement {
+public class Pellet extends GameElement implements Eatable {
 
-    public Pellet(Cell cell) {
-        super(cell, null);
+    private static final int VALUE = 5;
+    
+    public Pellet(Cell cell, ElementEventListener evtl) {
+        super(cell, evtl);
     }
 
     public void draw(Graphics g) {
@@ -27,6 +32,22 @@ public class Pellet extends GameElement {
                 (int)getPosition().getY() + getCell().getSize()/ 2 - 3, 
                 6, 6
         );
+    }
+
+    @Override
+    public void eatMe() {
+        elementEventListener.eatableElementEaten(this);
+        
+        if(cell.getStaticElement() == this){
+            cell.setStaticElement(null);
+        }  
+        
+       // SoundManager.playSFXPellet();
+    }
+
+    @Override
+    public int getValue() {
+        return VALUE;
     }
 
 }

@@ -45,6 +45,8 @@ public class View extends JFrame {
         
         gameController = new GameController(this, scorePanel);
         image = new BufferedImage(FRAME_WIDTH,850,BufferedImage.TYPE_INT_ARGB);
+        
+        //setResizable(false);
     }
 
     public void initComponents() {
@@ -115,7 +117,7 @@ public class View extends JFrame {
     }
     
     private void pauzeButtontActionPerformed(ActionEvent evt) {
-        gameController.pauzeGame();
+        gameController.pauseGame();
         if(gameController.getGameState() == GameState.PAUSED){
             pauzeButton.setText("Resume");
         }

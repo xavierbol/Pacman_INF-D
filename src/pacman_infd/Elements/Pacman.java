@@ -12,7 +12,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import pacman_infd.Cell;
 import pacman_infd.Direction;
-import pacman_infd.GameEventListener;
+import pacman_infd.ElementEventListener;
 
 /**
  *
@@ -22,23 +22,31 @@ public class Pacman extends MovingGameElement implements KeyListener {
 
     private Direction currentDirection;
 
-    public Pacman(Cell cell, GameEventListener gameEventListener, int speed) {
+    public Pacman(Cell cell, ElementEventListener gameEventListener, int speed) {
         super(cell, gameEventListener, speed);
 
     }
 
     /**
-     * Move to the next cell accoring to currentDirection. Will not move if the
+     * Move to the next cell according to currentDirection. Will not move if the
      * next cell has a wall.
      * Check for collisions after move is complete.
      */
-    public void move() {
+    @Override
+    protected void move() {
         Cell moveTo = cell.getNeighbor(currentDirection);
         if (moveTo != null && !moveTo.hasWall()) {
             moveTo.addElement(this);
             cell.removeElement(this);
             setCell(moveTo);
         }
+    }
+    
+    @Override
+    public void moveTimerActionPerformed(ActionEvent e) {
+        move();
+        //checkCollisions();  
+        elementEventListener.pacmanActionPerformed(this);
     }
 
     /**
@@ -48,6 +56,7 @@ public class Pacman extends MovingGameElement implements KeyListener {
     @Override
     public void draw(Graphics g) {
 
+        //body
         g.setColor(Color.YELLOW);
         g.fillOval(
                 (int)getPosition().getX() - 5, 
@@ -55,13 +64,15 @@ public class Pacman extends MovingGameElement implements KeyListener {
                 cell.getSize() + 10, 
                 cell.getSize() + 10
         );
+        //eye
         g.setColor(Color.WHITE);
         g.fillOval(
                 (int)getPosition().getX() + 13, 
                 (int)getPosition().getY() - 1, 
                 10, 
                 10
-        );        
+        );
+        //pupil
         g.setColor(Color.BLACK);
         g.fillOval(
                 (int)getPosition().getX() + 16, 
@@ -69,6 +80,7 @@ public class Pacman extends MovingGameElement implements KeyListener {
                 5, 
                 5
         ); 
+        //mouth
         g.fillArc(
                 (int)getPosition().getX() - 5, 
                 (int)getPosition().getY() - 5, 
@@ -79,53 +91,7 @@ public class Pacman extends MovingGameElement implements KeyListener {
         );
 
     }
-    
-//    /**
-//     * Looks for GameElements that are in the same cell and interacts with them accordingly.
-//     */
-//    protected void checkCollisions()
-//    {
-//        GameElement e = cell.getStaticElement();
-//        if(e instanceof Pellet){
-//            interactWithPellet((Pellet)e);
-//        }
-//        else if(e instanceof SuperPellet) {
-//            interactWithSuperPellet((SuperPellet)e);
-//        }
-//        else if(e instanceof Cherry){
-//            interactWithCherry((Cherry)e);
-//        }
-//
-//    }
-//
-//    private void interactWithSuperPellet(SuperPellet sp) {
-//        cell.setStaticElement(null);
-//        gameEventListener.pacmanFoundSuperPellet();
-//    }
-//
-//    private void interactWithPellet(Pellet p) {
-//        cell.setStaticElement(null);
-//        gameEventListener.pacmanFoundPellet();
-//    }
-//    
-//    private void interactWithCherry(Cherry c){
-//        cell.setStaticElement(null);
-//        gameEventListener.pacmanFoundCherry();
-//    }
-    
-    public void resetPacman()
-    {
-        cell.removeElement(this);
-        cell = startCell;
-        cell.addElement(this);
-    }
-    
-
-    @Override
-    public void keyTyped(KeyEvent e) {
-        //Do nothing
-    }
-
+   
     @Override
     public void keyPressed(KeyEvent e) {
         Direction newDirection = currentDirection;
@@ -147,20 +113,17 @@ public class Pacman extends MovingGameElement implements KeyListener {
         if(!cell.getNeighbor(newDirection).hasWall()){
             currentDirection = newDirection;
         }
-        //gameEventListener.pacmanMoved();
-
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
         //Do nothing
     }
-
+    
+    
     @Override
-    public void moveTimerActionPerformed(ActionEvent e) {
-        move();
-        //checkCollisions();  
-        gameEventListener.pacmanActionPerformed(this);
+    public void keyTyped(KeyEvent e) {
+        //Do nothing
     }
 
 }

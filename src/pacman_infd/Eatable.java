@@ -10,10 +10,8 @@ package pacman_infd;
  *
  * @author Marinus
  */
-public interface GameEventListener {
+public interface Eatable {
     
-    public void decreaseLife();
-    public void increasePoints(int amount);
-    public void refocus();
-    
+    public void eatMe();
+    public int getValue();
 }

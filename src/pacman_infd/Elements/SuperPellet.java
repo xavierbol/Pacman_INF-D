@@ -9,17 +9,22 @@ package pacman_infd.Elements;
 import java.awt.Color;
 import java.awt.Graphics;
 import pacman_infd.Cell;
+import pacman_infd.Eatable;
+import pacman_infd.ElementEventListener;
 import pacman_infd.GameElement;
 
 /**
  *
  * @author Marinus
  */
-public class SuperPellet extends GameElement {
+public class SuperPellet extends GameElement implements Eatable {
 
-        public SuperPellet(Cell cell) {
-        super(cell, null);
+    private static final int VALUE = 100;
+    
+    public SuperPellet(Cell cell, ElementEventListener evtl) {
+        super(cell, evtl);
     }
+      
 
     public void draw(Graphics g) {
         g.setColor(Color.WHITE);
@@ -28,6 +33,20 @@ public class SuperPellet extends GameElement {
                 (int)getPosition().getY() + getCell().getSize()/ 2 - 10, 
                 20, 20
         );
+    }
+
+    @Override
+    public void eatMe() {
+        elementEventListener.eatableElementEaten(this);
+        if(cell.getStaticElement() == this){
+            cell.setStaticElement(null);
+        }  
+        elementEventListener.makeGhostsVulnerable();
+    }
+
+    @Override
+    public int getValue() {
+        return VALUE;
     }
     
 }

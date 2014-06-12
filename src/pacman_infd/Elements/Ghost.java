@@ -9,12 +9,12 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Collection;
 import javax.swing.Timer;
+import org.ietf.jgss.GSSException;
 import pacman_infd.Cell;
-import pacman_infd.GameElement;
+import pacman_infd.Eatable;
 import pacman_infd.Strategy;
-import pacman_infd.GameEventListener;
+import pacman_infd.ElementEventListener;
 import pacman_infd.Strategies.FleeStrategy;
 import pacman_infd.Strategies.ReturnHomeSrategy;
 
@@ -22,7 +22,7 @@ import pacman_infd.Strategies.ReturnHomeSrategy;
  *
  * @author Marinus
  */
-public class Ghost extends MovingGameElement {
+public class Ghost extends MovingGameElement implements Eatable{
 
     private Strategy strategy;
     private Strategy initialStrategy;
@@ -34,11 +34,15 @@ public class Ghost extends MovingGameElement {
     private final int VULTIMER_DELAY = 10000;
     private final int DEATH_TIMER_DELAY = 15000;
     
+    private static final int VALUE = 400;
+
+
+    
     public enum GhostState{
         NORMAL, DEAD, VULNERABLE
     }
 
-    public Ghost(Cell cell, GameEventListener gameEventListener, int speed, Strategy strategy, Color color) {
+    public Ghost(Cell cell, ElementEventListener gameEventListener, int speed, Strategy strategy, Color color) {
         super(cell, gameEventListener, speed);
         this.strategy = strategy;
         this.color = color;
@@ -168,7 +172,7 @@ public class Ghost extends MovingGameElement {
      * Change current strategy to FleeStrategy and lowers the speed of this
      * Ghost by 50% This is called when Pacman eats a superPellet.
      */
-    public void runFromPacman() {
+    public void flee() {
 
         if (state == GhostState.VULNERABLE) {
             vulnerabilityTimer.restart();
@@ -199,10 +203,9 @@ public class Ghost extends MovingGameElement {
         deathTimer.start();
     }
     
-    public void resetGhost(){
-        cell.getElements().remove(this);
-        cell = startCell;
-        cell.addElement(this);
+    @Override
+    public void reset(){
+        super.reset();
         backToNormal();
     }
     
@@ -219,7 +222,7 @@ public class Ghost extends MovingGameElement {
     public void moveTimerActionPerformed(ActionEvent e) {
         move();
         //checkCollisions();
-        gameEventListener.gameElementPerfomedAction(this);
+        elementEventListener.ghostActionPerformed(this);
     }
 
     private void vulnerabilityTimerActionPerformed(ActionEvent evt) {
@@ -235,6 +238,21 @@ public class Ghost extends MovingGameElement {
     private void deathTimerActionPerformed(ActionEvent evt) {
         backToNormal();
         deathTimer.stop();
+    }
+    
+    @Override
+    public void eatMe() {
+        if(state == GhostState.VULNERABLE){
+            dead();
+        }
+        else if(state == GhostState.NORMAL){
+            elementEventListener.killPacman();
+        }
+    }
+
+    @Override
+    public int getValue() {
+        return VALUE;
     }
 
 }

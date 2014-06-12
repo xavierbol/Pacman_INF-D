@@ -11,7 +11,7 @@ import java.awt.Graphics;
 import pacman_infd.Cell;
 import pacman_infd.Direction;
 import pacman_infd.GameElement;
-import pacman_infd.GameEventListener;
+import pacman_infd.ElementEventListener;
 
 /**
  *

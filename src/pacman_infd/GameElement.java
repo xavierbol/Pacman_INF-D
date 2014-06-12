@@ -17,16 +17,16 @@ import java.awt.Point;
 public abstract class GameElement {
     
     protected Cell cell;
-    protected GameEventListener gameEventListener;
+    protected ElementEventListener elementEventListener;
     
     public GameElement(){
         
     }
     
-    public GameElement(Cell cell, GameEventListener gameEventListener)
+    public GameElement(Cell cell, ElementEventListener elementEventListener)
     {
         this.cell = cell;
-        this.gameEventListener = gameEventListener;
+        this.elementEventListener = elementEventListener;
         cell.setStaticElement(this);
     }
     

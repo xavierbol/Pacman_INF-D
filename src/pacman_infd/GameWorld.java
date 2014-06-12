@@ -26,21 +26,21 @@ public class GameWorld {
     private ArrayList<Cell> cells;
     private Cell[][] cellMap;
     private char[][] elementMap;
-    private ArrayList<Ghost> ghosts;
-    private Pacman pacman;
     private int gameSpeed = 150;
     private int numberOfPelletsAtStart;
+    private EventHandler eventHandler;
 
     public GameWorld(GameController gameController, char[][] levelMap) {
 
         this.gameController = gameController;
 
+        eventHandler = new EventHandler(gameController, this, gameController.getSoundManager());
+
         if (levelMap != null) {
             this.elementMap = levelMap;
         }
 
-        ghosts = new ArrayList<>();
-
+        //ghosts = new ArrayList<>();
         if (elementMap != null) {
 
             width = elementMap[0].length;
@@ -52,8 +52,8 @@ public class GameWorld {
 
             numberOfPelletsAtStart = countPellets();
 
-            pacman = new Pacman(cellMap[1][1], gameController, gameSpeed);
-            gameController.getView().addKeyListener(pacman);
+         //   pacman = new Pacman(cellMap[1][1], gameController, gameSpeed);
+            //   gameController.getView().addKeyListener(pacman);
 //
 //            Ghost ghost = new Ghost(cellMap[01][26], gameController, 100, new ChasePacmanStrategy());
 //            ghosts.add(ghost);
@@ -121,32 +121,34 @@ public class GameWorld {
         for (int x = 0; x < height; x++) {
             for (int y = 0; y < width; y++) {
                 if (elementMap[x][y] == '0') {
-                    Pellet p = new Pellet(cellMap[x][y]);
+                    Pellet p = new Pellet(cellMap[x][y], eventHandler);
                 } else if (elementMap[x][y] == '2') {
-                    SuperPellet s = new SuperPellet(cellMap[x][y]);
+                    SuperPellet s = new SuperPellet(cellMap[x][y], eventHandler);
                 } else if (elementMap[x][y] == 'w') {
                     OneWayWall ow = new OneWayWall(cellMap[x][y], Direction.UP);
                 } else if (elementMap[x][y] == 'a') {
-                    Ghost blinky = new Ghost(cellMap[x][y], gameController, gameSpeed, new ChasePacmanStrategy(), Color.RED);
-                    ghosts.add(blinky);
+                    Ghost blinky = new Ghost(cellMap[x][y], eventHandler, gameSpeed, new ChasePacmanStrategy(), Color.RED);
+                    //ghosts.add(blinky);
                 } else if (elementMap[x][y] == 'b') {
-                    Ghost pinky = new Ghost(cellMap[x][y], gameController, gameSpeed, new ChasePacmanStrategy(), Color.PINK);
-                    ghosts.add(pinky);
+                    Ghost pinky = new Ghost(cellMap[x][y], eventHandler, gameSpeed, new ChasePacmanStrategy(), Color.PINK);
+                    //ghosts.add(pinky);
                 } else if (elementMap[x][y] == 'c') {
-                    Ghost inky = new Ghost(cellMap[x][y], gameController, gameSpeed, new MoveRandomStrategy(), Color.CYAN);
-                    ghosts.add(inky);
+                    Ghost inky = new Ghost(cellMap[x][y], eventHandler, gameSpeed, new MoveRandomStrategy(), Color.CYAN);
+                    //ghosts.add(inky);
                 } else if (elementMap[x][y] == 'd') {
-                    Ghost clyde = new Ghost(cellMap[x][y], gameController, gameSpeed, new MoveRandomStrategy(), Color.ORANGE);
-                    ghosts.add(clyde);
+                    Ghost clyde = new Ghost(cellMap[x][y], eventHandler, gameSpeed, new MoveRandomStrategy(), Color.ORANGE);
+                    //ghosts.add(clyde);
                 } else if (elementMap[x][y] == '-') {
-                        // niks
+                    // niks
+                } else if (elementMap[x][y] == 'P') {
+                    Pacman pacman = new Pacman(cellMap[x][y], eventHandler, gameSpeed);
+                    gameController.getView().addKeyListener(pacman);
                 } else {
                     Wall w = new Wall(cellMap[x][y], elementMap[x][y]);
                 }
             }
         }
     }
-
 
     /**
      * Draw each cell in the game world.
@@ -161,23 +163,20 @@ public class GameWorld {
         }
     }
 
-    /**
-     *
-     * @return a list of all Ghost Objects in the game world.
-     */
-    public ArrayList<Ghost> getGhosts() {
-        return ghosts;
-    }
-    
-    public Pacman getPacman(){
-        return pacman;
-    }
-       
-    
-    public ArrayList<Cell> getCells(){
+//    /**
+//     *
+//     * @return a list of all Ghost Objects in the game world.
+//     */
+//    public ArrayList<Ghost> getGhosts() {
+//        return ghosts;
+//    }
+//    
+//    public Pacman getPacman(){
+//        return pacman;
+//    }
+    public ArrayList<Cell> getCells() {
         return cells;
     }
-    
 
     /**
      * Draw the game world.
@@ -224,13 +223,13 @@ public class GameWorld {
      * Places a cherry on a random cell that has no static element.
      */
     public void placeCherryOnRandomEmptyCell() {
-        ArrayList<Cell> emptyCells = getEmptyCells();
-
-        Random r = new Random();
-        if (!emptyCells.isEmpty()) {
-            Cherry c = new Cherry(emptyCells.get(r.nextInt(emptyCells.size() - 1)));
+        if (countPellets() == numberOfPelletsAtStart/2) {
+            ArrayList<Cell> emptyCells = getEmptyCells();
+            Random r = new Random();
+            if (!emptyCells.isEmpty()) {
+                Cherry c = new Cherry(emptyCells.get(r.nextInt(emptyCells.size() - 1)), eventHandler);
+            }
         }
-
     }
 
     /**
