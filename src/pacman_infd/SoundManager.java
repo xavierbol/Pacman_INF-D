@@ -17,6 +17,7 @@ import javax.sound.sampled.Clip;
  */
 public  class SoundManager {
 
+
     static AudioInputStream audio;
 
     static Clip wakaClip;
@@ -30,6 +31,7 @@ public  class SoundManager {
 //    }
 
     public static void playSFXPellet() {
+
         if (wakaClip == null || !wakaClip.isRunning()) {
             try {
                 audio = AudioSystem.getAudioInputStream(new File(ClassLoader.getSystemResource("Resources/SFX/chomp.wav").toURI()));
@@ -79,6 +81,8 @@ public  class SoundManager {
     }
 
     public static void playSFXIntermission() {
+
+    
         try {
             audio = AudioSystem.getAudioInputStream(new File(ClassLoader.getSystemResource("Resources/SFX/intermission.wav").toURI()));
             intermissionClip = AudioSystem.getClip();
@@ -91,15 +95,4 @@ public  class SoundManager {
 
 }
 
-//        else{
-//            try {
-//                audio = AudioSystem.getAudioInputStream(new File(chompPath));
-//
-//                wakaClip = AudioSystem.getClip();
-//                wakaClip.open(audio);
-//                wakaClip.start();
-//
-//            } catch (Exception e) {
-//                System.out.println(e);
-//            }
-//        }
+

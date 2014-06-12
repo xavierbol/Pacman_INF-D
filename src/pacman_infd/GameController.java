@@ -56,6 +56,7 @@ public class GameController implements GameEventListener {
         view.requestFocus();
     }
 
+
     private void drawGame() {
 
         Graphics g = view.getGameWorldGraphics();
@@ -109,10 +110,12 @@ public class GameController implements GameEventListener {
             stopWatch.stop();
             gameState = GameState.PAUSED;
         } else if (gameState == GameState.PAUSED) {
+
             for (Cell cell : gameWorld.getCells()) {
                 for (MovingGameElement element: cell.getElements()) {
                     element.startTimer();
                 }
+
             }
             gameTimer.start();
             stopWatch.start();
@@ -125,9 +128,8 @@ public class GameController implements GameEventListener {
         drawGame();
         scorePanel.setTime(stopWatch.getElepsedTimeMinutesSeconds());
         scorePanel.repaint();
-
     }
-
+    
     private void gameOver() {
         pauseGame();
         view.repaint();
