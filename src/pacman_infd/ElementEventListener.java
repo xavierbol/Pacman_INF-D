@@ -7,9 +7,7 @@
 package pacman_infd;
 
 import java.util.EventListener;
-import pacman_infd.Elements.Ghost;
 import pacman_infd.Elements.MovingGameElement;
-import pacman_infd.Elements.Pacman;
 
 /**
  *
@@ -17,8 +15,7 @@ import pacman_infd.Elements.Pacman;
  */
 public interface ElementEventListener extends EventListener{
     
-    public void pacmanActionPerformed(Pacman p);
-    public void ghostActionPerformed(Ghost g);
+    public void movingElementActionPerformed(MovingGameElement e);
     public void eatableElementEaten(Eatable e);
     public void makeGhostsVulnerable();
     public void killPacman();

@@ -222,7 +222,7 @@ public class Ghost extends MovingGameElement implements Eatable{
     public void moveTimerActionPerformed(ActionEvent e) {
         move();
         //checkCollisions();
-        elementEventListener.ghostActionPerformed(this);
+        elementEventListener.movingElementActionPerformed(this);
     }
 
     private void vulnerabilityTimerActionPerformed(ActionEvent evt) {

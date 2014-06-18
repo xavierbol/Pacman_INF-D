@@ -46,7 +46,7 @@ public class Cherry extends GameElement implements Eatable{
             cell.setStaticElement(null);
         }  
         
-        SoundManager.playSFXCherry();
+        //SoundManager.playSFXCherry();
     }
 
     @Override

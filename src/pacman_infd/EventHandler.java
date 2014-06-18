@@ -27,49 +27,50 @@ public class EventHandler implements ElementEventListener {
     }
 
     @Override
-    public void pacmanActionPerformed(Pacman p) {
-        checkCollisions(p);
-        gameEventListener.refocus();
-    }
-    
-    @Override
-    public void ghostActionPerformed(Ghost g) {
-        checkCollisions(g);
-    }
-    
-    private void checkCollisions(Ghost g){
-        Cell cell = g.getCell();
+    public void movingElementActionPerformed(MovingGameElement e) {
+        if (e instanceof Pacman) {
+            checkCollisions((Pacman)e);
+            gameEventListener.refocus();
+        }
+        else if(e instanceof Ghost){
+            checkCollisions((Ghost) e);
+        }
         
+    }
+
+    private void checkCollisions(Ghost g) {
+        Cell cell = g.getCell();
+
         boolean pacmanFound = false;
-        for(MovingGameElement element : cell.getElements()){
-            if(element instanceof Pacman){
+        for (MovingGameElement element : cell.getElements()) {
+            if (element instanceof Pacman) {
                 pacmanFound = true;
             }
         }
-        if(pacmanFound){
+        if (pacmanFound) {
             g.eatMe();
         }
     }
 
     private void checkCollisions(Pacman p) {
-        
+
         Cell cell = p.getCell();
-        
-        ArrayList<Eatable> eatables = new ArrayList();  
-        
-        if(cell.getStaticElement() instanceof Eatable){
+
+        ArrayList<Eatable> eatables = new ArrayList();
+
+        if (cell.getStaticElement() instanceof Eatable) {
             Eatable element = (Eatable) cell.getStaticElement();
             eatables.add(element);
         }
-        
-        for(MovingGameElement element : cell.getElements()){
-            if(element instanceof Eatable){
-                Eatable eatable = (Eatable)element;
+
+        for (MovingGameElement element : cell.getElements()) {
+            if (element instanceof Eatable) {
+                Eatable eatable = (Eatable) element;
                 eatables.add(eatable);
             }
         }
-        
-        for(Eatable eatable : eatables){
+
+        for (Eatable eatable : eatables) {
             eatable.eatMe();
         }
 
@@ -84,11 +85,11 @@ public class EventHandler implements ElementEventListener {
     @Override
     public void killPacman() {
         gameEventListener.decreaseLife();
+        soundManager.playSound("death");
 
         try {
             Thread.sleep(1000);
-        } 
-        catch (InterruptedException ex) {
+        } catch (InterruptedException ex) {
             Thread.currentThread().interrupt();
         }
 
@@ -98,10 +99,10 @@ public class EventHandler implements ElementEventListener {
                 movers.add(mover);
             }
         }
-        for(MovingGameElement mover : movers){
+        for (MovingGameElement mover : movers) {
             mover.reset();
         }
-        
+
     }
 
     @Override
@@ -116,6 +117,5 @@ public class EventHandler implements ElementEventListener {
             }
         }
     }
-
 
 }

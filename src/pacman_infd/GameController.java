@@ -10,7 +10,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
-import pacman_infd.Elements.Ghost;
 import pacman_infd.Elements.MovingGameElement;
 
 /**
@@ -128,6 +127,7 @@ public class GameController implements GameEventListener {
         drawGame();
         scorePanel.setTime(stopWatch.getElepsedTimeMinutesSeconds());
         scorePanel.repaint();
+
     }
     
     private void gameOver() {
@@ -168,6 +168,11 @@ public class GameController implements GameEventListener {
     
     public SoundManager getSoundManager(){
         return soundManager;
+    }
+    
+    public void mouseClicked(int x, int y, int mouseButton){
+        gameWorld.spawnPortal(x, y, mouseButton);
+        
     }
 
 }

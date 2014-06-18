@@ -46,7 +46,7 @@ public class Pacman extends MovingGameElement implements KeyListener {
     public void moveTimerActionPerformed(ActionEvent e) {
         move();
         //checkCollisions();  
-        elementEventListener.pacmanActionPerformed(this);
+        elementEventListener.movingElementActionPerformed(this);
     }
 
     /**

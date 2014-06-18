@@ -3,13 +3,108 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package pacman_infd.Elements;
+
+import java.awt.Color;
+import java.awt.Graphics;
+import pacman_infd.Cell;
+import pacman_infd.Direction;
+import pacman_infd.GameElement;
 
 /**
  *
  * @author Marinus
  */
-public class Portal {
-    
+public class Portal extends GameElement {
+
+    public enum PortalType {
+
+        BLUE, ORANGE
+    }
+
+    Portal linkedPortal;
+    PortalType type;
+
+    public Portal(Cell cell, PortalType type) {
+        super(cell, null);
+        this.type = type;
+
+    }
+
+    public void remove() {
+        if (cell.getStaticElement() == this) {
+            cell.setStaticElement(null);
+        }
+
+    }
+
+    public void warpNeighbors() {
+        if (cell.getNeighbor(Direction.UP) != null && !cell.getNeighbor(Direction.UP).hasWall()) {
+            cell.getNeighbor(Direction.UP).setNeighbor(Direction.DOWN, linkedPortal.getCell());
+        }
+        if (cell.getNeighbor(Direction.DOWN) != null && !cell.getNeighbor(Direction.DOWN).hasWall()) {
+            cell.getNeighbor(Direction.DOWN).setNeighbor(Direction.UP, linkedPortal.getCell());
+        }
+        if (cell.getNeighbor(Direction.LEFT) != null && !cell.getNeighbor(Direction.LEFT).hasWall()) {
+            cell.getNeighbor(Direction.LEFT).setNeighbor(Direction.RIGHT, linkedPortal.getCell());
+        }
+        if (cell.getNeighbor(Direction.RIGHT) != null && !cell.getNeighbor(Direction.RIGHT).hasWall()) {
+            cell.getNeighbor(Direction.RIGHT).setNeighbor(Direction.LEFT, linkedPortal.getCell());
+        }
+
+    }
+
+    public void setLinkedPortal(Portal portal) {
+        linkedPortal = portal;
+    }
+
+    public Portal getLinkedPortal() {
+        return linkedPortal;
+    }
+
+    @Override
+    public void draw(Graphics g) {
+//        if (type == PortalType.BLUE) {
+//            g.setColor(Color.BLUE);
+//        } else {
+//            g.setColor(Color.ORANGE);
+//        }
+//        g.fillOval(
+//                (int) getPosition().getX() + getCell().getSize() / 2 - 12,
+//                (int) getPosition().getY() + getCell().getSize() / 2 - 12,
+//                26, 26
+//        );
+        int n;
+        if(linkedPortal == null){
+            n = 40;
+        }
+        else{
+            n = 12;
+        }
+
+
+        if (type == PortalType.BLUE) {
+            for (int i = 0; i < n; i++) {
+                g.setColor(new Color(i, 4 * i + 50, 255));
+                g.drawOval(
+                        (int) getPosition().getX() + (getCell().getSize() / 2) - 20 + (i / 2),
+                        (int) getPosition().getY() + (getCell().getSize() / 2) - 20 + (i / 2),
+                        40 - i,
+                        48 - i
+                );
+            }
+        } else {
+            for (int i = 0; i < n; i++) {
+                g.setColor(new Color(255, 4 * i + 50, i));
+                g.drawOval(
+                        (int) getPosition().getX() + (getCell().getSize() / 2) - 20 + (i / 2),
+                        (int) getPosition().getY() + (getCell().getSize() / 2) - 20 + (i / 2),
+                        40 - i,
+                        48 - i
+                );
+            }
+        }
+
+    }
+
 }

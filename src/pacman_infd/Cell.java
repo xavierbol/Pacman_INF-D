@@ -6,10 +6,13 @@
 package pacman_infd;
 
 import java.awt.Graphics;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import pacman_infd.Elements.MovingGameElement;
+import pacman_infd.Elements.Portal;
 import pacman_infd.Elements.Wall;
 
 /**
@@ -186,4 +189,5 @@ public class Cell {
     public String toString() {
         return "xPos: " + xPos + "\nYPos: " + yPos + "\nNumber of Neighbors: " + neighbors.size();
     }
+
 }

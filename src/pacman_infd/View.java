@@ -12,6 +12,9 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -21,7 +24,7 @@ import javax.swing.JPanel;
  *
  * @author Marinus
  */
-public class View extends JFrame {
+public class View extends JFrame implements MouseListener {
 
     private static final int FRAME_WIDTH = 740;
     private static final int FRAME_HEIGHT = 918;
@@ -36,16 +39,17 @@ public class View extends JFrame {
     private JPanel gamePanel;
     private ScorePanel scorePanel;
     private JPanel controlPanel;
-    
+
     private JButton startButton;
     private JButton pauzeButton;
 
-    public View(){
+    public View() {
         initComponents();
-        
+
         gameController = new GameController(this, scorePanel);
-        image = new BufferedImage(FRAME_WIDTH,850,BufferedImage.TYPE_INT_ARGB);
-        
+        image = new BufferedImage(FRAME_WIDTH, 850, BufferedImage.TYPE_INT_ARGB);
+
+        //this.addMouseListener(this);
         //setResizable(false);
     }
 
@@ -63,6 +67,7 @@ public class View extends JFrame {
         scorePanel.setPreferredSize(new Dimension(FRAME_WIDTH, 40));
 
         gamePanel = new JPanel();
+        gamePanel.addMouseListener(this);
         startButton = new JButton("Start");
         startButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -70,7 +75,7 @@ public class View extends JFrame {
             }
 
         });
-        
+
         pauzeButton = new JButton("Pause");
         pauzeButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -78,12 +83,12 @@ public class View extends JFrame {
             }
 
         });
-        
+
         controlPanel = new JPanel();
         controlPanel.setLayout(new FlowLayout());
         controlPanel.setPreferredSize(new Dimension(FRAME_WIDTH, 35));
         controlPanel.setBackground(Color.BLACK);
-        
+
         controlPanel.add(startButton);
         controlPanel.add(pauzeButton);
 
@@ -105,26 +110,54 @@ public class View extends JFrame {
         gamePanel.getGraphics().drawImage(image, 0, 0, null);
 
     }
-    
+
     private void startButtontActionPerformed(ActionEvent evt) {
         gameController.newGame();
-        if(gameController.getGameState() == GameState.RUNNING){
+        if (gameController.getGameState() == GameState.RUNNING) {
             startButton.setText("Restart");
-        }
-        else{
+        } else {
             startButton.setText("Start");
         }
     }
-    
+
     private void pauzeButtontActionPerformed(ActionEvent evt) {
         gameController.pauseGame();
-        if(gameController.getGameState() == GameState.PAUSED){
+        if (gameController.getGameState() == GameState.PAUSED) {
             pauzeButton.setText("Resume");
-        }
-        else {
+        } else {
             pauzeButton.setText("Pause");
         }
-        
+
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+ 
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        //
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        if (e.getY() > 40 && e.getY() < 890) {
+            gameController.mouseClicked(e.getX(), e.getY(), e.getButton());
+        }
+        System.out.println("mouse x: " + e.getX()
+                + "\nmouse y: " + e.getY());
+        gamePanel.requestFocus();
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+        //
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+        //
     }
 
 }

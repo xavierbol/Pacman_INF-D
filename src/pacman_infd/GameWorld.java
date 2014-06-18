@@ -10,6 +10,7 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Random;
 import pacman_infd.Elements.*;
+import pacman_infd.Elements.Portal.PortalType;
 import pacman_infd.Strategies.ChasePacmanStrategy;
 import pacman_infd.Strategies.MoveRandomStrategy;
 
@@ -29,6 +30,8 @@ public class GameWorld {
     private int gameSpeed = 150;
     private int numberOfPelletsAtStart;
     private EventHandler eventHandler;
+    private Portal portalBlue;
+    private Portal portalOrange;
 
     public GameWorld(GameController gameController, char[][] levelMap) {
 
@@ -52,7 +55,7 @@ public class GameWorld {
 
             numberOfPelletsAtStart = countPellets();
 
-         //   pacman = new Pacman(cellMap[1][1], gameController, gameSpeed);
+            //   pacman = new Pacman(cellMap[1][1], gameController, gameSpeed);
             //   gameController.getView().addKeyListener(pacman);
 //
 //            Ghost ghost = new Ghost(cellMap[01][26], gameController, 100, new ChasePacmanStrategy());
@@ -223,7 +226,7 @@ public class GameWorld {
      * Places a cherry on a random cell that has no static element.
      */
     public void placeCherryOnRandomEmptyCell() {
-        if (countPellets() == numberOfPelletsAtStart/2) {
+        if (countPellets() == numberOfPelletsAtStart / 2) {
             ArrayList<Cell> emptyCells = getEmptyCells();
             Random r = new Random();
             if (!emptyCells.isEmpty()) {
@@ -245,6 +248,40 @@ public class GameWorld {
             }
         }
         return emptyCells;
+    }
+
+    public void spawnPortal(int x, int y, int mouseButton) {
+        int cellX = x / CELL_SIZE;
+        int cellY = y / CELL_SIZE;
+        findNeighbors();
+        if (cellY < cellMap.length) {
+            if (!cellMap[cellY][cellX].hasWall() && cellMap[cellY][cellX].getStaticElement() == null) {
+                if (mouseButton == 1) {
+                    if (portalBlue != null) {
+                        portalBlue.remove();
+                    }
+                    portalBlue = new Portal(cellMap[cellY][cellX], PortalType.BLUE);
+                    if (portalOrange != null) {
+                        portalBlue.setLinkedPortal(portalOrange);
+                        portalOrange.setLinkedPortal(portalBlue);
+                        portalBlue.warpNeighbors();
+                        portalOrange.warpNeighbors();
+                    }
+                } else if (mouseButton == 3) {
+                    if (portalOrange != null) {
+                        portalOrange.remove();
+                    }
+                    portalOrange = new Portal(cellMap[cellY][cellX], PortalType.ORANGE);
+                    if (portalBlue != null) {
+                        portalOrange.setLinkedPortal(portalBlue);
+                        portalBlue.setLinkedPortal(portalOrange);
+                        portalOrange.warpNeighbors();
+                        portalBlue.warpNeighbors();
+                    }
+                }
+
+            }
+        }
     }
 
 }
