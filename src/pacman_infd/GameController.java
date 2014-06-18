@@ -85,6 +85,7 @@ public class GameController implements GameEventListener {
     }
 
     public void nextLevel() {
+        soundManager.playSound("win");
         pauseGame();
         JOptionPane.showMessageDialog(
                 null,
@@ -131,6 +132,7 @@ public class GameController implements GameEventListener {
     }
     
     private void gameOver() {
+       
         pauseGame();
         view.repaint();
         drawGame();

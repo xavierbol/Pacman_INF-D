@@ -22,7 +22,7 @@ public class OneWayWall extends GameElement {
     Direction passableDirection;
     
     public OneWayWall(Cell cell,Direction passableDirection) {
-        super(cell, null);
+        super(cell, null, null);
         this.passableDirection = passableDirection;
     }
 

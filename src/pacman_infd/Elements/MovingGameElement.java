@@ -12,6 +12,7 @@ import javax.swing.Timer;
 import pacman_infd.Cell;
 import pacman_infd.GameElement;
 import pacman_infd.ElementEventListener;
+import pacman_infd.SoundManager;
 
 /**
  *
@@ -23,12 +24,13 @@ public abstract class MovingGameElement extends GameElement{
     private Timer timer;
     protected int speed;
     
-    public MovingGameElement(Cell cell, ElementEventListener gameEventListener, int speed) {
+    public MovingGameElement(Cell cell, ElementEventListener gameEventListener, int speed, SoundManager sMger) {
         this.cell = cell;
         this.elementEventListener = gameEventListener;
         cell.addElement(this);
         startCell = cell;
         this.speed = speed;
+        soundManager = sMger;
         
         ActionListener moveTimerActionListener = new java.awt.event.ActionListener(){
 

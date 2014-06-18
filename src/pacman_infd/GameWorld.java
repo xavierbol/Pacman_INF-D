@@ -124,27 +124,27 @@ public class GameWorld {
         for (int x = 0; x < height; x++) {
             for (int y = 0; y < width; y++) {
                 if (elementMap[x][y] == '0') {
-                    Pellet p = new Pellet(cellMap[x][y], eventHandler);
+                    Pellet p = new Pellet(cellMap[x][y], eventHandler, gameController.getSoundManager());
                 } else if (elementMap[x][y] == '2') {
-                    SuperPellet s = new SuperPellet(cellMap[x][y], eventHandler);
+                    SuperPellet s = new SuperPellet(cellMap[x][y], eventHandler, gameController.getSoundManager());
                 } else if (elementMap[x][y] == 'w') {
                     OneWayWall ow = new OneWayWall(cellMap[x][y], Direction.UP);
                 } else if (elementMap[x][y] == 'a') {
-                    Ghost blinky = new Ghost(cellMap[x][y], eventHandler, gameSpeed, new ChasePacmanStrategy(), Color.RED);
+                    Ghost blinky = new Ghost(cellMap[x][y], eventHandler, gameSpeed, new ChasePacmanStrategy(), Color.RED, gameController.getSoundManager());
                     //ghosts.add(blinky);
                 } else if (elementMap[x][y] == 'b') {
-                    Ghost pinky = new Ghost(cellMap[x][y], eventHandler, gameSpeed, new ChasePacmanStrategy(), Color.PINK);
+                    Ghost pinky = new Ghost(cellMap[x][y], eventHandler, gameSpeed, new ChasePacmanStrategy(), Color.PINK, gameController.getSoundManager());
                     //ghosts.add(pinky);
                 } else if (elementMap[x][y] == 'c') {
-                    Ghost inky = new Ghost(cellMap[x][y], eventHandler, gameSpeed, new MoveRandomStrategy(), Color.CYAN);
+                    Ghost inky = new Ghost(cellMap[x][y], eventHandler, gameSpeed, new MoveRandomStrategy(), Color.CYAN, gameController.getSoundManager());
                     //ghosts.add(inky);
                 } else if (elementMap[x][y] == 'd') {
-                    Ghost clyde = new Ghost(cellMap[x][y], eventHandler, gameSpeed, new MoveRandomStrategy(), Color.ORANGE);
+                    Ghost clyde = new Ghost(cellMap[x][y], eventHandler, gameSpeed, new MoveRandomStrategy(), Color.ORANGE, gameController.getSoundManager());
                     //ghosts.add(clyde);
                 } else if (elementMap[x][y] == '-') {
                     // niks
                 } else if (elementMap[x][y] == 'P') {
-                    Pacman pacman = new Pacman(cellMap[x][y], eventHandler, gameSpeed);
+                    Pacman pacman = new Pacman(cellMap[x][y], eventHandler, gameSpeed, gameController.getSoundManager());
                     gameController.getView().addKeyListener(pacman);
                 } else {
                     Wall w = new Wall(cellMap[x][y], elementMap[x][y]);
@@ -230,7 +230,7 @@ public class GameWorld {
             ArrayList<Cell> emptyCells = getEmptyCells();
             Random r = new Random();
             if (!emptyCells.isEmpty()) {
-                Cherry c = new Cherry(emptyCells.get(r.nextInt(emptyCells.size() - 1)), eventHandler);
+                Cherry c = new Cherry(emptyCells.get(r.nextInt(emptyCells.size() - 1)), eventHandler, gameController.getSoundManager());
             }
         }
     }
@@ -253,6 +253,7 @@ public class GameWorld {
     public void spawnPortal(int x, int y, int mouseButton) {
         int cellX = x / CELL_SIZE;
         int cellY = y / CELL_SIZE;
+        gameController.getSoundManager().playSound("portal");
         findNeighbors();
         if (cellY < cellMap.length) {
             if (!cellMap[cellY][cellX].hasWall() && cellMap[cellY][cellX].getStaticElement() == null) {
@@ -260,7 +261,7 @@ public class GameWorld {
                     if (portalBlue != null) {
                         portalBlue.remove();
                     }
-                    portalBlue = new Portal(cellMap[cellY][cellX], PortalType.BLUE);
+                    portalBlue = new Portal(cellMap[cellY][cellX], PortalType.BLUE, gameController.getSoundManager());
                     if (portalOrange != null) {
                         portalBlue.setLinkedPortal(portalOrange);
                         portalOrange.setLinkedPortal(portalBlue);
@@ -271,7 +272,7 @@ public class GameWorld {
                     if (portalOrange != null) {
                         portalOrange.remove();
                     }
-                    portalOrange = new Portal(cellMap[cellY][cellX], PortalType.ORANGE);
+                    portalOrange = new Portal(cellMap[cellY][cellX], PortalType.ORANGE, gameController.getSoundManager());
                     if (portalBlue != null) {
                         portalOrange.setLinkedPortal(portalBlue);
                         portalBlue.setLinkedPortal(portalOrange);

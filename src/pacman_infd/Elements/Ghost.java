@@ -10,11 +10,11 @@ import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.Timer;
-import org.ietf.jgss.GSSException;
 import pacman_infd.Cell;
 import pacman_infd.Eatable;
 import pacman_infd.Strategy;
 import pacman_infd.ElementEventListener;
+import pacman_infd.SoundManager;
 import pacman_infd.Strategies.FleeStrategy;
 import pacman_infd.Strategies.ReturnHomeSrategy;
 
@@ -42,8 +42,8 @@ public class Ghost extends MovingGameElement implements Eatable{
         NORMAL, DEAD, VULNERABLE
     }
 
-    public Ghost(Cell cell, ElementEventListener gameEventListener, int speed, Strategy strategy, Color color) {
-        super(cell, gameEventListener, speed);
+    public Ghost(Cell cell, ElementEventListener gameEventListener, int speed, Strategy strategy, Color color, SoundManager sMger) {
+        super(cell, gameEventListener, speed, sMger);
         this.strategy = strategy;
         this.color = color;
         initialStrategy = strategy;
@@ -243,9 +243,12 @@ public class Ghost extends MovingGameElement implements Eatable{
     @Override
     public void eatMe() {
         if(state == GhostState.VULNERABLE){
+            soundManager.playSound("ghost");
             dead();
+            
         }
         else if(state == GhostState.NORMAL){
+            soundManager.playSound("death");
             elementEventListener.killPacman();
         }
     }

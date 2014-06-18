@@ -20,7 +20,7 @@ public class Wall extends GameElement {
 
     public Wall(Cell cell, char type) {
 
-        super(cell, null);
+        super(cell, null, null);
         this.type = type;
     }
 

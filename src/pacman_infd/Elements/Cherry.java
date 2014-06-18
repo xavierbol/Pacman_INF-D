@@ -23,8 +23,8 @@ public class Cherry extends GameElement implements Eatable{
 
     private static final int VALUE = 100;
     
-    public Cherry(Cell cell, ElementEventListener evtl) {
-        super(cell, evtl);
+    public Cherry(Cell cell, ElementEventListener evtl, SoundManager sMger) {
+        super(cell, evtl, sMger);
     }
 
     @Override
@@ -46,7 +46,7 @@ public class Cherry extends GameElement implements Eatable{
             cell.setStaticElement(null);
         }  
         
-        //SoundManager.playSFXCherry();
+        soundManager.playSound("cherry");
     }
 
     @Override

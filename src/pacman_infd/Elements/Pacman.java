@@ -13,6 +13,7 @@ import java.awt.event.KeyListener;
 import pacman_infd.Cell;
 import pacman_infd.Direction;
 import pacman_infd.ElementEventListener;
+import pacman_infd.SoundManager;
 
 /**
  *
@@ -22,8 +23,8 @@ public class Pacman extends MovingGameElement implements KeyListener {
 
     private Direction currentDirection;
 
-    public Pacman(Cell cell, ElementEventListener gameEventListener, int speed) {
-        super(cell, gameEventListener, speed);
+    public Pacman(Cell cell, ElementEventListener gameEventListener, int speed, SoundManager sMger) {
+        super(cell, gameEventListener, speed, sMger);
 
     }
 
@@ -110,7 +111,7 @@ public class Pacman extends MovingGameElement implements KeyListener {
                 newDirection = Direction.RIGHT;
                 break;
         }
-        if(!cell.getNeighbor(newDirection).hasWall()){
+        if(cell.getNeighbor(newDirection) != null && !cell.getNeighbor(newDirection).hasWall()){
             currentDirection = newDirection;
         }
     }

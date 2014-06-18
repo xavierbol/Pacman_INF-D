@@ -10,6 +10,7 @@ import java.awt.Graphics;
 import pacman_infd.Cell;
 import pacman_infd.Direction;
 import pacman_infd.GameElement;
+import pacman_infd.SoundManager;
 
 /**
  *
@@ -25,8 +26,8 @@ public class Portal extends GameElement {
     Portal linkedPortal;
     PortalType type;
 
-    public Portal(Cell cell, PortalType type) {
-        super(cell, null);
+    public Portal(Cell cell, PortalType type, SoundManager sMger) {
+        super(cell, null, sMger);
         this.type = type;
 
     }

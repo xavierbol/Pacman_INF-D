@@ -18,15 +18,17 @@ public abstract class GameElement {
     
     protected Cell cell;
     protected ElementEventListener elementEventListener;
+    protected SoundManager soundManager;
     
     public GameElement(){
         
     }
     
-    public GameElement(Cell cell, ElementEventListener elementEventListener)
+    public GameElement(Cell cell, ElementEventListener elementEventListener, SoundManager soundManager)
     {
         this.cell = cell;
         this.elementEventListener = elementEventListener;
+        this.soundManager = soundManager;
         cell.setStaticElement(this);
     }
     

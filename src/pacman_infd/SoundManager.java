@@ -19,14 +19,8 @@ import javax.sound.sampled.Clip;
  */
 public class SoundManager {
 
-//    static AudioInputStream audio;
-//
-//    static Clip wakaClip;
-//    static Clip cherryClip;
-//    static Clip pegClip;
-//    static Clip deathClip;
-//    static Clip intermissionClip;
-    Map<String, AudioInputStream> soundFiles;
+
+    Map<String, File> soundFiles;
 
     public SoundManager() {
         soundFiles = new HashMap();
@@ -35,11 +29,12 @@ public class SoundManager {
 
     private void loadSoundFiles() {
         try {
-            soundFiles.put("chomp", AudioSystem.getAudioInputStream(new File(ClassLoader.getSystemResource("Resources/SFX/chomp.wav").toURI())));
-            soundFiles.put("cherry", AudioSystem.getAudioInputStream(new File(ClassLoader.getSystemResource("Resources/SFX/eatCherry.wav").toURI())));
-            soundFiles.put("ghost", AudioSystem.getAudioInputStream(new File(ClassLoader.getSystemResource("Resources/SFX/eatGhost.wav").toURI())));
-            soundFiles.put("death", AudioSystem.getAudioInputStream(new File(ClassLoader.getSystemResource("Resources/SFX/death.wav").toURI())));
-            soundFiles.put("win", AudioSystem.getAudioInputStream(new File(ClassLoader.getSystemResource("Resources/SFX/intermission.wav").toURI())));
+            soundFiles.put("chomp", new File(ClassLoader.getSystemResource("Resources/SFX/wakawaka.wav").toURI()));
+            soundFiles.put("cherry", new File(ClassLoader.getSystemResource("Resources/SFX/eatCherry.wav").toURI()));
+            soundFiles.put("ghost", new File(ClassLoader.getSystemResource("Resources/SFX/eatGhost.wav").toURI()));
+            soundFiles.put("death", new File(ClassLoader.getSystemResource("Resources/SFX/death.wav").toURI()));
+            soundFiles.put("win", new File(ClassLoader.getSystemResource("Resources/SFX/intermission.wav").toURI()));
+            soundFiles.put("portal", new File(ClassLoader.getSystemResource("Resources/SFX/portalOpen3 2.wav").toURI()));
 
         } catch (Exception e) {
             System.out.println(e);
@@ -48,8 +43,9 @@ public class SoundManager {
 
     public void playSound(String sound) {
         try {
+            AudioInputStream audio = AudioSystem.getAudioInputStream(soundFiles.get(sound));
             Clip clip = AudioSystem.getClip();
-            clip.open(soundFiles.get(sound));
+            clip.open(audio);
             clip.start();
         } catch (Exception e) {
             System.out.println(e);

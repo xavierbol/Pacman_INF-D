@@ -21,8 +21,8 @@ public class Pellet extends GameElement implements Eatable {
 
     private static final int VALUE = 5;
     
-    public Pellet(Cell cell, ElementEventListener evtl) {
-        super(cell, evtl);
+    public Pellet(Cell cell, ElementEventListener evtl, SoundManager sMger) {
+        super(cell, evtl, sMger);
     }
 
     public void draw(Graphics g) {
@@ -42,7 +42,7 @@ public class Pellet extends GameElement implements Eatable {
             cell.setStaticElement(null);
         }  
         
-       // SoundManager.playSFXPellet();
+       soundManager.playSound("chomp");
     }
 
     @Override

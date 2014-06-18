@@ -12,6 +12,7 @@ import pacman_infd.Cell;
 import pacman_infd.Eatable;
 import pacman_infd.ElementEventListener;
 import pacman_infd.GameElement;
+import pacman_infd.SoundManager;
 
 /**
  *
@@ -21,8 +22,8 @@ public class SuperPellet extends GameElement implements Eatable {
 
     private static final int VALUE = 100;
     
-    public SuperPellet(Cell cell, ElementEventListener evtl) {
-        super(cell, evtl);
+    public SuperPellet(Cell cell, ElementEventListener evtl, SoundManager sMger) {
+        super(cell, evtl, sMger);
     }
       
 
