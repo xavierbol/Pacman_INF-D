@@ -73,7 +73,7 @@ public class PathFinder {
      * @param startCell
      * @return
      */
-    private List findPathToPacman(Cell startCell) {
+    public List findPathToPacman(Cell startCell) {
 
         LinkedList visitedCells = new LinkedList();
 
