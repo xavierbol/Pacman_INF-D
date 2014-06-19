@@ -125,8 +125,6 @@ public class GameWorld {
                     Pellet p = new Pellet(cellMap[x][y], eventHandler, soundManager);
                 } else if (elementMap[x][y] == '2') {
                     SuperPellet s = new SuperPellet(cellMap[x][y], eventHandler, soundManager);
-                } else if (elementMap[x][y] == 'w') {
-                    OneWayWall ow = new OneWayWall(cellMap[x][y], Direction.UP);
                 } else if (elementMap[x][y] == 'a') {
                     Ghost blinky = new Ghost(cellMap[x][y], eventHandler, gameSpeed, new ChasePacmanStrategy(), Color.RED, soundManager);
                 } else if (elementMap[x][y] == 'b') {
