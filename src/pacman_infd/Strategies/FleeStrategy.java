@@ -18,8 +18,8 @@ import pacman_infd.Strategy;
  */
 public class FleeStrategy implements Strategy {
 
-    PathFinder pathFinder;
-    Cell previousCell;
+    private PathFinder pathFinder;
+    private Cell previousCell;
 
     public FleeStrategy(){
         pathFinder = new PathFinder();

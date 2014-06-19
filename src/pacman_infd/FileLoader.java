@@ -72,7 +72,7 @@ public class FileLoader {
      * @return number of lines
      * @throws IOException 
      */
-    int readLines() throws IOException {
+    private int readLines() throws IOException {
         FileReader file_to_read = new FileReader(new File(path));
         BufferedReader bf = new BufferedReader(file_to_read);
         

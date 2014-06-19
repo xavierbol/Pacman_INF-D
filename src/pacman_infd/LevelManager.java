@@ -17,7 +17,7 @@ import java.util.Queue;
  */
 public class LevelManager {
 
-    Queue<char[][]> levels;
+    private Queue<char[][]> levels;
 
     public LevelManager() {
         levels = new LinkedList();

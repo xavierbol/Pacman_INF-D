@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import pacman_infd.Cell;
 import pacman_infd.Enums.Direction;
+import pacman_infd.Enums.PortalType;
 import pacman_infd.GameElement;
 import pacman_infd.SoundManager;
 
@@ -18,13 +19,8 @@ import pacman_infd.SoundManager;
  */
 public class Portal extends GameElement {
 
-    public enum PortalType {
-
-        BLUE, ORANGE
-    }
-
-    Portal linkedPortal;
-    PortalType type;
+    private Portal linkedPortal;
+    private PortalType type;
 
     public Portal(Cell cell, PortalType type, SoundManager sMger) {
         super(cell, null, sMger);

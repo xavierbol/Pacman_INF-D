@@ -20,7 +20,7 @@ import javax.sound.sampled.Clip;
 public class SoundManager {
 
 
-    Map<String, File> soundFiles;
+    private Map<String, File> soundFiles;
 
     public SoundManager() {
         soundFiles = new HashMap();

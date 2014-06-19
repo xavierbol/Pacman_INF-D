@@ -11,7 +11,7 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Random;
 import pacman_infd.Elements.*;
-import pacman_infd.Elements.Portal.PortalType;
+import pacman_infd.Enums.PortalType;
 import pacman_infd.Strategies.ChasePacmanStrategy;
 import pacman_infd.Strategies.MoveRandomStrategy;
 
@@ -201,7 +201,6 @@ public class GameWorld {
     public void spawnPortal(int x, int y, int mouseButton) {
         int cellX = x / CELL_SIZE;
         int cellY = y / CELL_SIZE;
-        soundManager.playSound("portal");
         findNeighbors();
         if (cellY < cellMap.length) {
             if (!cellMap[cellY][cellX].hasWall() && cellMap[cellY][cellX].getStaticElement() == null) {
@@ -210,6 +209,7 @@ public class GameWorld {
                         getPortalBlue().remove();
                     }
                     setPortalBlue(new Portal(cellMap[cellY][cellX], PortalType.BLUE, soundManager));
+                    soundManager.playSound("portal");
                     if (getPortalOrange() != null) {
                         getPortalBlue().setLinkedPortal(getPortalOrange());
                         getPortalOrange().setLinkedPortal(getPortalBlue());
@@ -221,6 +221,7 @@ public class GameWorld {
                         getPortalOrange().remove();
                     }
                     setPortalOrange(new Portal(cellMap[cellY][cellX], PortalType.ORANGE, soundManager));
+                    soundManager.playSound("portal");
                     if (getPortalBlue() != null) {
                         getPortalOrange().setLinkedPortal(getPortalBlue());
                         getPortalBlue().setLinkedPortal(getPortalOrange());
