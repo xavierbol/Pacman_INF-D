@@ -16,8 +16,8 @@ import pacman_infd.Strategy;
  */
 public class ReturnHomeSrategy implements Strategy{
     
-        PathFinder pathFinder;
-        Cell homeCell;
+        private PathFinder pathFinder;
+        private Cell homeCell;
     
     public ReturnHomeSrategy(Cell homeCell){
         pathFinder = new PathFinder();

@@ -63,7 +63,7 @@ public class ScorePanel extends JPanel {
     /**
      * Subtract one life from the life total.
      */
-    public void looseLife()
+    public void loseLife()
     {
         lives--;
     }

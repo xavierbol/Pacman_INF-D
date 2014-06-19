@@ -11,5 +11,5 @@ package pacman_infd;
  * @author Marinus
  */
 public interface Strategy {
-    Cell giveNextCell(Cell currentCell);
+    public Cell giveNextCell(Cell currentCell);
 }

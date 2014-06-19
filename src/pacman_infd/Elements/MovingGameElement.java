@@ -23,6 +23,7 @@ public abstract class MovingGameElement extends GameElement{
     protected Cell startCell;
     private Timer timer;
     protected int speed;
+    private ActionListener moveTimerActionListener;
     
     public MovingGameElement(Cell cell, ElementEventListener gameEventListener, int speed, SoundManager sMger) {
         this.cell = cell;
@@ -32,7 +33,7 @@ public abstract class MovingGameElement extends GameElement{
         this.speed = speed;
         soundManager = sMger;
         
-        ActionListener moveTimerActionListener = new java.awt.event.ActionListener(){
+        moveTimerActionListener = new java.awt.event.ActionListener(){
 
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {

@@ -16,8 +16,8 @@ import pacman_infd.Elements.Pacman;
  */
 public class EventHandler implements ElementEventListener {
 
-    GameEventListener gameEventListener;
-    GameWorld gameWorld;
+    private GameEventListener gameEventListener;
+    private GameWorld gameWorld;
 
     public EventHandler(GameEventListener gameEventListener, GameWorld gameWorld) {
         this.gameEventListener = gameEventListener;

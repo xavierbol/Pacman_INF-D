@@ -12,11 +12,12 @@ import java.awt.event.ActionListener;
 import javax.swing.Timer;
 import pacman_infd.Cell;
 import pacman_infd.Eatable;
-import pacman_infd.Strategy;
 import pacman_infd.ElementEventListener;
+import pacman_infd.Enums.GhostState;
 import pacman_infd.SoundManager;
 import pacman_infd.Strategies.FleeStrategy;
 import pacman_infd.Strategies.ReturnHomeSrategy;
+import pacman_infd.Strategy;
 
 /**
  *
@@ -36,9 +37,7 @@ public class Ghost extends MovingGameElement implements Eatable{
     
     private static final int VALUE = 400;
 
-    public enum GhostState{
-        NORMAL, DEAD, VULNERABLE
-    }
+
 
     public Ghost(Cell cell, ElementEventListener gameEventListener, int speed, Strategy strategy, Color color, SoundManager sMger) {
         super(cell, gameEventListener, speed, sMger);

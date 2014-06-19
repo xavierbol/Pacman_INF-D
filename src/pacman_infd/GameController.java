@@ -151,7 +151,7 @@ public class GameController implements GameEventListener {
 
     @Override
     public void decreaseLife() {
-        scorePanel.looseLife();
+        scorePanel.loseLife();
         scorePanel.repaint();
         if(scorePanel.getLives() == 0){
             gameOver();

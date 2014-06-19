@@ -17,7 +17,7 @@ import pacman_infd.Elements.Pacman;
  */
 public class PathFinder {
 
-    Cell rootCell;
+    private Cell rootCell;
 
     public PathFinder() {
 
@@ -55,7 +55,7 @@ public class PathFinder {
      * @param cell start cell from which to walk back.
      * @return list of cells making up the path.
      */
-    private List contructPath(Cell cell) {
+    private List<Cell> contructPath(Cell cell) {
 
         LinkedList path = new LinkedList();
         while (cell.getPathParent() != null) {
@@ -73,7 +73,7 @@ public class PathFinder {
      * @param startCell
      * @return
      */
-    public List findPathToPacman(Cell startCell) {
+    public List<Cell> findPathToPacman(Cell startCell) {
 
         LinkedList visitedCells = new LinkedList();
 
@@ -114,7 +114,7 @@ public class PathFinder {
      * @param startCell
      * @return
      */
-    private List findPathToCell(Cell startCell, Cell targetCell) {
+    private List<Cell> findPathToCell(Cell startCell, Cell targetCell) {
 
         LinkedList visitedCells = new LinkedList();
 

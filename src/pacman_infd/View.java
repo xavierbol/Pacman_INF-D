@@ -13,7 +13,6 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
@@ -41,7 +40,7 @@ public class View extends JFrame implements MouseListener {
     private JPanel controlPanel;
 
     private JButton startButton;
-    private JButton pauzeButton;
+    private JButton pauseButton;
 
     public View() {
         initComponents();
@@ -51,7 +50,7 @@ public class View extends JFrame implements MouseListener {
 
     }
 
-    public void initComponents() {
+    private void initComponents() {
         setSize(FRAME_WIDTH, FRAME_HEIGHT);
         setTitle("Pacman v0.1");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -74,10 +73,10 @@ public class View extends JFrame implements MouseListener {
 
         });
 
-        pauzeButton = new JButton("Pause");
-        pauzeButton.addActionListener(new java.awt.event.ActionListener() {
+        pauseButton = new JButton("Pause");
+        pauseButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                pauzeButtontActionPerformed(evt);
+                pauseButtontActionPerformed(evt);
             }
 
         });
@@ -88,7 +87,7 @@ public class View extends JFrame implements MouseListener {
         controlPanel.setBackground(Color.BLACK);
 
         controlPanel.add(startButton);
-        controlPanel.add(pauzeButton);
+        controlPanel.add(pauseButton);
 
         contentPane.add(controlPanel, BorderLayout.SOUTH);
         contentPane.add(gamePanel, BorderLayout.CENTER);
@@ -118,12 +117,12 @@ public class View extends JFrame implements MouseListener {
         }
     }
 
-    private void pauzeButtontActionPerformed(ActionEvent evt) {
+    private void pauseButtontActionPerformed(ActionEvent evt) {
         gameController.pauseGame();
         if (gameController.getGameState() == GameState.PAUSED) {
-            pauzeButton.setText("Resume");
+            pauseButton.setText("Resume");
         } else {
-            pauzeButton.setText("Pause");
+            pauseButton.setText("Pause");
         }
 
     }
