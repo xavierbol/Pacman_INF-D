@@ -8,7 +8,7 @@ package pacman_infd.Elements;
 import java.awt.Color;
 import java.awt.Graphics;
 import pacman_infd.Cell;
-import pacman_infd.Direction;
+import pacman_infd.Enums.Direction;
 import pacman_infd.GameElement;
 import pacman_infd.SoundManager;
 
@@ -65,16 +65,7 @@ public class Portal extends GameElement {
 
     @Override
     public void draw(Graphics g) {
-//        if (type == PortalType.BLUE) {
-//            g.setColor(Color.BLUE);
-//        } else {
-//            g.setColor(Color.ORANGE);
-//        }
-//        g.fillOval(
-//                (int) getPosition().getX() + getCell().getSize() / 2 - 12,
-//                (int) getPosition().getY() + getCell().getSize() / 2 - 12,
-//                26, 26
-//        );
+
         int n;
         if(linkedPortal == null){
             n = 40;

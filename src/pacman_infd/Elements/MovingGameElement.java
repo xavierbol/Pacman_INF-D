@@ -27,7 +27,7 @@ public abstract class MovingGameElement extends GameElement{
     public MovingGameElement(Cell cell, ElementEventListener gameEventListener, int speed, SoundManager sMger) {
         this.cell = cell;
         this.elementEventListener = gameEventListener;
-        cell.addElement(this);
+        cell.addMovingElement(this);
         startCell = cell;
         this.speed = speed;
         soundManager = sMger;
@@ -50,9 +50,9 @@ public abstract class MovingGameElement extends GameElement{
     public abstract void moveTimerActionPerformed(ActionEvent e); 
     
     public void reset(){
-        cell.getElements().remove(this);
+        cell.getMovingElements().remove(this);
         cell = startCell;
-        cell.addElement(this);
+       cell.addMovingElement(this);
     }
     
     protected Cell getStartCell(){

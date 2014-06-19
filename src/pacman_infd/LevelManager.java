@@ -5,7 +5,9 @@
  */
 package pacman_infd;
 
+import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -13,11 +15,11 @@ import java.util.Queue;
  *
  * @author Marinus
  */
-public class ResourceManager {
+public class LevelManager {
 
     Queue<char[][]> levels;
 
-    public ResourceManager() {
+    public LevelManager() {
         levels = new LinkedList();
         loadLevels();
     }
@@ -36,7 +38,7 @@ public class ResourceManager {
                 levels.add(level);
             }
 
-        } catch (Exception e) {
+        } catch (URISyntaxException | IOException e) {
             System.out.println(e);
         }
     }

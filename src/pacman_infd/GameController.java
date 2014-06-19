@@ -5,6 +5,7 @@
  */
 package pacman_infd;
 
+import pacman_infd.Enums.GameState;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,20 +22,20 @@ public class GameController implements GameEventListener {
     private GameWorld gameWorld;
     private View view;
     private ScorePanel scorePanel;
-    private boolean cherrySpawned; //TODO: dit moet hier weg
     private GameState gameState;
     private Timer gameTimer;
     private StopWatch stopWatch;
-    private ResourceManager resourceManager;
+    private LevelManager levelManager;
     private SoundManager soundManager;
+    
+    private static final int REFRESH_RATE = 10;
 
     public GameController(View view, ScorePanel scorePanel) {
 
         this.view = view;
         this.scorePanel = scorePanel;
-        cherrySpawned = false;
         gameState = GameState.PREGAME;
-        resourceManager = new ResourceManager();
+        levelManager = new LevelManager();
         soundManager = new SoundManager();
 
         ActionListener gameTimerAction = new java.awt.event.ActionListener() {
@@ -45,7 +46,7 @@ public class GameController implements GameEventListener {
             }
         };
 
-        gameTimer = new Timer(10, gameTimerAction);
+        gameTimer = new Timer(REFRESH_RATE, gameTimerAction);
         stopWatch = new StopWatch();
 
     }
@@ -72,16 +73,16 @@ public class GameController implements GameEventListener {
     }
 
     public void newGame() {
-//        if (gameState == GameState.PREGAME) {
+
         gameWorld = null;
-        gameWorld = new GameWorld(this, resourceManager.getFirstLevel());
+        gameWorld = new GameWorld(this, levelManager.getFirstLevel(), soundManager, view);
         scorePanel.resetStats();
         gameState = GameState.RUNNING;
         drawGame();
         gameTimer.start();
         stopWatch.reset();
         stopWatch.start();
-//        }
+
     }
 
     public void nextLevel() {
@@ -95,13 +96,13 @@ public class GameController implements GameEventListener {
         );
 
         gameWorld = null;
-        gameWorld = new GameWorld(this, resourceManager.getNextLevel());
+        gameWorld = new GameWorld(this, levelManager.getNextLevel(), soundManager, view);
     }
 
     public void pauseGame() {
         if (gameState == GameState.RUNNING) {
             for (Cell cell : gameWorld.getCells()) {
-                for (MovingGameElement element: cell.getElements()) {
+                for (MovingGameElement element: cell.getMovingElements()) {
                     element.stopTimer();
                 }
             }
@@ -112,7 +113,7 @@ public class GameController implements GameEventListener {
         } else if (gameState == GameState.PAUSED) {
 
             for (Cell cell : gameWorld.getCells()) {
-                for (MovingGameElement element: cell.getElements()) {
+                for (MovingGameElement element: cell.getMovingElements()) {
                     element.startTimer();
                 }
 
@@ -124,18 +125,15 @@ public class GameController implements GameEventListener {
     }
 
     public void gameTimerActionPerformed(ActionEvent e) {
-        //checkCollisions(gameWorld.getPacman().getCell());
         drawGame();
         scorePanel.setTime(stopWatch.getElepsedTimeMinutesSeconds());
         scorePanel.repaint();
-
     }
     
     private void gameOver() {
        
         pauseGame();
-        view.repaint();
-        drawGame();
+        drawGame();     
         JOptionPane.showMessageDialog(
                 null,
                 "Game over!\nYour score: " + scorePanel.getScore(),
@@ -145,8 +143,6 @@ public class GameController implements GameEventListener {
         gameWorld = null;
         gameState = GameState.PREGAME;
 
-//        gameTimer.stop();
-//        stopWatch.stop();
     }
 
     public GameState getGameState() {
@@ -173,8 +169,7 @@ public class GameController implements GameEventListener {
     }
     
     public void mouseClicked(int x, int y, int mouseButton){
-        gameWorld.spawnPortal(x, y, mouseButton);
-        
+        gameWorld.spawnPortal(x, y, mouseButton);  
     }
 
 }

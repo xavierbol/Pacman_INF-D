@@ -27,6 +27,7 @@ public class SuperPellet extends GameElement implements Eatable {
     }
       
 
+    @Override
     public void draw(Graphics g) {
         g.setColor(Color.WHITE);
         g.fillOval(

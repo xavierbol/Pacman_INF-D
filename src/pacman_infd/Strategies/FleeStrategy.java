@@ -35,9 +35,6 @@ public class FleeStrategy implements Strategy {
                 possibleCell.add(cell);
             }    
         }
-//        if(previousCell != null) {
-//            possibleCell.add(previousCell);
-//        }
         
         possibleCell.add(towardsPacman);
         

@@ -23,14 +23,6 @@ public class PathFinder {
 
     }
 
-//    public void findPacman(){
-//        List<Cell> path = findPathToPacman(rootCell);
-//        
-//        for(Cell cell : path){
-//            Pacman p = new Pacman(cell, null, 0);
-//        }
-//          
-//    }
     /**
      * The first cell in the path List is the one that the object moving towards
      * pacman needs to take, so this returns the first cell in the path.
@@ -92,7 +84,7 @@ public class PathFinder {
         while (!queue.isEmpty()) {
             Cell cell = (Cell) queue.poll();
 
-            for (GameElement e : cell.getElements()) {
+            for (GameElement e : cell.getMovingElements()) {
                 if (e instanceof Pacman) {
                     //pacman found
                     return contructPath(cell);

@@ -5,14 +5,12 @@
  */
 package pacman_infd;
 
+import pacman_infd.Enums.Direction;
 import java.awt.Graphics;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import pacman_infd.Elements.MovingGameElement;
-import pacman_infd.Elements.Portal;
 import pacman_infd.Elements.Wall;
 
 /**
@@ -45,8 +43,6 @@ public class Cell {
      * @param g 
      */
     public void draw(Graphics g) {
-//        g.setColor(Color.BLACK);
-//        g.drawRect(xPos * size, yPos * size, size, size);
         drawElements(g);
     }
 
@@ -86,7 +82,7 @@ public class Cell {
      *
      * @param e GameElement
      */
-    public void addElement(MovingGameElement e) {
+    public void addMovingElement(MovingGameElement e) {
         movingElements.add(e);
     }
 
@@ -95,7 +91,7 @@ public class Cell {
      *
      * @param e GameElement
      */
-    public void removeElement(MovingGameElement e) {
+    public void removeMovingElement(MovingGameElement e) {
         if (movingElements.contains(e)) {
             movingElements.remove(e);
         }
@@ -105,7 +101,7 @@ public class Cell {
      *
      * @return a list of all GameElements on this cell.
      */
-    public ArrayList<MovingGameElement> getElements() {
+    public ArrayList<MovingGameElement> getMovingElements() {
         return movingElements;
     }
 
@@ -135,10 +131,18 @@ public class Cell {
         return neighbors;
     }
 
+    /**
+     * 
+     * @return staticElement
+     */
     public GameElement getStaticElement() {
         return staticElement;
     }
 
+    /**
+     * 
+     * @param element 
+     */
     public void setStaticElement(GameElement element) {
         staticElement = element;
     }

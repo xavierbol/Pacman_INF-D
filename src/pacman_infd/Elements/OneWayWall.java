@@ -9,12 +9,11 @@ package pacman_infd.Elements;
 import java.awt.Color;
 import java.awt.Graphics;
 import pacman_infd.Cell;
-import pacman_infd.Direction;
+import pacman_infd.Enums.Direction;
 import pacman_infd.GameElement;
-import pacman_infd.ElementEventListener;
 
 /**
- *
+ * this is a stub
  * @author Marinus
  */
 public class OneWayWall extends GameElement {

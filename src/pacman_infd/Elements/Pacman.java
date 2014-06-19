@@ -11,7 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import pacman_infd.Cell;
-import pacman_infd.Direction;
+import pacman_infd.Enums.Direction;
 import pacman_infd.ElementEventListener;
 import pacman_infd.SoundManager;
 
@@ -37,8 +37,8 @@ public class Pacman extends MovingGameElement implements KeyListener {
     protected void move() {
         Cell moveTo = cell.getNeighbor(currentDirection);
         if (moveTo != null && !moveTo.hasWall()) {
-            moveTo.addElement(this);
-            cell.removeElement(this);
+            moveTo.addMovingElement(this);
+            cell.removeMovingElement(this);
             setCell(moveTo);
         }
     }
@@ -46,7 +46,6 @@ public class Pacman extends MovingGameElement implements KeyListener {
     @Override
     public void moveTimerActionPerformed(ActionEvent e) {
         move();
-        //checkCollisions();  
         elementEventListener.movingElementActionPerformed(this);
     }
 

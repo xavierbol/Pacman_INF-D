@@ -5,6 +5,7 @@
  */
 package pacman_infd;
 
+import pacman_infd.Enums.GameState;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
@@ -33,7 +34,6 @@ public class View extends JFrame implements MouseListener {
 
     private GameController gameController;
 
-    private GameWorld gameWorld;
     private Container contentPane;
 
     private JPanel gamePanel;
@@ -49,8 +49,6 @@ public class View extends JFrame implements MouseListener {
         gameController = new GameController(this, scorePanel);
         image = new BufferedImage(FRAME_WIDTH, 850, BufferedImage.TYPE_INT_ARGB);
 
-        //this.addMouseListener(this);
-        //setResizable(false);
     }
 
     public void initComponents() {

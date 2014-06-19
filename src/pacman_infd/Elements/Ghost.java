@@ -36,8 +36,6 @@ public class Ghost extends MovingGameElement implements Eatable{
     
     private static final int VALUE = 400;
 
-
-    
     public enum GhostState{
         NORMAL, DEAD, VULNERABLE
     }
@@ -132,41 +130,12 @@ public class Ghost extends MovingGameElement implements Eatable{
     protected void move() {
         Cell nextCell = strategy.giveNextCell(cell);
         if (nextCell != null) {
-            nextCell.addElement(this);
-            cell.removeElement(this);
+            nextCell.addMovingElement(this);
+            cell.removeMovingElement(this);
             setCell(nextCell);
         }
 
     }
-
-    /**
-     * Looks for GameElements that are in the same cell and interacts with them
-     * accordingly.
-     */
-//    protected void checkCollisions() {
-//        for (GameElement e : cell.getElements()) {
-//            if (e instanceof Pacman) {
-//                interactWithPacman((Pacman) e);
-//                break;
-//            }
-//        }
-//
-//    }
-
-    /**
-     * Interact with Pacman. If Pacman is invincible then the ghost will die. If
-     * not then Pacman will die.
-     *
-     * @param pacman
-     */
-//    private void interactWithPacman(Pacman pacman) {
-//        if (state == GhostState.VULNERABLE) {
-//            dead();
-//            gameEventListener.pacmanEatsGhost(this);
-//        } else if (state == GhostState.NORMAL){
-//            gameEventListener.pacmanDied(pacman);
-//        }
-//    }
 
     /**
      * Change current strategy to FleeStrategy and lowers the speed of this
