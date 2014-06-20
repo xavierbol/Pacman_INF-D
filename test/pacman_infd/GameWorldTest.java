@@ -216,7 +216,7 @@ public class GameWorldTest {
         assert (gameWorld.getPortalBlue().getCell().getXpos() == 1 && gameWorld.getPortalBlue().getCell().getYPos() == 1);
         //assert that the orange portal is still on the same location
         assert (gameWorld.getPortalOrange().getCell().getXpos() == 1 && gameWorld.getPortalOrange().getCell().getYPos() == 2);
-        //assert that the old portal location does not have a portal
+        //assert that the old portal location does not have a portal.
         assert (!(gameWorld.getCellMap()[0][1].getStaticElement() instanceof Portal));
         //assert that the neigbor of the orange portal links to the blue portal
         assert (gameWorld.getCellMap()[2][2].getNeighbor(Direction.LEFT) == gameWorld.getPortalBlue().getCell());
