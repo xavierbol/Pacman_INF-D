@@ -60,10 +60,14 @@ public class Wall extends GameElement {
             drawRightDownCorner(g);
             drawRightUpCorner(g);
         }
-        
-        if (type == 'Y') {
+
+        if (type == 'I') {
             drawRightUpCorner(g);
             drawLeftUpCorner(g);
+        }
+        if (type == 'J') {
+            drawRightDownCorner(g);
+            drawLeftDownCorner(g);
         }
 
     }

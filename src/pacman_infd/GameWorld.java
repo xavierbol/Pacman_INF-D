@@ -35,7 +35,7 @@ public class GameWorld {
 
     private char[][] elementMap;
 
-    private int gameSpeed = 150;
+    private int gameSpeed = 250;
     private int numberOfPelletsAtStart;
 
     private Portal portalBlue;
@@ -105,10 +105,6 @@ public class GameWorld {
             }
         }
 
-        //HIER NOG NAAR KIJKEN!!!
-        //Special case voor portal
-//        cellMap[14][0].setNeighbor(Direction.LEFT, cellMap[14][27]);
-//        cellMap[14][27].setNeighbor(Direction.RIGHT, cellMap[14][0]);
     }
 
     /**
