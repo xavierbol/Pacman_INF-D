@@ -43,7 +43,7 @@ public class GameWorldTest {
         };
 
         gameController = new GameController(null, null);
-        gameWorld = new GameWorld(new GameController(null, null), levelMap, gameController.getSoundManager(), null);
+        gameWorld = new GameWorld(new GameController(null, null), levelMap, gameController.getSoundManager(), null, 0);
 
     }
 

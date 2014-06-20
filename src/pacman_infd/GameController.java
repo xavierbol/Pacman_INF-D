@@ -27,6 +27,7 @@ public class GameController implements GameEventListener {
     private StopWatch stopWatch;
     private LevelManager levelManager;
     private SoundManager soundManager;
+    private int gameSpeed;
     
     private static final int REFRESH_RATE = 10;
 
@@ -37,6 +38,7 @@ public class GameController implements GameEventListener {
         gameState = GameState.PREGAME;
         levelManager = new LevelManager();
         soundManager = new SoundManager();
+        gameSpeed = 250;
 
         ActionListener gameTimerAction = new java.awt.event.ActionListener() {
 
@@ -51,12 +53,17 @@ public class GameController implements GameEventListener {
 
     }
 
+    /**
+     * give focus back to the view
+     */
     @Override
     public void refocus(){
         view.requestFocus();
     }
 
-
+    /**
+     * draw the game.
+     */
     private void drawGame() {
 
         Graphics g = view.getGameWorldGraphics();
@@ -72,10 +79,18 @@ public class GameController implements GameEventListener {
         return view;
     }
 
+    /**
+     * Start a new game, or, if the game is already running, restart the game.
+     */
     public void newGame() {
-
-        gameWorld = null;
-        gameWorld = new GameWorld(this, levelManager.getFirstLevel(), soundManager, view);
+        if(gameState == GameState.RUNNING){
+            pauseGame();
+            gameWorld.clearGameWorld();
+            gameWorld = null;
+        }
+        
+        
+        gameWorld = new GameWorld(this, levelManager.getFirstLevel(), soundManager, view, gameSpeed);
         scorePanel.resetStats();
         gameState = GameState.RUNNING;
         drawGame();
@@ -85,7 +100,11 @@ public class GameController implements GameEventListener {
 
     }
 
+    /**
+     * Go to the next level.
+     */
     public void nextLevel() {
+
         soundManager.playSound("win");
         pauseGame();
         JOptionPane.showMessageDialog(
@@ -95,10 +114,16 @@ public class GameController implements GameEventListener {
                 JOptionPane.ERROR_MESSAGE
         );
 
+        if(gameSpeed > 100){
+            gameSpeed -= 10;
+        }
         gameWorld = null;
-        gameWorld = new GameWorld(this, levelManager.getNextLevel(), soundManager, view);
+        gameWorld = new GameWorld(this, levelManager.getNextLevel(), soundManager, view, gameSpeed);
     }
 
+    /**
+     * Pause game will stop all timers
+     */
     public void pauseGame() {
         if (gameState == GameState.RUNNING) {
             for (Cell cell : gameWorld.getCells()) {
@@ -124,6 +149,10 @@ public class GameController implements GameEventListener {
         }
     }
 
+    /**
+     * draw the game at each tick of the game timer.
+     * @param e 
+     */
     public void gameTimerActionPerformed(ActionEvent e) {
         drawGame();
         scorePanel.setTime(stopWatch.getElepsedTimeMinutesSeconds());
@@ -140,6 +169,7 @@ public class GameController implements GameEventListener {
                 "Game over!",
                 JOptionPane.ERROR_MESSAGE
         );
+        gameWorld.clearGameWorld();
         gameWorld = null;
         gameState = GameState.PREGAME;
 
@@ -169,7 +199,8 @@ public class GameController implements GameEventListener {
     }
     
     public void mouseClicked(int x, int y, int mouseButton){
-        gameWorld.spawnPortal(x, y, mouseButton);  
+        if(gameWorld != null){
+             gameWorld.spawnPortal(x, y, mouseButton);  
+        }
     }
-
 }

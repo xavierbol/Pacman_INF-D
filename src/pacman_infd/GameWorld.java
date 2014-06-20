@@ -35,16 +35,17 @@ public class GameWorld {
 
     private char[][] elementMap;
 
-    private int gameSpeed = 250;
+    private int gameSpeed;
     private int numberOfPelletsAtStart;
 
     private Portal portalBlue;
     private Portal portalOrange;
 
-    public GameWorld(GameController gameController, char[][] levelMap, SoundManager sMger, View view) {
+    public GameWorld(GameController gameController, char[][] levelMap, SoundManager sMger, View view, int speed) {
 
         soundManager = sMger;
         this.view = view;
+        gameSpeed = speed;
 
         eventHandler = new EventHandler(gameController, this);
 
@@ -228,6 +229,15 @@ public class GameWorld {
 
             }
         }
+    }
+    
+    public void clearGameWorld(){
+        for(Cell cell: cells){
+            cell.clearCell();
+        }
+        eventHandler = null;
+        cellMap = null;
+        cells = null;
     }
 
     /**

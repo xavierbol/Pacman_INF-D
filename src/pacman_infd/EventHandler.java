@@ -24,6 +24,10 @@ public class EventHandler implements ElementEventListener {
         this.gameWorld = gameWorld;
     }
 
+    /**
+     * Checks if ghost is in the same cell as pacman
+     * @param g 
+     */
     private void checkCollisions(Ghost g) {
         Cell cell = g.getCell();
 
@@ -38,6 +42,10 @@ public class EventHandler implements ElementEventListener {
         }
     }
 
+    /**
+     * checks if pacman found any eatable object.
+     * @param p 
+     */
     private void checkCollisions(Pacman p) {
 
         Cell cell = p.getCell();
@@ -62,6 +70,10 @@ public class EventHandler implements ElementEventListener {
 
     }
 
+    /**
+     * This is called whenever a moving gameElement has moved.
+     * @param e 
+     */
     @Override
     public void movingElementActionPerformed(MovingGameElement e) {
         if (e instanceof Pacman) {
@@ -73,6 +85,10 @@ public class EventHandler implements ElementEventListener {
 
     }
 
+    /**
+     * this is called whenever an eatable object has been eaten.
+     * @param e 
+     */
     @Override
     public void eatableElementEaten(Eatable e) {
         gameEventListener.increasePoints(e.getValue());

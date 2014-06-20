@@ -58,7 +58,7 @@ public class PathFinderTest {
         };
         
         //create a new GameWorld.
-        gameWorld = new GameWorld(gameController, levelMap, gameController.getSoundManager(), new View());
+        gameWorld = new GameWorld(gameController, levelMap, gameController.getSoundManager(), new View(), 0);
         
         // Set up moving elements in the GameWorld.
         Ghost ghost1 = new Ghost(gameWorld.getCellMap()[1][0], null, 100, null, Color.yellow, null);
@@ -89,7 +89,7 @@ public class PathFinderTest {
             {'A', '-'}
         };
         //create a new GameWorld.   
-        gameWorld = new GameWorld(gameController, levelMap, gameController.getSoundManager(), new View());
+        gameWorld = new GameWorld(gameController, levelMap, gameController.getSoundManager(), new View(), 0);
         //find the next cell in the shortest path to the cell that holds Pacman from LevelMap[0][1].
         Cell cell = pathFinder.nextCellInPathToPacman(gameWorld.getCellMap()[0][1]);
         //assert that cell equals the cell that holds Pacman.
@@ -107,7 +107,7 @@ public class PathFinderTest {
         };
         
         //create a new GameWorld.        
-        gameWorld = new GameWorld(gameController, levelMap, gameController.getSoundManager(), new View());
+        gameWorld = new GameWorld(gameController, levelMap, gameController.getSoundManager(), new View(), 0);
         //assert that there's no valid path to Pacman.
         assert (pathFinder.findPathToPacman(gameWorld.getCellMap()[0][0]) == null);
 
@@ -124,7 +124,7 @@ public class PathFinderTest {
         };
         
         //create a new GameWorld.
-        gameWorld = new GameWorld(gameController, levelMap, gameController.getSoundManager(), new View());
+        gameWorld = new GameWorld(gameController, levelMap, gameController.getSoundManager(), new View(), 0);
         //Get the next cell in the path to Pacman.
         Cell cell = pathFinder.nextCellInPathToPacman((gameWorld.getCellMap()[0][0]));
         //assert that cell holds an instance of Pacman.

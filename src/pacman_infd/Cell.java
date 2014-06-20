@@ -76,6 +76,11 @@ public class Cell {
 
         return hasWall;
     }
+    
+    public void clearCell(){
+        movingElements = null;
+        staticElement = null;
+    }
 
     /**
      * Add a GameElement to this cell.
@@ -108,7 +113,8 @@ public class Cell {
     /**
      * Set the neighboring cells for this cell
      *
-     * @param neighbors List of neighbor cells.
+     * @param dir
+     * @param cell
      */
     public void setNeighbor(Direction dir, Cell cell) {
         neighbors.put(dir, cell);

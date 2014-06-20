@@ -52,7 +52,7 @@ public class View extends JFrame implements MouseListener {
 
     private void initComponents() {
         setSize(FRAME_WIDTH, FRAME_HEIGHT);
-        setTitle("Pacman v0.1");
+        setTitle("Pacman");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
@@ -142,8 +142,6 @@ public class View extends JFrame implements MouseListener {
         if (e.getY() > 40 && e.getY() < 890) {
             gameController.mouseClicked(e.getX(), e.getY(), e.getButton());
         }
-        System.out.println("mouse x: " + e.getX()
-                + "\nmouse y: " + e.getY());
         gamePanel.requestFocus();
     }
 
