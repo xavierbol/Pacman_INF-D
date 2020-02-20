@@ -34,3 +34,5 @@ The project is created with the Netbeans IDE and build with ANT
 - Ant to Maven
 	- https://github.com/SERG-Delft/jpacman-framework/blob/master/pom.xml
 	- https://www.javaworld.com/article/2072203/an-introduction-to-maven-2.html
+
+- (See if it's possible) the movements of Pacman it's not fluid.
