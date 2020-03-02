@@ -29,7 +29,7 @@ public class Portal extends GameElement {
     }
 
     public void remove() {
-        if (cell.getStaticElement() == this) {
+        if (cell.getStaticElement().equals(this)) {
             cell.setStaticElement(null);
         }
 
@@ -71,7 +71,7 @@ public class Portal extends GameElement {
         }
 
 
-        if (type == PortalType.BLUE) {
+        if (type.equals(PortalType.BLUE)) {
             for (int i = 0; i < n; i++) {
                 g.setColor(new Color(i, 4 * i + 50, 255));
                 g.drawOval(

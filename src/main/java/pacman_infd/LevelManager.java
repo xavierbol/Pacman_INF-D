@@ -25,9 +25,9 @@ public class LevelManager {
     }
 
     private void loadLevels() {
-        loadLevel("Resources/Levels/xlevel1.txt");
-        loadLevel("Resources/Levels/xlevel2.txt");
-        loadLevel("Resources/Levels/xlevel3.txt");
+        loadLevel("Levels/xlevel1.txt");
+        loadLevel("Levels/xlevel2.txt");
+        loadLevel("Levels/xlevel3.txt");
     }
 
     private void loadLevel(String path) {
@@ -39,7 +39,7 @@ public class LevelManager {
             }
 
         } catch (URISyntaxException | IOException e) {
-            System.out.println(e);
+            System.out.println("loadLevel, exception " + e + " catched");
         }
     }
 

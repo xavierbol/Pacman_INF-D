@@ -97,9 +97,7 @@ public class Cell {
      * @param e GameElement
      */
     public void removeMovingElement(MovingGameElement e) {
-        if (movingElements.contains(e)) {
-            movingElements.remove(e);
-        }
+        movingElements.remove(e);
     }
 
     /**

@@ -38,7 +38,7 @@ public class Pellet extends GameElement implements Eatable {
     public void eatMe() {
         elementEventListener.eatableElementEaten(this);
         
-        if(cell.getStaticElement() == this){
+        if(cell.getStaticElement().equals(this)){
             cell.setStaticElement(null);
         }  
         

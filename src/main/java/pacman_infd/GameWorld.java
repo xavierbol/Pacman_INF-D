@@ -23,6 +23,16 @@ public class GameWorld {
 
     private static final int CELL_SIZE = 26; //pixels
 
+    // Perhaps create an Enum or a config file with this
+    private static final char PELLET = '0';
+    private static final char SUPER_PELLET = '2';
+    private static final char BLINKY_GHOST = 'a';
+    private static final char PINKY_GHOST = 'b';
+    private static final char INKY_GHOST = 'c';
+    private static final char CLYDE_GHOST = 'd';
+    private static final char PACMAN = 'P';
+    private static final char NO_ELEMENT = '-';
+
     private int width;
     private int height;
 
@@ -65,9 +75,6 @@ public class GameWorld {
 
     /**
      * Create a grid of cells.
-     *
-     * @param width
-     * @param height
      */
     private void createCells() {
 
@@ -111,34 +118,36 @@ public class GameWorld {
     /**
      * Places walls on the cellMap according to wallMap
      *
-     * @param wMap array of integers representing the walls (1=wall, 0=no wall)
-     * @param cMap cell array of level.
+     * @param elementMap array of integers representing the walls (1=wall, 0=no wall)
+     * @param cellMap cell array of level.
      */
     private void placeElements(char[][] elementMap, Cell[][] cellMap) {
 
         for (int x = 0; x < height; x++) {
             for (int y = 0; y < width; y++) {
-                if (elementMap[x][y] == '0') {
-                    Pellet p = new Pellet(cellMap[x][y], eventHandler, soundManager);
-                } else if (elementMap[x][y] == '2') {
-                    SuperPellet s = new SuperPellet(cellMap[x][y], eventHandler, soundManager);
-                } else if (elementMap[x][y] == 'a') {
-                    Ghost blinky = new Ghost(cellMap[x][y], eventHandler, gameSpeed, new ChasePacmanStrategy(), Color.RED, soundManager);
-                } else if (elementMap[x][y] == 'b') {
-                    Ghost pinky = new Ghost(cellMap[x][y], eventHandler, gameSpeed, new ChasePacmanStrategy(), Color.PINK, soundManager);
-                } else if (elementMap[x][y] == 'c') {
-                    Ghost inky = new Ghost(cellMap[x][y], eventHandler, gameSpeed, new MoveRandomStrategy(), Color.CYAN, soundManager);
-                } else if (elementMap[x][y] == 'd') {
-                    Ghost clyde = new Ghost(cellMap[x][y], eventHandler, gameSpeed, new MoveRandomStrategy(), Color.ORANGE, soundManager);
-                } else if (elementMap[x][y] == '-') {
-                    // niks
-                } else if (elementMap[x][y] == 'P') {
-                    Pacman pacman = new Pacman(cellMap[x][y], eventHandler, gameSpeed, soundManager);
-                    view.addKeyListener(pacman);
-                } else {
-                    Wall w = new Wall(cellMap[x][y], elementMap[x][y]);
-                }
+                selectElement(elementMap, cellMap, x, y);
             }
+        }
+    }
+
+    private void selectElement(char[][] elementMap, Cell[][] cellMap, int x, int y) {
+        if (elementMap[x][y] == PELLET) {
+            Pellet p = new Pellet(cellMap[x][y], eventHandler, soundManager);
+        } else if (elementMap[x][y] == SUPER_PELLET) {
+            SuperPellet s = new SuperPellet(cellMap[x][y], eventHandler, soundManager);
+        } else if (elementMap[x][y] == BLINKY_GHOST) {
+            Ghost blinky = new Ghost(cellMap[x][y], eventHandler, gameSpeed, new ChasePacmanStrategy(), Color.RED, soundManager);
+        } else if (elementMap[x][y] == PINKY_GHOST) {
+            Ghost pinky = new Ghost(cellMap[x][y], eventHandler, gameSpeed, new ChasePacmanStrategy(), Color.PINK, soundManager);
+        } else if (elementMap[x][y] == INKY_GHOST) {
+            Ghost inky = new Ghost(cellMap[x][y], eventHandler, gameSpeed, new MoveRandomStrategy(), Color.CYAN, soundManager);
+        } else if (elementMap[x][y] == CLYDE_GHOST) {
+            Ghost clyde = new Ghost(cellMap[x][y], eventHandler, gameSpeed, new MoveRandomStrategy(), Color.ORANGE, soundManager);
+        } else if (elementMap[x][y] == PACMAN) {
+            Pacman pacman = new Pacman(cellMap[x][y], eventHandler, gameSpeed, soundManager);
+            view.addKeyListener(pacman);
+        } else if (elementMap[x][y] != NO_ELEMENT) {
+            Wall w = new Wall(cellMap[x][y], elementMap[x][y]);
         }
     }
 
@@ -158,7 +167,7 @@ public class GameWorld {
     /**
      * Draw the game world.
      *
-     * @param g
+     * @param g is the instance of Graphics class
      */
     public void draw(Graphics g) {
         g.clearRect(0, 0, width * CELL_SIZE, height * CELL_SIZE);

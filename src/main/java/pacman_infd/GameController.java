@@ -30,6 +30,7 @@ public class GameController implements GameEventListener {
     private int gameSpeed;
     
     private static final int REFRESH_RATE = 10;
+    private static final int DEFAULT_GAME_SPEED = 250;
 
     public GameController(View view, ScorePanel scorePanel) {
 
@@ -38,7 +39,7 @@ public class GameController implements GameEventListener {
         gameState = GameState.PREGAME;
         levelManager = new LevelManager();
         soundManager = new SoundManager();
-        gameSpeed = 250;
+        gameSpeed = DEFAULT_GAME_SPEED;
 
         ActionListener gameTimerAction = new java.awt.event.ActionListener() {
 
@@ -83,12 +84,11 @@ public class GameController implements GameEventListener {
      * Start a new game, or, if the game is already running, restart the game.
      */
     public void newGame() {
-        if(gameState == GameState.RUNNING){
+        if(gameState.equals(GameState.RUNNING)){
             pauseGame();
             gameWorld.clearGameWorld();
             gameWorld = null;
         }
-        
         
         gameWorld = new GameWorld(this, levelManager.getFirstLevel(), soundManager, view, gameSpeed);
         scorePanel.resetStats();
@@ -97,7 +97,6 @@ public class GameController implements GameEventListener {
         gameTimer.start();
         stopWatch.reset();
         stopWatch.start();
-
     }
 
     /**
@@ -125,7 +124,7 @@ public class GameController implements GameEventListener {
      * Pause game will stop all timers
      */
     public void pauseGame() {
-        if (gameState == GameState.RUNNING) {
+        if (gameState.equals(GameState.RUNNING)) {
             for (Cell cell : gameWorld.getCells()) {
                 for (MovingGameElement element: cell.getMovingElements()) {
                     element.stopTimer();
@@ -135,7 +134,7 @@ public class GameController implements GameEventListener {
             gameTimer.stop();
             stopWatch.stop();
             gameState = GameState.PAUSED;
-        } else if (gameState == GameState.PAUSED) {
+        } else if (gameState.equals(GameState.PAUSED)) {
 
             for (Cell cell : gameWorld.getCells()) {
                 for (MovingGameElement element: cell.getMovingElements()) {

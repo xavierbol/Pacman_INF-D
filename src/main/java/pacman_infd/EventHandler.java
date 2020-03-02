@@ -107,9 +107,7 @@ public class EventHandler implements ElementEventListener {
 
         ArrayList<MovingGameElement> movers = new ArrayList();
         for (Cell cell : gameWorld.getCells()) {
-            for (MovingGameElement mover : cell.getMovingElements()) {
-                movers.add(mover);
-            }
+            movers.addAll(cell.getMovingElements());
         }
         for (MovingGameElement mover : movers) {
             mover.reset();
