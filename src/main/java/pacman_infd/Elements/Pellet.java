@@ -40,9 +40,9 @@ public class Pellet extends GameElement implements Eatable {
         
         if(cell.getStaticElement().equals(this)){
             cell.setStaticElement(null);
-        }  
-        
-       soundManager.playSound("chomp");
+        }
+
+        soundManager.playSound("chomp");
     }
 
     @Override

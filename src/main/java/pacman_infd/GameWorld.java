@@ -43,8 +43,6 @@ public class GameWorld {
     private ArrayList<Cell> cells;
     private Cell[][] cellMap;
 
-    private char[][] elementMap;
-
     private int gameSpeed;
     private int numberOfPelletsAtStart;
 
@@ -61,13 +59,12 @@ public class GameWorld {
 
         if (levelMap != null) {
 
-            this.elementMap = levelMap;
-            width = elementMap[0].length;
-            height = elementMap.length;
+            width = levelMap[0].length;
+            height = levelMap.length;
             createCells();
             findNeighbors();
 
-            placeElements(elementMap, cellMap);
+            placeElements(levelMap, cellMap);
 
             numberOfPelletsAtStart = countPellets();
         }
@@ -125,29 +122,29 @@ public class GameWorld {
 
         for (int x = 0; x < height; x++) {
             for (int y = 0; y < width; y++) {
-                selectElement(elementMap, cellMap, x, y);
+                selectElement(elementMap[x][y], cellMap[x][y]);
             }
         }
     }
 
-    private void selectElement(char[][] elementMap, Cell[][] cellMap, int x, int y) {
-        if (elementMap[x][y] == PELLET) {
-            Pellet p = new Pellet(cellMap[x][y], eventHandler, soundManager);
-        } else if (elementMap[x][y] == SUPER_PELLET) {
-            SuperPellet s = new SuperPellet(cellMap[x][y], eventHandler, soundManager);
-        } else if (elementMap[x][y] == BLINKY_GHOST) {
-            Ghost blinky = new Ghost(cellMap[x][y], eventHandler, gameSpeed, new ChasePacmanStrategy(), Color.RED, soundManager);
-        } else if (elementMap[x][y] == PINKY_GHOST) {
-            Ghost pinky = new Ghost(cellMap[x][y], eventHandler, gameSpeed, new ChasePacmanStrategy(), Color.PINK, soundManager);
-        } else if (elementMap[x][y] == INKY_GHOST) {
-            Ghost inky = new Ghost(cellMap[x][y], eventHandler, gameSpeed, new MoveRandomStrategy(), Color.CYAN, soundManager);
-        } else if (elementMap[x][y] == CLYDE_GHOST) {
-            Ghost clyde = new Ghost(cellMap[x][y], eventHandler, gameSpeed, new MoveRandomStrategy(), Color.ORANGE, soundManager);
-        } else if (elementMap[x][y] == PACMAN) {
-            Pacman pacman = new Pacman(cellMap[x][y], eventHandler, gameSpeed, soundManager);
+    private void selectElement(char element, Cell cellMap) {
+        if (element == PELLET) {
+            Pellet p = new Pellet(cellMap, eventHandler, soundManager);
+        } else if (element == SUPER_PELLET) {
+            SuperPellet s = new SuperPellet(cellMap, eventHandler, soundManager);
+        } else if (element == BLINKY_GHOST) {
+            Ghost blinky = new Ghost(cellMap, eventHandler, gameSpeed, new ChasePacmanStrategy(), Color.RED, soundManager);
+        } else if (element == PINKY_GHOST) {
+            Ghost pinky = new Ghost(cellMap, eventHandler, gameSpeed, new ChasePacmanStrategy(), Color.PINK, soundManager);
+        } else if (element == INKY_GHOST) {
+            Ghost inky = new Ghost(cellMap, eventHandler, gameSpeed, new MoveRandomStrategy(), Color.CYAN, soundManager);
+        } else if (element == CLYDE_GHOST) {
+            Ghost clyde = new Ghost(cellMap, eventHandler, gameSpeed, new MoveRandomStrategy(), Color.ORANGE, soundManager);
+        } else if (element == PACMAN) {
+            Pacman pacman = new Pacman(cellMap, eventHandler, gameSpeed, soundManager);
             view.addKeyListener(pacman);
-        } else if (elementMap[x][y] != NO_ELEMENT) {
-            Wall w = new Wall(cellMap[x][y], elementMap[x][y]);
+        } else if (element != NO_ELEMENT) {
+            Wall w = new Wall(cellMap, element);
         }
     }
 

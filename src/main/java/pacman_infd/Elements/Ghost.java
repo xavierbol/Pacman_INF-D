@@ -30,11 +30,12 @@ public class Ghost extends MovingGameElement implements Eatable{
     private Color color;
     private GhostState state;
 
+    private Timer stateSoonChangeTimer; // To say when the state ghost change from VULNERABLE to NORMAL
     private Timer vulnerabilityTimer;
     private Timer deathTimer;
-    private final int VULTIMER_DELAY = 10000;
+    private final int VULNERABLE_TIMER_DELAY = 8000; // plus quarter than total (for the rendering blue and white when ghost will changed state (VULNERABLE -> NORMAL)
     private final int DEATH_TIMER_DELAY = 15000;
-    
+
     private static final int VALUE = 400;
 
 
@@ -62,7 +63,15 @@ public class Ghost extends MovingGameElement implements Eatable{
             }
         };
 
-        vulnerabilityTimer = new Timer(VULTIMER_DELAY, vulnerabilityTimerAction);
+        ActionListener changeStateAction = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                changeStateActionPerformed(actionEvent);
+            }
+        };
+
+        stateSoonChangeTimer = new Timer(VULNERABLE_TIMER_DELAY / 4, changeStateAction);
+        vulnerabilityTimer = new Timer(VULNERABLE_TIMER_DELAY, vulnerabilityTimerAction);
         deathTimer = new Timer(DEATH_TIMER_DELAY, deathTimerAction);
     }
 
@@ -73,7 +82,11 @@ public class Ghost extends MovingGameElement implements Eatable{
      */
     public void draw(Graphics g) {
         if (state.equals(GhostState.VULNERABLE)) {
-            g.setColor(Color.BLUE);
+            if (stateSoonChangeTimer.isRunning() && g.getColor().equals(Color.BLUE)) {
+                g.setColor(Color.WHITE);
+            } else {
+                g.setColor(Color.BLUE);
+            }
         } else if (state.equals(GhostState.DEAD)) {
             g.setColor(Color.BLACK);
         } else {
@@ -119,7 +132,6 @@ public class Ghost extends MovingGameElement implements Eatable{
                 6,
                 6
         );
-
     }
 
     /**
@@ -144,7 +156,8 @@ public class Ghost extends MovingGameElement implements Eatable{
 
         if (state.equals(GhostState.VULNERABLE)) {
             vulnerabilityTimer.restart();
-        } else if (state.equals(GhostState.NORMAL)){
+            stateSoonChangeTimer.stop();
+        } else if (state.equals(GhostState.NORMAL)) {
             this.strategy = new FleeStrategy();
             state = GhostState.VULNERABLE;
             setSpeed((int) (speed * 1.50));
@@ -193,12 +206,17 @@ public class Ghost extends MovingGameElement implements Eatable{
         elementEventListener.movingElementActionPerformed(this);
     }
 
-    private void vulnerabilityTimerActionPerformed(ActionEvent evt) {
-        if(state.equals(GhostState.VULNERABLE)){
+    public void changeStateActionPerformed(ActionEvent e) {
+        if (state.equals(GhostState.VULNERABLE)) {
             backToNormal();
-        }
-        if(state.equals(GhostState.DEAD)){
+        } else if (state.equals(GhostState.DEAD)) {
             deathTimer.restart();
+        }
+    }
+
+    private void vulnerabilityTimerActionPerformed(ActionEvent evt) {
+        if (state.equals(GhostState.VULNERABLE)) {
+            stateSoonChangeTimer.start();
         }
         vulnerabilityTimer.stop();
     }
@@ -210,11 +228,11 @@ public class Ghost extends MovingGameElement implements Eatable{
     
     @Override
     public void eatMe() {
-        if(state.equals(GhostState.VULNERABLE)){
+        if (state.equals(GhostState.VULNERABLE)) {
             soundManager.playSound("ghost");
             dead();
         }
-        else if(state.equals(GhostState.NORMAL)){
+        else if (state.equals(GhostState.NORMAL)) {
             soundManager.playSound("death");
             elementEventListener.killPacman();
         }

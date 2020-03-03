@@ -51,6 +51,10 @@ public class Pacman extends MovingGameElement implements KeyListener {
     /**
      * Draw Pacman.
      *
+     * Problem that pacman keeps the same orientation,
+     * to change this we need to use Graphics2D and not Graphics
+     * See <a href="https://docs.oracle.com/javase/7/docs/api/java/awt/Graphics2D.html#rotate%28double,%20double,%20double%29">For more details</a>
+     *
      * @param g
      */
     @Override
@@ -89,7 +93,6 @@ public class Pacman extends MovingGameElement implements KeyListener {
                 -25,
                 45
         );
-
     }
 
     @Override

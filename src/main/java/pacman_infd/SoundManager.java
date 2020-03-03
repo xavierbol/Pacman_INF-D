@@ -35,7 +35,7 @@ public class SoundManager {
             soundFiles.put("death", new File(ClassLoader.getSystemResource("SFX/death.wav").toURI()));
             soundFiles.put("win", new File(ClassLoader.getSystemResource("SFX/intermission.wav").toURI()));
             soundFiles.put("portal", new File(ClassLoader.getSystemResource("SFX/portalOpen3 2.wav").toURI()));
-
+            soundFiles.put("superPellet", new File(ClassLoader.getSystemResource("SFX/chomp.wav").toURI()));
         } catch (Exception e) {
             System.out.println("loadSoundFiles, exception " + e + " catched !");
         }

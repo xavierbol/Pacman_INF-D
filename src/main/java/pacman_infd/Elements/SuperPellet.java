@@ -44,6 +44,7 @@ public class SuperPellet extends GameElement implements Eatable {
             cell.setStaticElement(null);
         }  
         elementEventListener.makeGhostsVulnerable();
+        soundManager.playSound("superPellet");
     }
 
     @Override
