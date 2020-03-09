@@ -1,3 +1,5 @@
+[![BCH compliance](https://bettercodehub.com/edge/badge/xavierbol/Pacman_INF-D?branch=master)](https://bettercodehub.com/)
+
 Pacman_INF-D
 ============
 
