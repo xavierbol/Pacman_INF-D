@@ -154,7 +154,7 @@ public class GameController implements GameEventListener {
      */
     public void gameTimerActionPerformed(ActionEvent e) {
         drawGame();
-        scorePanel.setTime(stopWatch.getElepsedTimeMinutesSeconds());
+        scorePanel.setTime(stopWatch.getElapsedTimeMinutesSeconds());
         scorePanel.repaint();
     }
     

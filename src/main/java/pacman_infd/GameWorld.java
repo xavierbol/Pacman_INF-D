@@ -128,23 +128,34 @@ public class GameWorld {
     }
 
     private void selectElement(char element, Cell cellMap) {
-        if (element == PELLET) {
-            Pellet p = new Pellet(cellMap, eventHandler, soundManager);
-        } else if (element == SUPER_PELLET) {
-            SuperPellet s = new SuperPellet(cellMap, eventHandler, soundManager);
-        } else if (element == BLINKY_GHOST) {
-            Ghost blinky = new Ghost(cellMap, eventHandler, gameSpeed, new ChasePacmanStrategy(), Color.RED, soundManager);
-        } else if (element == PINKY_GHOST) {
-            Ghost pinky = new Ghost(cellMap, eventHandler, gameSpeed, new ChasePacmanStrategy(), Color.PINK, soundManager);
-        } else if (element == INKY_GHOST) {
-            Ghost inky = new Ghost(cellMap, eventHandler, gameSpeed, new MoveRandomStrategy(), Color.CYAN, soundManager);
-        } else if (element == CLYDE_GHOST) {
-            Ghost clyde = new Ghost(cellMap, eventHandler, gameSpeed, new MoveRandomStrategy(), Color.ORANGE, soundManager);
-        } else if (element == PACMAN) {
-            Pacman pacman = new Pacman(cellMap, eventHandler, gameSpeed, soundManager);
-            view.addKeyListener(pacman);
-        } else if (element != NO_ELEMENT) {
-            Wall w = new Wall(cellMap, element);
+        switch (element) {
+            case PELLET:
+                new Pellet(cellMap, eventHandler, soundManager);
+                break;
+            case SUPER_PELLET:
+                new SuperPellet(cellMap, eventHandler, soundManager);
+                break;
+            case BLINKY_GHOST:
+                new Ghost(cellMap, eventHandler, gameSpeed, new ChasePacmanStrategy(), Color.RED, soundManager);
+                break;
+            case PINKY_GHOST:
+                new Ghost(cellMap, eventHandler, gameSpeed, new ChasePacmanStrategy(), Color.PINK, soundManager);
+                break;
+            case INKY_GHOST:
+                new Ghost(cellMap, eventHandler, gameSpeed, new MoveRandomStrategy(), Color.CYAN, soundManager);
+                break;
+            case CLYDE_GHOST:
+                new Ghost(cellMap, eventHandler, gameSpeed, new MoveRandomStrategy(), Color.ORANGE, soundManager);
+                break;
+            case PACMAN:
+                Pacman pacman = new Pacman(cellMap, eventHandler, gameSpeed, soundManager);
+                view.addKeyListener(pacman);
+                break;
+            case NO_ELEMENT:
+                break;
+            default:
+                new Wall(cellMap, element);
+                break;
         }
     }
 

@@ -16,7 +16,16 @@ public class StopWatch {
     public StopWatch(){
         reset();
     }
-    
+
+    public StopWatch(long elapsedTime) {
+        isRunning = false;
+        this.elapsedTime = elapsedTime;
+    }
+
+    public boolean isRunning() {
+        return isRunning;
+    }
+
     public void reset(){
         elapsedTime = 0;
         isRunning = false;
@@ -48,7 +57,7 @@ public class StopWatch {
         }
     }
     
-    public String getElepsedTimeMinutesSeconds(){
+    public String getElapsedTimeMinutesSeconds(){
         long time = getElapsedTime();
         long seconds = (time / 1000) % 60;
         long minutes = (time / (1000 * 60)) % 60;
