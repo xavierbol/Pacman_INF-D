@@ -75,10 +75,10 @@ public class PathFinderTest {
         //assert that the size of the list equals 2.
         assert(path.size() == 2);
         //assert that the path is correct.
-        assert(path.get(0) == gameWorld.getCellMap()[0][0].getNeighbor(Direction.DOWN));
+        assert(path.get(0).equals(gameWorld.getCellMap()[0][0].getNeighbor(Direction.DOWN)));
         Cell pacCell = (Cell)path.get(1);
         //assert that the cell that holds Pacman, holds it as the second element in the list.
-        assert(pacCell.getMovingElements().get(1) == pacman);
+        assert(pacCell.getMovingElements().get(1).equals(pacman));
         
     }
 
@@ -93,7 +93,7 @@ public class PathFinderTest {
         //find the next cell in the shortest path to the cell that holds Pacman from LevelMap[0][1].
         Cell cell = pathFinder.nextCellInPathToPacman(gameWorld.getCellMap()[0][1]);
         //assert that cell equals the cell that holds Pacman.
-        assert (cell == gameWorld.getCellMap()[0][1]);
+        assert (cell.equals(gameWorld.getCellMap()[0][1]));
         //assert that cell holds an instance of Pacman as the first element in the cell.
         assert (cell.getMovingElements().get(0) instanceof Pacman);
     }
