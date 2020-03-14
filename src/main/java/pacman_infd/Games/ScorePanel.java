@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package pacman_infd;
+package pacman_infd.Games;
 
 import java.awt.Color;
 import java.awt.Font;

@@ -10,7 +10,6 @@ package pacman_infd.Enums;
  * @author Marinus
  */
 public enum Direction {
-
     UP, DOWN, LEFT, RIGHT;
 
     /**

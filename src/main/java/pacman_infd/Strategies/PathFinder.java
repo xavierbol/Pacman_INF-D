@@ -3,13 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package pacman_infd;
+package pacman_infd.Strategies;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.LinkedList;
 import java.util.Queue;
+
+import pacman_infd.Elements.GameElement;
 import pacman_infd.Elements.Pacman;
+import pacman_infd.Games.Cell;
 
 /**
  *

@@ -4,9 +4,11 @@
  * and open the template in the editor.
  */
 
-package pacman_infd;
+package pacman_infd.Listeners;
 
 import java.util.EventListener;
+
+import pacman_infd.Elements.Eatable;
 import pacman_infd.Elements.MovingGameElement;
 
 /**

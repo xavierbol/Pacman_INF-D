@@ -10,10 +10,10 @@ import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import pacman_infd.Cell;
+import pacman_infd.Games.Cell;
 import pacman_infd.Enums.Direction;
-import pacman_infd.ElementEventListener;
-import pacman_infd.SoundManager;
+import pacman_infd.Games.SoundManager;
+import pacman_infd.Listeners.ElementEventListener;
 
 /**
  *

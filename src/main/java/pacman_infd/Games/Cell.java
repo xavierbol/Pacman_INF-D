@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package pacman_infd;
+package pacman_infd.Games;
 
+import pacman_infd.Elements.GameElement;
 import pacman_infd.Enums.Direction;
 import java.awt.Graphics;
 import java.util.ArrayList;

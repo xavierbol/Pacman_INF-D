@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package pacman_infd;
+package pacman_infd.Games;
 
 import pacman_infd.Enums.Direction;
 import java.awt.Color;
@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import pacman_infd.Elements.*;
 import pacman_infd.Enums.PortalType;
+import pacman_infd.Listeners.EventHandler;
 import pacman_infd.Strategies.ChasePacmanStrategy;
 import pacman_infd.Strategies.MoveRandomStrategy;
 

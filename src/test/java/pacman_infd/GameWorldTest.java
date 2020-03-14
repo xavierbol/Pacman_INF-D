@@ -13,6 +13,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import pacman_infd.Elements.Portal;
 import pacman_infd.Enums.PortalType;
+import pacman_infd.Games.GameController;
+import pacman_infd.Games.GameWorld;
 
 /**
  *

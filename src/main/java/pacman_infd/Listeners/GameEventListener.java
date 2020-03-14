@@ -4,14 +4,16 @@
  * and open the template in the editor.
  */
 
-package pacman_infd;
+package pacman_infd.Listeners;
 
 /**
  *
  * @author Marinus
  */
-public interface Eatable {
+public interface GameEventListener {
     
-    public void eatMe();
-    public int getValue();
+    public void decreaseLife();
+    public void increasePoints(int amount);
+    public void refocus();
+    
 }

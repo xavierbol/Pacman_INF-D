@@ -3,7 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package pacman_infd;
+package pacman_infd.Games;
+
+import pacman_infd.Utils.FileLoader;
 
 import java.io.IOException;
 import java.net.URI;

@@ -1,6 +1,6 @@
 
 
-package pacman_infd;
+package pacman_infd.Utils;
 
 import java.io.BufferedReader;
 import java.io.File;

@@ -3,12 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package pacman_infd;
+package pacman_infd.Listeners;
 
 import java.util.ArrayList;
+
+import pacman_infd.Games.Cell;
+import pacman_infd.Elements.Eatable;
 import pacman_infd.Elements.Ghost;
 import pacman_infd.Elements.MovingGameElement;
 import pacman_infd.Elements.Pacman;
+import pacman_infd.Games.GameWorld;
 
 /**
  *

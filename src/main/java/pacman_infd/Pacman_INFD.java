@@ -6,6 +6,8 @@
 
 package pacman_infd;
 
+import pacman_infd.Games.View;
+
 /**
  * @author Marinus
  */
