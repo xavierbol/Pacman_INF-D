@@ -18,7 +18,6 @@ import pacman_infd.Games.SoundManager;
  * @author Marinus
  */
 public class Cherry extends GameElement implements Eatable{
-
     private static final int VALUE = 100;
     
     public Cherry(Cell cell, ElementEventListener evtl, SoundManager sMger) {
@@ -51,5 +50,4 @@ public class Cherry extends GameElement implements Eatable{
     public int getValue() {
         return VALUE;
     }
-    
 }

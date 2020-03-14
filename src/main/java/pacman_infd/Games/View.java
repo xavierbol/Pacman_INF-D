@@ -25,7 +25,6 @@ import javax.swing.JPanel;
  * @author Marinus
  */
 public class View extends JFrame implements MouseListener {
-
     private static final int FRAME_WIDTH = 740;
     private static final int FRAME_HEIGHT = 918;
     private static String TITLE = "Pacman";
@@ -45,7 +44,6 @@ public class View extends JFrame implements MouseListener {
 
         gameController = new GameController(this, scorePanel);
         image = new BufferedImage(FRAME_WIDTH, 850, BufferedImage.TYPE_INT_ARGB);
-
     }
 
     private void initComponents() {
@@ -68,7 +66,6 @@ public class View extends JFrame implements MouseListener {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 startButtontActionPerformed(evt);
             }
-
         });
 
         pauseButton = new JButton("Pause");
@@ -76,7 +73,6 @@ public class View extends JFrame implements MouseListener {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pauseButtontActionPerformed(evt);
             }
-
         });
 
         JPanel controlPanel = new JPanel();
@@ -95,19 +91,16 @@ public class View extends JFrame implements MouseListener {
     }
 
     public Graphics getGameWorldGraphics() {
-
         return image.getGraphics();
-
     }
 
     public void drawGameWorld() {
-
         gamePanel.getGraphics().drawImage(image, 0, 0, null);
-
     }
 
     private void startButtontActionPerformed(ActionEvent evt) {
         gameController.newGame();
+
         if (gameController.getGameState().equals(GameState.RUNNING)) {
             startButton.setText("Restart");
         } else {
@@ -117,6 +110,7 @@ public class View extends JFrame implements MouseListener {
 
     private void pauseButtontActionPerformed(ActionEvent evt) {
         gameController.pauseGame();
+
         if (gameController.getGameState().equals(GameState.PAUSED)) {
             pauseButton.setText("Resume");
         } else {
@@ -126,14 +120,10 @@ public class View extends JFrame implements MouseListener {
     }
 
     @Override
-    public void mouseClicked(MouseEvent e) {
- 
-    }
+    public void mouseClicked(MouseEvent e) { }
 
     @Override
-    public void mousePressed(MouseEvent e) {
-        //
-    }
+    public void mousePressed(MouseEvent e) { }
 
     @Override
     public void mouseReleased(MouseEvent e) {
@@ -144,13 +134,8 @@ public class View extends JFrame implements MouseListener {
     }
 
     @Override
-    public void mouseEntered(MouseEvent e) {
-        //
-    }
+    public void mouseEntered(MouseEvent e) { }
 
     @Override
-    public void mouseExited(MouseEvent e) {
-        //
-    }
-
+    public void mouseExited(MouseEvent e) { }
 }

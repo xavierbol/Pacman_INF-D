@@ -5,6 +5,8 @@
  */
 package pacman_infd.Enums;
 
+import java.awt.event.KeyEvent;
+
 /**
  *
  * @author Marinus
@@ -12,53 +14,65 @@ package pacman_infd.Enums;
 public enum Direction {
     UP, DOWN, LEFT, RIGHT;
 
+    private Direction opposite;
+    private Direction clockwise;
+    private Direction oppositeClockwise;
+
+    static {
+        UP.opposite = DOWN;
+        DOWN.opposite = UP;
+        LEFT.opposite = RIGHT;
+        RIGHT.opposite = LEFT;
+
+        UP.clockwise = RIGHT;
+        DOWN.clockwise = LEFT;
+        LEFT.clockwise = UP;
+        RIGHT.clockwise = DOWN;
+
+        UP.oppositeClockwise = LEFT;
+        DOWN.oppositeClockwise = RIGHT;
+        LEFT.oppositeClockwise = DOWN;
+        RIGHT.oppositeClockwise = UP;
+    }
+
     /**
-     *
-     * @return
+     * Get the opposite direction
+     * @return the opposite direction
      */
     public Direction getOpposite() {
-        Direction d = null;
-        switch (this) {
-            case UP:
-                d = DOWN; break;
-            case DOWN:
-                d = UP; break;
-            case LEFT:
-                d = RIGHT; break;
-            case RIGHT:
-                d = UP; break;
+        return opposite;
+    }
 
-        }
-        return d;
+    /**
+     * Get the clockwise direction
+     * @return the clockwise direction
+     */
+    public Direction getClockwise() {
+        return clockwise;
     }
-    
-    public Direction nextDirectionClockwise() {
-        Direction d = null;
-        switch (this) {
-            case UP:
-                d = RIGHT; break;
-            case DOWN:
-                d = LEFT; break;
-            case LEFT:
-                d = UP; break;
-            case RIGHT:
-                d = DOWN; break;
-        }
-        return d;
+
+    /**
+     * Get the opposite clockwise direction
+     * @return the opposite clockwise direction
+     */
+    public Direction getOppositeClockwise() {
+        return oppositeClockwise;
     }
-    
-    public Direction nextDirectionCounterClockwise() {
-        Direction d = null;
-        switch (this) {
-            case UP:
-                d = LEFT; break;
-            case DOWN:
-                d = RIGHT; break;
-            case LEFT:
-                d = DOWN; break;
-            case RIGHT:
+
+    public Direction getDirection(KeyEvent keyEvent) {
+        Direction d = this;
+
+        switch (keyEvent.getKeyCode()) {
+            case KeyEvent.VK_UP:
                 d = UP; break;
+            case KeyEvent.VK_DOWN:
+                d = DOWN; break;
+            case KeyEvent.VK_LEFT:
+                d = LEFT; break;
+            case KeyEvent.VK_RIGHT:
+                d = RIGHT; break;
         }
+
         return d;
     }
 }

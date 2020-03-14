@@ -10,6 +10,6 @@ package pacman_infd.Enums;
  *
  * @author ivanweller
  */
-    public enum GhostState{
-        NORMAL, DEAD, VULNERABLE
-    }
+public enum GhostState{
+    NORMAL, DEAD, VULNERABLE
+}

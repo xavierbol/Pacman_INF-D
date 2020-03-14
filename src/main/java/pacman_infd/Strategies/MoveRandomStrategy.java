@@ -15,7 +15,6 @@ import pacman_infd.Games.Cell;
  * @author Marinus
  */
 public class MoveRandomStrategy implements Strategy{
-
     private Cell previousCell;
     
     /**
@@ -55,6 +54,4 @@ public class MoveRandomStrategy implements Strategy{
 
         return nextCell;
     }
-    
-    
 }

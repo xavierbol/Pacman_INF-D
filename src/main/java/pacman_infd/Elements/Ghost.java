@@ -23,7 +23,6 @@ import pacman_infd.Strategies.Strategy;
  * @author Marinus
  */
 public class Ghost extends MovingGameElement implements Eatable{
-
     private Strategy strategy;
     private Strategy initialStrategy;
     private Color color;
@@ -36,8 +35,6 @@ public class Ghost extends MovingGameElement implements Eatable{
     private static final int DEATH_TIMER_DELAY = 15000;
 
     private static final int VALUE = 400;
-
-
 
     public Ghost(Cell cell, ElementEventListener gameEventListener, int speed, Strategy strategy, Color color, SoundManager sMger) {
         super(cell, gameEventListener, speed, sMger);
@@ -152,7 +149,6 @@ public class Ghost extends MovingGameElement implements Eatable{
      * Ghost by 50% This is called when Pacman eats a superPellet.
      */
     public void flee() {
-
         if (state.equals(GhostState.VULNERABLE)) {
             vulnerabilityTimer.restart();
             stateSoonChangeTimer.stop();
@@ -241,5 +237,4 @@ public class Ghost extends MovingGameElement implements Eatable{
     public int getValue() {
         return VALUE;
     }
-
 }

@@ -15,16 +15,15 @@ import pacman_infd.Games.Cell;
  * @author Marinus
  */
 public class FleeStrategy implements Strategy {
-
     private PathFinder pathFinder;
     private Cell previousCell;
 
     public FleeStrategy(){
         pathFinder = new PathFinder();
     }
+
     @Override
     public Cell giveNextCell(Cell currentCell) {
-        
         ArrayList<Cell> possibleCell = new ArrayList<>();
         Cell towardsPacman = pathFinder.nextCellInPathToPacman(currentCell);
        
@@ -38,7 +37,5 @@ public class FleeStrategy implements Strategy {
         
         previousCell = currentCell;
         return possibleCell.get(0);
-        
     }
-    
 }

@@ -35,8 +35,7 @@ public class ScorePanel extends JPanel {
     /**
      * initialize the score and lives to what they should be at the start of the game.
      */
-    public void resetStats()
-    {
+    public void resetStats() {
         score = DEFAULT_SCORE;
         lives = NUMBER_LIVES;
         time = DEFAULT_TIME;
@@ -105,6 +104,5 @@ public class ScorePanel extends JPanel {
         g.drawString("SCORE: " + score, 50, 25);
         g.drawString("TIME: " + time, 150, 25);
         g.drawString("LIVES: " + lives, 520, 25);
-
     }
 }

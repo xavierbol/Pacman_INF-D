@@ -21,7 +21,6 @@ import pacman_infd.Strategies.MoveRandomStrategy;
  * @author Marinus
  */
 public class GameWorld {
-
     private static final int CELL_SIZE = 26; //pixels
 
     // Perhaps create an Enum or a config file with this
@@ -51,7 +50,6 @@ public class GameWorld {
     private Portal portalOrange;
 
     public GameWorld(GameController gameController, char[][] levelMap, SoundManager sMger, View view, int speed) {
-
         soundManager = sMger;
         this.view = view;
         gameSpeed = speed;
@@ -75,7 +73,6 @@ public class GameWorld {
      * Create a grid of cells.
      */
     private void createCells() {
-
         cells = new ArrayList<>();
         cellMap = new Cell[height][width];
 
@@ -93,7 +90,6 @@ public class GameWorld {
      * each cell.
      */
     private void findNeighbors() {
-
         for (int x = 0; x < height; x++) {
             for (int y = 0; y < width; y++) {
                 if (x - 1 >= 0) {
@@ -120,7 +116,6 @@ public class GameWorld {
      * @param cellMap cell array of level.
      */
     private void placeElements(char[][] elementMap, Cell[][] cellMap) {
-
         for (int x = 0; x < height; x++) {
             for (int y = 0; y < width; y++) {
                 selectElement(elementMap[x][y], cellMap[x][y]);
@@ -249,8 +244,8 @@ public class GameWorld {
         }
     }
     
-    public void clearGameWorld(){
-        for(Cell cell: cells){
+    public void clearGameWorld() {
+        for(Cell cell: cells) {
             cell.clearCell();
         }
         eventHandler = null;
@@ -316,5 +311,4 @@ public class GameWorld {
     public ArrayList<Cell> getCells() {
         return cells;
     }
-
 }

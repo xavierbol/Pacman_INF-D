@@ -13,7 +13,6 @@ import pacman_infd.Games.Cell;
  * @author Marinus
  */
 public class ChasePacmanStrategy implements Strategy {
-
     private PathFinder pathFinder;
     
     public ChasePacmanStrategy(){
@@ -22,9 +21,6 @@ public class ChasePacmanStrategy implements Strategy {
     
     @Override
     public Cell giveNextCell(Cell currentCell) {
-
         return pathFinder.nextCellInPathToPacman(currentCell);
-
     }
-    
 }

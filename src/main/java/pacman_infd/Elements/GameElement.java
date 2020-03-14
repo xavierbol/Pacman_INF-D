@@ -19,14 +19,11 @@ import java.awt.Point;
  * @author ivanweller
  */
 public abstract class GameElement {
-    
     protected Cell cell;
     protected ElementEventListener elementEventListener;
     protected SoundManager soundManager;
     
-    public GameElement(){
-        
-    }
+    public GameElement(){ }
     
     public GameElement(Cell cell, ElementEventListener elementEventListener, SoundManager soundManager)
     {
@@ -63,5 +60,4 @@ public abstract class GameElement {
     {
         this.cell = cell;
     }
- 
 }

@@ -16,7 +16,6 @@ import pacman_infd.Listeners.ElementEventListener;
  * @author ivanweller
  */
 public class Pellet extends GameElement implements Eatable {
-
     private static final int VALUE = 5;
     
     public Pellet(Cell cell, ElementEventListener evtl, SoundManager sMger) {
@@ -47,5 +46,4 @@ public class Pellet extends GameElement implements Eatable {
     public int getValue() {
         return VALUE;
     }
-
 }

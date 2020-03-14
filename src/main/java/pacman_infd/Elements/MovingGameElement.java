@@ -18,7 +18,6 @@ import pacman_infd.Listeners.ElementEventListener;
  * @author Marinus
  */
 public abstract class MovingGameElement extends GameElement{
-
     protected Cell startCell;
     private Timer timer;
     protected int speed;
@@ -32,12 +31,10 @@ public abstract class MovingGameElement extends GameElement{
         soundManager = sMger;
 
         ActionListener moveTimerActionListener = new ActionListener() {
-
             @Override
             public void actionPerformed(ActionEvent evt) {
                 moveTimerActionPerformed(evt);
             }
-
         };
         
         timer = new Timer(speed, moveTimerActionListener);

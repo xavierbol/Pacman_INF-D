@@ -11,14 +11,9 @@ import pacman_infd.Games.View;
 /**
  * @author Marinus
  */
-public class Pacman_INFD 
-{
-    
-    public static void main(String[] args) 
-    {
+public class Pacman_INFD {
+    public static void main(String[] args) {
         View view = new View();
         view.setVisible(true);
-
     }
-
 }

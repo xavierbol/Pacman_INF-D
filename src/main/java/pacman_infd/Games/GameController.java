@@ -19,7 +19,6 @@ import pacman_infd.Listeners.GameEventListener;
  * @author Marinus
  */
 public class GameController implements GameEventListener {
-
     private GameWorld gameWorld;
     private View view;
     private ScorePanel scorePanel;
@@ -43,7 +42,6 @@ public class GameController implements GameEventListener {
         gameSpeed = DEFAULT_GAME_SPEED;
 
         ActionListener gameTimerAction = new java.awt.event.ActionListener() {
-
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 gameTimerActionPerformed(evt);

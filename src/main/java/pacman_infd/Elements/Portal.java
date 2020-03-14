@@ -17,37 +17,31 @@ import pacman_infd.Games.SoundManager;
  * @author Marinus
  */
 public class Portal extends GameElement {
-
     private Portal linkedPortal;
     private PortalType type;
 
     public Portal(Cell cell, PortalType type, SoundManager sMger) {
         super(cell, null, sMger);
         this.type = type;
-
     }
 
     public void remove() {
         if (cell.getStaticElement().equals(this)) {
             cell.setStaticElement(null);
         }
-
     }
 
     public void warpNeighbors() {
-        if (cell.getNeighbor(Direction.UP) != null && !cell.getNeighbor(Direction.UP).hasWall()) {
-            cell.getNeighbor(Direction.UP).setNeighbor(Direction.DOWN, linkedPortal.getCell());
-        }
-        if (cell.getNeighbor(Direction.DOWN) != null && !cell.getNeighbor(Direction.DOWN).hasWall()) {
-            cell.getNeighbor(Direction.DOWN).setNeighbor(Direction.UP, linkedPortal.getCell());
-        }
-        if (cell.getNeighbor(Direction.LEFT) != null && !cell.getNeighbor(Direction.LEFT).hasWall()) {
-            cell.getNeighbor(Direction.LEFT).setNeighbor(Direction.RIGHT, linkedPortal.getCell());
-        }
-        if (cell.getNeighbor(Direction.RIGHT) != null && !cell.getNeighbor(Direction.RIGHT).hasWall()) {
-            cell.getNeighbor(Direction.RIGHT).setNeighbor(Direction.LEFT, linkedPortal.getCell());
-        }
+        setNeighborCell(Direction.UP);
+        setNeighborCell(Direction.DOWN);
+        setNeighborCell(Direction.LEFT);
+        setNeighborCell(Direction.RIGHT);
+    }
 
+    private void setNeighborCell(Direction d) {
+        if (cell.getNeighbor(d) != null && !cell.getNeighbor(d).hasWall()) {
+            cell.getNeighbor(d).setNeighbor(d.getOpposite(), linkedPortal.getCell());
+        }
     }
 
     public void setLinkedPortal(Portal portal) {
@@ -91,7 +85,5 @@ public class Portal extends GameElement {
                 );
             }
         }
-
     }
-
 }

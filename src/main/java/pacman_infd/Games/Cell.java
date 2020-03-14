@@ -19,7 +19,6 @@ import pacman_infd.Elements.Wall;
  * @author Marinus
  */
 public class Cell {
-
     private int xPos;
     private int yPos;
     private int size;
@@ -69,13 +68,7 @@ public class Cell {
      * @return
      */
     public boolean hasWall() {
-        boolean hasWall = false;
-
-        if (staticElement instanceof Wall) {
-            hasWall = true;
-        }
-
-        return hasWall;
+        return staticElement instanceof Wall;
     }
     
     public void clearCell(){
@@ -198,5 +191,4 @@ public class Cell {
     public String toString() {
         return "xPos: " + xPos + "\nYPos: " + yPos + "\nNumber of Neighbors: " + neighbors.size();
     }
-
 }

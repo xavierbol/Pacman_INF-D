@@ -20,12 +20,10 @@ import pacman_infd.Listeners.ElementEventListener;
  * @author ivanweller
  */
 public class Pacman extends MovingGameElement implements KeyListener {
-
     private Direction currentDirection;
 
     public Pacman(Cell cell, ElementEventListener gameEventListener, int speed, SoundManager sMger) {
         super(cell, gameEventListener, speed, sMger);
-
     }
 
     /**
@@ -59,7 +57,6 @@ public class Pacman extends MovingGameElement implements KeyListener {
      */
     @Override
     public void draw(Graphics g) {
-
         //body
         g.setColor(Color.YELLOW);
         g.fillOval(
@@ -97,35 +94,16 @@ public class Pacman extends MovingGameElement implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        Direction newDirection = currentDirection;
+        Direction newDirection = currentDirection.getDirection(e);
 
-        switch (e.getKeyCode()) {
-            case KeyEvent.VK_UP:
-                newDirection = Direction.UP;
-                break;
-            case KeyEvent.VK_DOWN:
-                newDirection = Direction.DOWN;
-                break;
-            case KeyEvent.VK_LEFT:
-                newDirection = Direction.LEFT;
-                break;
-            case KeyEvent.VK_RIGHT:
-                newDirection = Direction.RIGHT;
-                break;
-        }
         if (cell.getNeighbor(newDirection) != null && !cell.getNeighbor(newDirection).hasWall()) {
             currentDirection = newDirection;
         }
     }
 
     @Override
-    public void keyReleased(KeyEvent e) {
-
-    }
+    public void keyReleased(KeyEvent e) { }
 
     @Override
-    public void keyTyped(KeyEvent e) {
-
-    }
-
+    public void keyTyped(KeyEvent e) { }
 }

@@ -19,7 +19,6 @@ import pacman_infd.Games.GameWorld;
  * @author Marinus
  */
 public class EventHandler implements ElementEventListener {
-
     private GameEventListener gameEventListener;
     private GameWorld gameWorld;
 
@@ -34,13 +33,14 @@ public class EventHandler implements ElementEventListener {
      */
     private void checkCollisions(Ghost g) {
         Cell cell = g.getCell();
-
         boolean pacmanFound = false;
+
         for (MovingGameElement element : cell.getMovingElements()) {
             if (element instanceof Pacman) {
                 pacmanFound = true;
             }
         }
+
         if (pacmanFound) {
             g.eatMe();
         }
@@ -51,7 +51,6 @@ public class EventHandler implements ElementEventListener {
      * @param p 
      */
     private void checkCollisions(Pacman p) {
-
         Cell cell = p.getCell();
 
         ArrayList<Eatable> eatables = new ArrayList();
@@ -71,7 +70,6 @@ public class EventHandler implements ElementEventListener {
         for (Eatable eatable : eatables) {
             eatable.eatMe();
         }
-
     }
 
     /**
@@ -86,7 +84,6 @@ public class EventHandler implements ElementEventListener {
         } else if (e instanceof Ghost) {
             checkCollisions((Ghost) e);
         }
-
     }
 
     /**
@@ -116,7 +113,6 @@ public class EventHandler implements ElementEventListener {
         for (MovingGameElement mover : movers) {
             mover.reset();
         }
-
     }
 
     @Override
@@ -127,9 +123,7 @@ public class EventHandler implements ElementEventListener {
                     Ghost ghost = (Ghost) element;
                     ghost.flee();
                 }
-
             }
         }
     }
-
 }

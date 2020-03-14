@@ -14,7 +14,6 @@ import pacman_infd.Games.Cell;
  * @author ivanweller
  */
 public class Wall extends GameElement {
-
     private char type;
 
     public Wall(Cell cell, char type) {
@@ -25,50 +24,32 @@ public class Wall extends GameElement {
 
     @Override
     public void draw(Graphics g) {
-
-        if (type == 'Q') {
-            drawLeftUpCorner(g);
+        switch (type) {
+            case 'Q':
+                drawLeftUpCorner(g); break;
+            case 'W':
+                drawRightUpCorner(g); break;
+            case 'E':
+                drawRightDownCorner(g); break;
+            case 'R':
+                drawLeftDownCorner(g); break;
+            case 'A':
+                drawVerticalLine(g); break;
+            case 'S':
+                drawHorizontalLine(g); break;
+            case 'G':
+                drawLeftDownCorner(g);
+                drawLeftUpCorner(g); break;
+            case 'H':
+                drawRightDownCorner(g);
+                drawRightUpCorner(g); break;
+            case 'I':
+                drawRightUpCorner(g);
+                drawLeftUpCorner(g); break;
+            case 'J':
+                drawRightDownCorner(g);
+                drawLeftDownCorner(g); break;
         }
-
-        if (type == 'W') {
-            drawRightUpCorner(g);
-        }
-
-        if (type == 'E') {
-            drawRightDownCorner(g);
-        }
-
-        if (type == 'R') {
-            drawLeftDownCorner(g);
-        }
-
-        if (type == 'A') {
-            drawVerticalLine(g);
-        }
-
-        if (type == 'S') {
-            drawHorizontalLine(g);
-        }
-
-        if (type == 'G') {
-            drawLeftDownCorner(g);
-            drawLeftUpCorner(g);
-        }
-
-        if (type == 'H') {
-            drawRightDownCorner(g);
-            drawRightUpCorner(g);
-        }
-
-        if (type == 'I') {
-            drawRightUpCorner(g);
-            drawLeftUpCorner(g);
-        }
-        if (type == 'J') {
-            drawRightDownCorner(g);
-            drawLeftDownCorner(g);
-        }
-
     }
 
     private void drawLeftUpCorner(Graphics g) {

@@ -11,9 +11,7 @@ package pacman_infd.Listeners;
  * @author Marinus
  */
 public interface GameEventListener {
-    
     public void decreaseLife();
     public void increasePoints(int amount);
     public void refocus();
-    
 }

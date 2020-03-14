@@ -18,8 +18,6 @@ import javax.sound.sampled.Clip;
  * @author Marinus
  */
 public class SoundManager {
-
-
     private Map<String, File> soundFiles;
 
     public SoundManager() {
@@ -51,5 +49,4 @@ public class SoundManager {
             System.out.println("playSound, exception " + e + " catched !");
         }
     }
-
 }

@@ -7,7 +7,6 @@ package pacman_infd.Games;
  * @author remcoruijsenaars
  */
 public class StopWatch {
-    
     private long startTime;
     private long elapsedTime;
     

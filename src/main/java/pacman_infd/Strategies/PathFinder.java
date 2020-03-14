@@ -19,12 +19,9 @@ import pacman_infd.Games.Cell;
  * @author Marinus
  */
 public class PathFinder {
-
     private Cell rootCell;
 
-    public PathFinder() {
-
-    }
+    public PathFinder() { }
 
     /**
      * The first cell in the path List is the one that the object moving towards
@@ -148,12 +145,10 @@ public class PathFinder {
                     cellChild.setPathParent(cell);
                     queue.add(cellChild);
                 }
-
             }
         }
 
         //no path found
         return null;
     }
-
 }

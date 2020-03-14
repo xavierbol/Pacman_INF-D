@@ -18,7 +18,6 @@ import java.util.Queue;
  * @author Marinus
  */
 public class LevelManager {
-
     private Queue<char[][]> levels;
 
     public LevelManager() {
@@ -52,7 +51,6 @@ public class LevelManager {
     }
 
     public char[][] getNextLevel() {
-
         char[][] nextLevel = levels.poll();
         levels.offer(nextLevel);
         return nextLevel;

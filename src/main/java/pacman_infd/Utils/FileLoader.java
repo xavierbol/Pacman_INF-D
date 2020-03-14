@@ -13,7 +13,6 @@ import java.net.URI;
  * @author Marinus
  */
 public class FileLoader {
-    
     private URI path;
     
     public FileLoader(URI path){
@@ -26,7 +25,6 @@ public class FileLoader {
      * @throws IOException 
      */
     public String[] openFile() throws IOException {
-        
         FileReader fr = new FileReader(new File(path));
         BufferedReader textReader = new BufferedReader(fr);
         
@@ -39,7 +37,6 @@ public class FileLoader {
         
         textReader.close();
         return textData;
-        
     }
     
     /**
