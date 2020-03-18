@@ -57,7 +57,7 @@ public class GameController implements GameEventListener {
      * give focus back to the view
      */
     @Override
-    public void refocus(){
+    public void refocus() {
         view.requestFocus();
     }
 
@@ -89,7 +89,7 @@ public class GameController implements GameEventListener {
             gameWorld = null;
         }
         
-        gameWorld = new GameWorld(this, levelManager.getFirstLevel(), soundManager, view, gameSpeed);
+        gameWorld = new GameWorld(this, levelManager.getFirstLevel(), soundManager, gameSpeed);
         scorePanel.resetStats();
         gameState = GameState.RUNNING;
         drawGame();
@@ -116,7 +116,7 @@ public class GameController implements GameEventListener {
             gameSpeed -= 10;
         }
         gameWorld = null;
-        gameWorld = new GameWorld(this, levelManager.getNextLevel(), soundManager, view, gameSpeed);
+        gameWorld = new GameWorld(this, levelManager.getNextLevel(), soundManager, gameSpeed);
     }
 
     /**

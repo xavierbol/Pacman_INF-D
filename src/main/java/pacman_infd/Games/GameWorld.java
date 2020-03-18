@@ -49,9 +49,9 @@ public class GameWorld {
     private Portal portalBlue;
     private Portal portalOrange;
 
-    public GameWorld(GameController gameController, char[][] levelMap, SoundManager sMger, View view, int speed) {
+    public GameWorld(GameController gameController, char[][] levelMap, SoundManager sMger, int speed) {
         soundManager = sMger;
-        this.view = view;
+        view = gameController.getView();
         gameSpeed = speed;
 
         eventHandler = new EventHandler(gameController, this);

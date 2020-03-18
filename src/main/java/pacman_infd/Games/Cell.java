@@ -11,6 +11,8 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
+
 import pacman_infd.Elements.MovingGameElement;
 import pacman_infd.Elements.Wall;
 
@@ -190,5 +192,24 @@ public class Cell {
     @Override
     public String toString() {
         return "xPos: " + xPos + "\nYPos: " + yPos + "\nNumber of Neighbors: " + neighbors.size();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Cell cell = (Cell) o;
+        return xPos == cell.xPos &&
+                yPos == cell.yPos &&
+                size == cell.size &&
+                neighbors.equals(cell.neighbors) &&
+                movingElements.equals(cell.movingElements) &&
+                Objects.equals(staticElement, cell.staticElement) &&
+                Objects.equals(pathParent, cell.pathParent);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(xPos, yPos, size, neighbors, movingElements, staticElement, pathParent);
     }
 }

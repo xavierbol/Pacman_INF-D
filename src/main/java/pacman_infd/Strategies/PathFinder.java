@@ -28,7 +28,7 @@ public class PathFinder {
      * pacman needs to take, so this returns the first cell in the path.
      *
      * @param rootCell
-     * @return first cell in the path towards packman.
+     * @return first cell in the path towards pacman.
      */
     public Cell nextCellInPathToPacman(Cell rootCell) {
         List<Cell> path = findPathToPacman(rootCell);
@@ -57,7 +57,6 @@ public class PathFinder {
      * @return list of cells making up the path.
      */
     private List<Cell> contructPath(Cell cell) {
-
         LinkedList path = new LinkedList();
         while (cell.getPathParent() != null) {
             path.addFirst(cell);
@@ -75,7 +74,6 @@ public class PathFinder {
      * @return
      */
     public List<Cell> findPathToPacman(Cell startCell) {
-
         LinkedList visitedCells = new LinkedList();
 
         Queue queue = new LinkedList();
@@ -84,10 +82,13 @@ public class PathFinder {
 
         while (!queue.isEmpty()) {
             Cell cell = (Cell) queue.poll();
+            List<Cell> path = searchPathToPacman(cell);
 
-            searchPathToPacman(cell);
+            if (path != null) {
+                // Then, we find a path to pacman
+                return path;
+            }
 
-            //if pacman not found
             visitedCells.add(cell);
 
             for (Cell cellChild : (Collection<Cell>) cell.getNeighbors().values()) {
@@ -95,11 +96,10 @@ public class PathFinder {
                     cellChild.setPathParent(cell);
                     queue.add(cellChild);
                 }
-
             }
         }
 
-        //no path found
+        // no path found
         return null;
     }
 

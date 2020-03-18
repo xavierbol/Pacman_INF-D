@@ -8,6 +8,7 @@ package pacman_infd.Games;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -48,5 +49,18 @@ public class SoundManager {
         } catch (Exception e) {
             System.out.println("playSound, exception " + e + " catched !");
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SoundManager that = (SoundManager) o;
+        return soundFiles.equals(that.soundFiles);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(soundFiles);
     }
 }

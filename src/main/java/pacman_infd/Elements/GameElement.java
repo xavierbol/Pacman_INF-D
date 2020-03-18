@@ -7,11 +7,12 @@
 package pacman_infd.Elements;
 
 import pacman_infd.Games.Cell;
-import pacman_infd.Listeners.ElementEventListener;
 import pacman_infd.Games.SoundManager;
+import pacman_infd.Listeners.ElementEventListener;
 
 import java.awt.Graphics;
 import java.awt.Point;
+import java.util.Objects;
 
 
 /**
@@ -59,5 +60,19 @@ public abstract class GameElement {
     public void setCell(Cell cell)
     {
         this.cell = cell;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        GameElement that = (GameElement) o;
+        return cell.equals(that.cell) &&
+                soundManager.equals(that.soundManager);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(cell, soundManager);
     }
 }

@@ -26,7 +26,7 @@ import pacman_infd.Strategies.PathFinder;
  * @author ivanweller
  */
 public class PathFinderTest {
-
+    View view;
     GameController gameController;
     GameWorld gameWorld;
     PathFinder pathFinder;
@@ -44,9 +44,9 @@ public class PathFinderTest {
 
     @Before
     public void setUp() {
-        gameController = new GameController(null, null);
+        view = new View();
+        gameController = new GameController(view, null);
         pathFinder = new PathFinder();
-
     }
 
     @After
@@ -63,7 +63,7 @@ public class PathFinderTest {
         };
         
         //create a new GameWorld.
-        gameWorld = new GameWorld(gameController, levelMap, gameController.getSoundManager(), new View(), 0);
+        gameWorld = new GameWorld(gameController, levelMap, gameController.getSoundManager(), 0);
         
         // Set up moving elements in the GameWorld.
         Ghost ghost1 = new Ghost(gameWorld.getCellMap()[1][0], null, 100, null, Color.yellow, null);
@@ -84,7 +84,6 @@ public class PathFinderTest {
         Cell pacCell = (Cell)path.get(1);
         //assert that the cell that holds Pacman, holds it as the second element in the list.
         assert(pacCell.getMovingElements().get(1).equals(pacman));
-        
     }
 
     @Test
@@ -94,9 +93,11 @@ public class PathFinderTest {
             {'A', '-'}
         };
         //create a new GameWorld.   
-        gameWorld = new GameWorld(gameController, levelMap, gameController.getSoundManager(), new View(), 0);
+        gameWorld = new GameWorld(gameController, levelMap, gameController.getSoundManager(), 0);
         //find the next cell in the shortest path to the cell that holds Pacman from LevelMap[0][1].
-        Cell cell = pathFinder.nextCellInPathToPacman(gameWorld.getCellMap()[0][1]);
+        Cell cell = pathFinder.nextCellInPathToPacman(gameWorld.getCellMap()[0][0]);
+        // check if the cell is not null
+        assert (cell != null);
         //assert that cell equals the cell that holds Pacman.
         assert (cell.equals(gameWorld.getCellMap()[0][1]));
         //assert that cell holds an instance of Pacman as the first element in the cell.
@@ -105,38 +106,31 @@ public class PathFinderTest {
 
     @Test
     public void pathFinderTestGeval3() {
-
         char[][] levelMap = {
             {'-'},
             {'A'}
         };
         
         //create a new GameWorld.        
-        gameWorld = new GameWorld(gameController, levelMap, gameController.getSoundManager(), new View(), 0);
+        gameWorld = new GameWorld(gameController, levelMap, gameController.getSoundManager(), 0);
         //assert that there's no valid path to Pacman.
         assert (pathFinder.findPathToPacman(gameWorld.getCellMap()[0][0]) == null);
-
-        
-
     }
 
     @Test
     public void pathFinderTestGeval4() {
-
         char[][] levelMap = {
             {'-'},
             {'P'}
         };
         
         //create a new GameWorld.
-        gameWorld = new GameWorld(gameController, levelMap, gameController.getSoundManager(), new View(), 0);
+        gameWorld = new GameWorld(gameController, levelMap, gameController.getSoundManager(), 0);
         //Get the next cell in the path to Pacman.
         Cell cell = pathFinder.nextCellInPathToPacman((gameWorld.getCellMap()[0][0]));
         //assert that cell holds an instance of Pacman.
         assert (cell.getMovingElements().get(0) instanceof Pacman);
         //assert that cell is a valid neighbour of gameWorld.getCellMap()[0][0].
-        assert (gameWorld.getCellMap()[0][0].getNeighbors().values().contains(cell));
-
+        assert (gameWorld.getCellMap()[0][0].getNeighbors().containsValue(cell));
     }
-
 }
