@@ -5,12 +5,8 @@
  */
 package pacman_infd;
 
+import org.junit.jupiter.api.*;
 import pacman_infd.Enums.Direction;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
 import pacman_infd.Elements.Portal;
 import pacman_infd.Enums.PortalType;
 import pacman_infd.Games.GameController;
@@ -28,15 +24,15 @@ public class GameWorldTest {
     public GameWorldTest() {
     }
 
-    @BeforeClass
+    @BeforeAll
     public static void setUpClass() {
     }
 
-    @AfterClass
+    @AfterAll
     public static void tearDownClass() {
     }
 
-    @Before
+    @BeforeEach
     public void setUp() {
         char[][] levelMap = {
             {'A', '-', '0'},
@@ -49,7 +45,7 @@ public class GameWorldTest {
 
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
     }
 

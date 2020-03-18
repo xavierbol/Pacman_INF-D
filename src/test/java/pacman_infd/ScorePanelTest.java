@@ -1,13 +1,13 @@
 package pacman_infd;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import pacman_infd.Games.ScorePanel;
 
 public class ScorePanelTest {
     private ScorePanel scorePanel;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         scorePanel = new ScorePanel();
     }

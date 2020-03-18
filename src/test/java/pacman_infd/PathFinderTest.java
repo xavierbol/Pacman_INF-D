@@ -7,11 +7,10 @@ package pacman_infd;
 
 import java.awt.Color;
 import java.util.List;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import pacman_infd.Elements.Ghost;
 import pacman_infd.Elements.Pacman;
 import pacman_infd.Enums.Direction;
@@ -34,22 +33,22 @@ public class PathFinderTest {
     public PathFinderTest() {
     }
 
-    @BeforeClass
+    @BeforeAll
     public static void setUpClass() {
     }
 
-    @AfterClass
+    @BeforeAll
     public static void tearDownClass() {
     }
 
-    @Before
+    @BeforeEach
     public void setUp() {
         view = new View();
         gameController = new GameController(view, null);
         pathFinder = new PathFinder();
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
     }
 
