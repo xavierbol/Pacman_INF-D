@@ -54,36 +54,21 @@ public class Portal extends GameElement {
 
     @Override
     public void draw(Graphics g) {
+        int n = linkedPortal == null ? 40 : 12;
 
-        int n;
-        if(linkedPortal == null){
-            n = 40;
-        }
-        else{
-            n = 12;
-        }
-
-
-        if (type.equals(PortalType.BLUE)) {
-            for (int i = 0; i < n; i++) {
+        for (int i = 0; i < n; i++) {
+            if (type.equals(PortalType.BLUE)) {
                 g.setColor(new Color(i, 4 * i + 50, 255));
-                g.drawOval(
-                        (int) getPosition().getX() + (getCell().getSize() / 2) - 20 + (i / 2),
-                        (int) getPosition().getY() + (getCell().getSize() / 2) - 20 + (i / 2),
-                        40 - i,
-                        48 - i
-                );
-            }
-        } else {
-            for (int i = 0; i < n; i++) {
+            } else {
                 g.setColor(new Color(255, 4 * i + 50, i));
-                g.drawOval(
-                        (int) getPosition().getX() + (getCell().getSize() / 2) - 20 + (i / 2),
-                        (int) getPosition().getY() + (getCell().getSize() / 2) - 20 + (i / 2),
-                        40 - i,
-                        48 - i
-                );
             }
+
+            g.drawOval(
+                    (int) getPosition().getX() + (getCell().getSize() / 2) - 20 + (i / 2),
+                    (int) getPosition().getY() + (getCell().getSize() / 2) - 20 + (i / 2),
+                    40 - i,
+                    48 - i
+            );
         }
     }
 }

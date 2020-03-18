@@ -6,6 +6,7 @@
 package pacman_infd.Games;
 
 import pacman_infd.Elements.GameElement;
+import pacman_infd.Elements.Pacman;
 import pacman_infd.Enums.Direction;
 import java.awt.Graphics;
 import java.util.ArrayList;
@@ -104,6 +105,17 @@ public class Cell {
         return movingElements;
     }
 
+    public boolean containPacman() {
+        for (GameElement e : this.getMovingElements()) {
+            if (e instanceof Pacman) {
+                //pacman found
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     /**
      * Set the neighboring cells for this cell
      *
@@ -127,7 +139,7 @@ public class Cell {
      *
      * @return a HashMap of neighboring Cells.
      */
-    public Map getNeighbors() {
+    public Map<Direction, Cell> getNeighbors() {
         return neighbors;
     }
 

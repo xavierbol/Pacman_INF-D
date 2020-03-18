@@ -19,15 +19,13 @@ import pacman_infd.Games.Cell;
  * @author Marinus
  */
 public class PathFinder {
-    private Cell rootCell;
-
     public PathFinder() { }
 
     /**
      * The first cell in the path List is the one that the object moving towards
      * pacman needs to take, so this returns the first cell in the path.
      *
-     * @param rootCell
+     * @param rootCell the root cell where we must find the next cell to reach quickly Pacman.
      * @return first cell in the path towards pacman.
      */
     public Cell nextCellInPathToPacman(Cell rootCell) {
@@ -44,10 +42,9 @@ public class PathFinder {
         if (path != null && !path.isEmpty()) {
             return path.get(0);
         } else {
-            return rootCell;
+            return null;
         }
     }
-
 
     /**
      * Constructs a path (List of cells in order) by 'walking' back along
@@ -57,7 +54,7 @@ public class PathFinder {
      * @return list of cells making up the path.
      */
     private List<Cell> contructPath(Cell cell) {
-        LinkedList path = new LinkedList();
+        LinkedList<Cell> path = new LinkedList<>();
         while (cell.getPathParent() != null) {
             path.addFirst(cell);
             cell = cell.getPathParent();
@@ -66,32 +63,30 @@ public class PathFinder {
         return path;
     }
 
-    /**
-     * Uses a Breath-First search algorithm to determine the shortest path from
-     * the start cell to the cell containing Pacman.
-     *
-     * @param startCell
-     * @return
-     */
-    public List<Cell> findPathToPacman(Cell startCell) {
-        LinkedList visitedCells = new LinkedList();
+    private List<Cell> breathFirstSearch(Cell rootCell, Cell targetCell) {
+        LinkedList<Cell> visitedCells = new LinkedList<>();
 
-        Queue queue = new LinkedList();
-        queue.offer(startCell);
-        startCell.setPathParent(null);
+        Queue<Cell> queue = new LinkedList<Cell>();
+        queue.offer(rootCell);
+        rootCell.setPathParent(null);
 
         while (!queue.isEmpty()) {
-            Cell cell = (Cell) queue.poll();
-            List<Cell> path = searchPathToPacman(cell);
+            Cell cell = queue.poll();
 
-            if (path != null) {
-                // Then, we find a path to pacman
-                return path;
+            if (targetCell == null) {
+                if (cell.containPacman()) {
+                    return contructPath(cell);
+                }
+            } else {
+                if (cell.equals(targetCell)) {
+                    // targetCell found
+                    return contructPath(cell);
+                }
             }
 
             visitedCells.add(cell);
 
-            for (Cell cellChild : (Collection<Cell>) cell.getNeighbors().values()) {
+            for (Cell cellChild : cell.getNeighbors().values()) {
                 if (!cellChild.hasWall() && !visitedCells.contains(cellChild) && !queue.contains(cellChild)) {
                     cellChild.setPathParent(cell);
                     queue.add(cellChild);
@@ -103,52 +98,26 @@ public class PathFinder {
         return null;
     }
 
-    private List<Cell> searchPathToPacman(Cell cell) {
-        for (GameElement e : cell.getMovingElements()) {
-            if (e instanceof Pacman) {
-                //pacman found
-                return contructPath(cell);
-            }
-        }
-
-        return null;
+    /**
+     * Uses a Breath-First search algorithm to determine the shortest path from
+     * the start cell to the cell containing Pacman.
+     *
+     * @param startCell the first cell of the map where the algorithm will search Pacman.
+     * @return a path to reach Pacman, if the algorithm doesn't find a path, then it returns null.
+     */
+    public List<Cell> findPathToPacman(Cell startCell) {
+        return breathFirstSearch(startCell, null);
     }
 
     /**
      * Uses a Breath-First search algorithm to determine the shortest path from
      * the start cell to the target cell.
      *
-     * @param startCell
-     * @return
+     * @param startCell the first cell of the map where the algorithm will search Pacman.
+     * @param targetCell the cell to reach.
+     * @return a path or null if the algorithm doesn't find a path.
      */
     private List<Cell> findPathToCell(Cell startCell, Cell targetCell) {
-
-        LinkedList visitedCells = new LinkedList();
-
-        Queue queue = new LinkedList();
-        queue.offer(startCell);
-        startCell.setPathParent(null);
-
-        while (!queue.isEmpty()) {
-            Cell cell = (Cell) queue.poll();
-
-            if (cell == targetCell) {
-                //targetCell found
-                return contructPath(cell);
-            }
-
-            //targetCell not found
-            visitedCells.add(cell);
-
-            for (Cell cellChild : (Collection<Cell>) cell.getNeighbors().values()) {
-                if (!cellChild.hasWall() && !visitedCells.contains(cellChild) && !queue.contains(cellChild)) {
-                    cellChild.setPathParent(cell);
-                    queue.add(cellChild);
-                }
-            }
-        }
-
-        //no path found
-        return null;
+        return breathFirstSearch(startCell, targetCell);
     }
 }
