@@ -11,10 +11,14 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Random;
 import pacman_infd.Elements.*;
+import pacman_infd.Enums.ElementType;
 import pacman_infd.Enums.PortalType;
 import pacman_infd.Listeners.EventHandler;
 import pacman_infd.Strategies.ChasePacmanStrategy;
 import pacman_infd.Strategies.MoveRandomStrategy;
+import pacman_infd.Strategies.Strategy;
+
+import static pacman_infd.Enums.ElementType.*;
 
 /**
  *
@@ -22,16 +26,6 @@ import pacman_infd.Strategies.MoveRandomStrategy;
  */
 public class GameWorld {
     private static final int CELL_SIZE = 26; //pixels
-
-    // Perhaps create an Enum or a config file with this
-    private static final char PELLET = '0';
-    private static final char SUPER_PELLET = '2';
-    private static final char BLINKY_GHOST = 'a';
-    private static final char PINKY_GHOST = 'b';
-    private static final char INKY_GHOST = 'c';
-    private static final char CLYDE_GHOST = 'd';
-    private static final char PACMAN = 'P';
-    private static final char NO_ELEMENT = '-';
 
     private int width;
     private int height;
@@ -118,13 +112,14 @@ public class GameWorld {
     private void placeElements(char[][] elementMap, Cell[][] cellMap) {
         for (int x = 0; x < height; x++) {
             for (int y = 0; y < width; y++) {
-                selectElement(elementMap[x][y], cellMap[x][y]);
+                createElement(elementMap[x][y], cellMap[x][y]);
             }
         }
     }
 
-    private void selectElement(char element, Cell cellMap) {
-        switch (element) {
+    private void createElement(char element, Cell cellMap) {
+        ElementType elementType = valueOfElement(element);
+        switch (elementType) {
             case PELLET:
                 new Pellet(cellMap, eventHandler, soundManager);
                 break;
@@ -132,16 +127,10 @@ public class GameWorld {
                 new SuperPellet(cellMap, eventHandler, soundManager);
                 break;
             case BLINKY_GHOST:
-                new Ghost(cellMap, eventHandler, gameSpeed, new ChasePacmanStrategy(), Color.RED, soundManager);
-                break;
             case PINKY_GHOST:
-                new Ghost(cellMap, eventHandler, gameSpeed, new ChasePacmanStrategy(), Color.PINK, soundManager);
-                break;
             case INKY_GHOST:
-                new Ghost(cellMap, eventHandler, gameSpeed, new MoveRandomStrategy(), Color.CYAN, soundManager);
-                break;
             case CLYDE_GHOST:
-                new Ghost(cellMap, eventHandler, gameSpeed, new MoveRandomStrategy(), Color.ORANGE, soundManager);
+                createGhost(elementType, cellMap);
                 break;
             case PACMAN:
                 Pacman pacman = new Pacman(cellMap, eventHandler, gameSpeed, soundManager);
@@ -150,9 +139,33 @@ public class GameWorld {
             case NO_ELEMENT:
                 break;
             default:
-                new Wall(cellMap, element);
+                new Wall(cellMap, elementType);
                 break;
         }
+    }
+
+    /**
+     * Create a ghost to the cell of the map
+     * @param element the type of ghost
+     * @param cell the cell of the map
+     */
+    private void createGhost(ElementType element, Cell cell) {
+        // By default, it's the BLINKY_GHOST, because we assume to know it's a ghost when we call this method
+        Strategy strategy = new ChasePacmanStrategy();
+        Color color = Color.RED;
+
+        if (element == PINKY_GHOST) {
+            strategy = new ChasePacmanStrategy();
+            color = Color.PINK;
+        } else if (element == INKY_GHOST) {
+            strategy = new MoveRandomStrategy();
+            color = Color.CYAN;
+        } else if (element == CLYDE_GHOST) {
+            strategy = new MoveRandomStrategy();
+            color = Color.ORANGE;
+        }
+
+        new Ghost(cell, eventHandler, gameSpeed, strategy, color, soundManager);
     }
 
     /**

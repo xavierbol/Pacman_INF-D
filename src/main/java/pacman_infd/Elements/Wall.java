@@ -7,6 +7,8 @@ package pacman_infd.Elements;
 
 import java.awt.Color;
 import java.awt.Graphics;
+
+import pacman_infd.Enums.ElementType;
 import pacman_infd.Games.Cell;
 
 /**
@@ -14,9 +16,9 @@ import pacman_infd.Games.Cell;
  * @author ivanweller
  */
 public class Wall extends GameElement {
-    private char type;
+    private ElementType type;
 
-    public Wall(Cell cell, char type) {
+    public Wall(Cell cell, ElementType type) {
 
         super(cell, null, null);
         this.type = type;
@@ -25,28 +27,28 @@ public class Wall extends GameElement {
     @Override
     public void draw(Graphics g) {
         switch (type) {
-            case 'Q':
+            case UP_LEFT_CORNER_WALL:
                 drawLeftUpCorner(g); break;
-            case 'W':
+            case UP_RIGHT_CORNER_WALL:
                 drawRightUpCorner(g); break;
-            case 'E':
+            case DOWN_RIGHT_CORNER:
                 drawRightDownCorner(g); break;
-            case 'R':
+            case DOWN_LEFT_CORNER_WALL:
                 drawLeftDownCorner(g); break;
-            case 'A':
+            case VERTICAL_WALL:
                 drawVerticalLine(g); break;
-            case 'S':
+            case HORIZONTAL_WALL:
                 drawHorizontalLine(g); break;
-            case 'G':
+            case T_LEFT_WALL:
                 drawLeftDownCorner(g);
                 drawLeftUpCorner(g); break;
-            case 'H':
+            case T_RIGHT_WALL:
                 drawRightDownCorner(g);
                 drawRightUpCorner(g); break;
-            case 'I':
+            case T_UP_WALL:
                 drawRightUpCorner(g);
                 drawLeftUpCorner(g); break;
-            case 'J':
+            case T_DOWN_WALL:
                 drawRightDownCorner(g);
                 drawLeftDownCorner(g); break;
         }
