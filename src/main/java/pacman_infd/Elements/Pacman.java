@@ -94,7 +94,7 @@ public class Pacman extends MovingGameElement implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        Direction newDirection = currentDirection.getDirection(e);
+        Direction newDirection = Direction.getDirection(e, currentDirection);
 
         if (cell.getNeighbor(newDirection) != null && !cell.getNeighbor(newDirection).hasWall()) {
             currentDirection = newDirection;

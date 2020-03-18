@@ -59,8 +59,8 @@ public enum Direction {
         return oppositeClockwise;
     }
 
-    public Direction getDirection(KeyEvent keyEvent) {
-        Direction d = this;
+    public static Direction getDirection(KeyEvent keyEvent, Direction currentDirection) {
+        Direction d = currentDirection;
 
         switch (keyEvent.getKeyCode()) {
             case KeyEvent.VK_UP:
