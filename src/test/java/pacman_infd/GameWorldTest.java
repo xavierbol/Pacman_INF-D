@@ -11,6 +11,7 @@ import pacman_infd.Elements.Portal;
 import pacman_infd.Enums.PortalType;
 import pacman_infd.Games.GameController;
 import pacman_infd.Games.GameWorld;
+import pacman_infd.Utils.SoundManager;
 
 /**
  *
@@ -26,6 +27,7 @@ public class GameWorldTest {
 
     @BeforeAll
     public static void setUpClass() {
+        SoundManager.loadSoundFiles();
     }
 
     @AfterAll
@@ -51,8 +53,8 @@ public class GameWorldTest {
 
     @Test
     public void testSpawnPortalGeval1() {
-        gameWorld.setPortalOrange(new Portal(gameWorld.getCellMap()[0][1], PortalType.ORANGE));
-        gameWorld.setPortalBlue(new Portal(gameWorld.getCellMap()[2][1], PortalType.ORANGE));
+        gameWorld.setPortalOrange(new Portal(gameWorld.getCell(1, 0), PortalType.ORANGE));
+        gameWorld.setPortalBlue(new Portal(gameWorld.getCell(1, 2), PortalType.ORANGE));
 
         //attempt to spawn a portal on cell location [0][0] with mousebutton 1 pressed
         gameWorld.spawnPortal(0, 0, 1);
@@ -61,7 +63,7 @@ public class GameWorldTest {
         //assert that the blue portal is still on the same cell
         assert (gameWorld.getPortalBlue().getCell().getXpos() == 1 && gameWorld.getPortalBlue().getCell().getYPos() == 2);
         //assert that cellMap[0][0] doesnt have a portal
-        assert (!(gameWorld.getCellMap()[0][0].getStaticElement() instanceof Portal));
+        assert (!(gameWorld.getCell(0,0).getStaticElement() instanceof Portal));
 
     }
 
@@ -77,7 +79,7 @@ public class GameWorldTest {
         //assert that the blue portal is still null
         assert (gameWorld.getPortalBlue() == null);
         //assert that cellMap[1][1] doesnt have a portal
-        assert (!(gameWorld.getCellMap()[1][1].getStaticElement() instanceof Portal));
+        assert (!(gameWorld.getCell(1,1).getStaticElement() instanceof Portal));
 
     }
 
@@ -93,14 +95,14 @@ public class GameWorldTest {
         //assert that the blue portal is still null
         assert (gameWorld.getPortalBlue() == null);
         //assert that cellMap[1][1] has a portal
-        assert (gameWorld.getCellMap()[1][1].getStaticElement() instanceof Portal);
+        assert (gameWorld.getCell(1,1).getStaticElement() instanceof Portal);
 
     }
 
     @Test
     public void testSpawnPortalGeval4() {
         gameWorld.setPortalOrange(null);
-        gameWorld.setPortalBlue(new Portal(gameWorld.getCellMap()[2][1],PortalType.BLUE));
+        gameWorld.setPortalBlue(new Portal(gameWorld.getCell(1,2),PortalType.BLUE));
 
         //attempt to spawn a portal on cell location [0][1] with mousebutton 3 pressed
         gameWorld.spawnPortal(26, 0, 3);
@@ -109,17 +111,17 @@ public class GameWorldTest {
         //assert that the blue portal is still on the same location
         assert (gameWorld.getPortalBlue().getCell().getXpos() == 1 && gameWorld.getPortalBlue().getCell().getYPos() == 2);
         //assert that cellMap[0][1] has a portal
-        assert (gameWorld.getCellMap()[0][1].getStaticElement() instanceof Portal);
+        assert (gameWorld.getCell(1,0).getStaticElement() instanceof Portal);
         //assert that the neigbor of the orange portal links to the blue portal
-        assert (gameWorld.getCellMap()[0][2].getNeighbor(Direction.LEFT) == gameWorld.getPortalBlue().getCell());
+        assert (gameWorld.getCell(2, 0).getNeighbor(Direction.LEFT) == gameWorld.getPortalBlue().getCell());
         //assert that the neighbor of the blue portal links to the orangeportal
-        assert (gameWorld.getCellMap()[2][2].getNeighbor(Direction.LEFT) == gameWorld.getPortalOrange().getCell());
+        assert (gameWorld.getCell(2,2).getNeighbor(Direction.LEFT) == gameWorld.getPortalOrange().getCell());
 
     }
 
     @Test
     public void testSpawnPortalGeval5() {
-        gameWorld.setPortalOrange(new Portal(gameWorld.getCellMap()[2][1], PortalType.ORANGE));
+        gameWorld.setPortalOrange(new Portal(gameWorld.getCell(1,2), PortalType.ORANGE));
         gameWorld.setPortalBlue(null);
 
         //attempt to spawn a portal on cell location [0][1] with mousebutton 3 pressed 
@@ -129,13 +131,13 @@ public class GameWorldTest {
         //assert that the blue portal is still null
         assert (gameWorld.getPortalBlue() == null);
         //assert that the old portal location does not have a portal
-        assert (!(gameWorld.getCellMap()[2][1].getStaticElement() instanceof Portal));
+        assert (!(gameWorld.getCell(1, 2).getStaticElement() instanceof Portal));
     }
 
     @Test
     public void testSpawnPortalGeval6() {
-        gameWorld.setPortalOrange(new Portal(gameWorld.getCellMap()[2][1], PortalType.ORANGE));
-        gameWorld.setPortalBlue(new Portal(gameWorld.getCellMap()[0][1], PortalType.BLUE));
+        gameWorld.setPortalOrange(new Portal(gameWorld.getCell(1,2), PortalType.ORANGE));
+        gameWorld.setPortalBlue(new Portal(gameWorld.getCell(1,0), PortalType.BLUE));
 
         //attempt to spawn a portal on cell location [1][1] with mousebutton 3 pressed
         gameWorld.spawnPortal(26, 26, 3);
@@ -144,11 +146,11 @@ public class GameWorldTest {
         //assert that the blue portal is still on the same location
         assert (gameWorld.getPortalBlue().getCell().getXpos() == 1 && gameWorld.getPortalBlue().getCell().getYPos() == 0);
         //assert that the old portal location does not have a portal
-        assert (!(gameWorld.getCellMap()[2][1].getStaticElement() instanceof Portal));
+        assert (!(gameWorld.getCell(1,2).getStaticElement() instanceof Portal));
         //assert that the neigbor of the orange portal links to the blue portal
-        assert (gameWorld.getCellMap()[1][2].getNeighbor(Direction.LEFT) == gameWorld.getPortalBlue().getCell());
+        assert (gameWorld.getCell(2,1).getNeighbor(Direction.LEFT) == gameWorld.getPortalBlue().getCell());
         //assert that the neighbor of the blue portal links to the orangeportal
-        assert (gameWorld.getCellMap()[0][2].getNeighbor(Direction.LEFT) == gameWorld.getPortalOrange().getCell());
+        assert (gameWorld.getCell(2,0).getNeighbor(Direction.LEFT) == gameWorld.getPortalOrange().getCell());
     }
 
     @Test
@@ -163,14 +165,14 @@ public class GameWorldTest {
         //assert that the blue portal now excists
         assert (gameWorld.getPortalBlue() != null);
         //assert that cellMap[1][1] has a portal
-        assert (gameWorld.getCellMap()[1][1].getStaticElement() instanceof Portal);
+        assert (gameWorld.getCell(1,1).getStaticElement() instanceof Portal);
 
     }
 
     @Test
     public void testSpawnPortalGeval8() {
         gameWorld.setPortalOrange(null);
-        gameWorld.setPortalBlue(new Portal(gameWorld.getCellMap()[2][1], PortalType.BLUE));
+        gameWorld.setPortalBlue(new Portal(gameWorld.getCell(1,2), PortalType.BLUE));
 
         //attempt to spawn a portal on cell location [0][1] with mousebutton 1 pressed 
         gameWorld.spawnPortal(26, 0, 1);
@@ -179,12 +181,12 @@ public class GameWorldTest {
         //assert that the orange portal is still null
         assert (gameWorld.getPortalOrange() == null);
         //assert that the old portal location does not have a portal
-        assert (!(gameWorld.getCellMap()[2][1].getStaticElement() instanceof Portal));
+        assert (!(gameWorld.getCell(1,2).getStaticElement() instanceof Portal));
     }
 
     @Test
     public void testSpawnPortalGeval9() {
-        gameWorld.setPortalOrange(new Portal(gameWorld.getCellMap()[2][1], PortalType.ORANGE));
+        gameWorld.setPortalOrange(new Portal(gameWorld.getCell(1,2), PortalType.ORANGE));
         gameWorld.setPortalBlue(null);
 
         //attempt to spawn a portal on cell location [0][1] with mousebutton 1 pressed    
@@ -194,18 +196,18 @@ public class GameWorldTest {
         //assert that the orange portal is still on the same location
         assert (gameWorld.getPortalOrange().getCell().getXpos() == 1 && gameWorld.getPortalOrange().getCell().getYPos() == 2);
         //assert that cellMap[0][1] has a portal
-        assert (gameWorld.getCellMap()[0][1].getStaticElement() instanceof Portal);
+        assert (gameWorld.getCell(1,0).getStaticElement() instanceof Portal);
         //assert that the neigbor of the blue portal links to the blue portal
-        assert (gameWorld.getCellMap()[0][2].getNeighbor(Direction.LEFT) == gameWorld.getPortalOrange().getCell());
+        assert (gameWorld.getCell(2,0).getNeighbor(Direction.LEFT) == gameWorld.getPortalOrange().getCell());
         //assert that the neighbor of the orange portal links to the orangeportal
-        assert (gameWorld.getCellMap()[2][2].getNeighbor(Direction.LEFT) == gameWorld.getPortalBlue().getCell());
+        assert (gameWorld.getCell(2,2).getNeighbor(Direction.LEFT) == gameWorld.getPortalBlue().getCell());
 
     }
 
     @Test
     public void testSpawnPortalGeval10() {
-        gameWorld.setPortalOrange(new Portal(gameWorld.getCellMap()[2][1], PortalType.ORANGE));
-        gameWorld.setPortalBlue(new Portal(gameWorld.getCellMap()[0][1], PortalType.BLUE));
+        gameWorld.setPortalOrange(new Portal(gameWorld.getCell(1,2), PortalType.ORANGE));
+        gameWorld.setPortalBlue(new Portal(gameWorld.getCell(1,0), PortalType.BLUE));
 
         //attempt to spawn a portal on cell location [1][1] with mousebutton 1 pressed 
         gameWorld.spawnPortal(26, 26, 1);
@@ -215,11 +217,11 @@ public class GameWorldTest {
         //assert that the orange portal is still on the same location
         assert (gameWorld.getPortalOrange().getCell().getXpos() == 1 && gameWorld.getPortalOrange().getCell().getYPos() == 2);
         //assert that the old portal location does not have a portal.
-        assert (!(gameWorld.getCellMap()[0][1].getStaticElement() instanceof Portal));
+        assert (!(gameWorld.getCell(1,0).getStaticElement() instanceof Portal));
         //assert that the neigbor of the orange portal links to the blue portal
-        assert (gameWorld.getCellMap()[2][2].getNeighbor(Direction.LEFT) == gameWorld.getPortalBlue().getCell());
+        assert (gameWorld.getCell(2,2).getNeighbor(Direction.LEFT) == gameWorld.getPortalBlue().getCell());
         //assert that the neighbor of the blue portal links to the orangeportal
-        assert (gameWorld.getCellMap()[1][2].getNeighbor(Direction.LEFT) == gameWorld.getPortalOrange().getCell());
+        assert (gameWorld.getCell(2,1).getNeighbor(Direction.LEFT) == gameWorld.getPortalOrange().getCell());
     }
 
 }

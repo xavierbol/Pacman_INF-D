@@ -316,8 +316,14 @@ public class GameWorld {
         this.portalOrange = portalOrange;
     }
 
-    public Cell[][] getCellMap() {
-        return cellMap;
+    public Cell getCell(int x, int y) {
+        if (y >= 0 && y < cellMap.length) {
+            if (x >= 0 && x < cellMap[y].length) {
+                return cellMap[y][x];
+            }
+        }
+
+        return null;
     }
 
     public ArrayList<Cell> getCells() {
