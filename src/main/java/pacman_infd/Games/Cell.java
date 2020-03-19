@@ -5,17 +5,13 @@
  */
 package pacman_infd.Games;
 
-import pacman_infd.Elements.GameElement;
-import pacman_infd.Elements.Pacman;
+import pacman_infd.Elements.*;
 import pacman_infd.Enums.Direction;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-
-import pacman_infd.Elements.MovingGameElement;
-import pacman_infd.Elements.Wall;
 
 /**
  *
@@ -105,8 +101,8 @@ public class Cell {
         return movingElements;
     }
 
-    public boolean containPacman() {
-        for (GameElement e : this.getMovingElements()) {
+    public boolean containsPacman() {
+        for (GameElement e : this.movingElements) {
             if (e instanceof Pacman) {
                 //pacman found
                 return true;
@@ -114,6 +110,21 @@ public class Cell {
         }
 
         return false;
+    }
+
+    public ArrayList<Eatable> getAllEatableElements() {
+        ArrayList<Eatable> eatables = new ArrayList<>();
+        if (staticElement instanceof Eatable) {
+            eatables.add((Eatable) staticElement);
+        }
+
+        for (MovingGameElement element : movingElements) {
+            if (element instanceof Eatable) {
+                eatables.add((Eatable) element);
+            }
+        }
+
+        return eatables;
     }
 
     /**

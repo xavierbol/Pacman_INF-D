@@ -141,7 +141,6 @@ public class Ghost extends MovingGameElement implements Eatable{
             cell.removeMovingElement(this);
             setCell(nextCell);
         }
-
     }
 
     /**

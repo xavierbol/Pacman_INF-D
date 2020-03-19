@@ -28,7 +28,7 @@ public class FleeStrategy implements Strategy {
         Cell towardsPacman = pathFinder.nextCellInPathToPacman(currentCell);
        
         for(Cell cell : (Collection<Cell>)currentCell.getNeighbors().values()){
-            if(!cell.hasWall() && cell != towardsPacman && cell != previousCell){
+            if(!cell.hasWall() && !cell.equals(towardsPacman) && !cell.equals(previousCell)){
                 possibleCell.add(cell);
             }    
         }

@@ -44,7 +44,7 @@ public abstract class MovingGameElement extends GameElement{
     public abstract void moveTimerActionPerformed(ActionEvent e); 
     
     public void reset(){
-        cell.getMovingElements().remove(this);
+        cell.removeMovingElement(this);
         cell = startCell;
         cell.addMovingElement(this);
     }

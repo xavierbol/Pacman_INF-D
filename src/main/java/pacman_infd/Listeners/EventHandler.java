@@ -33,15 +33,8 @@ public class EventHandler implements ElementEventListener {
      */
     private void checkCollisions(Ghost g) {
         Cell cell = g.getCell();
-        boolean pacmanFound = false;
 
-        for (MovingGameElement element : cell.getMovingElements()) {
-            if (element instanceof Pacman) {
-                pacmanFound = true;
-            }
-        }
-
-        if (pacmanFound) {
+        if (cell.containsPacman()) {
             g.eatMe();
         }
     }
@@ -53,19 +46,7 @@ public class EventHandler implements ElementEventListener {
     private void checkCollisions(Pacman p) {
         Cell cell = p.getCell();
 
-        ArrayList<Eatable> eatables = new ArrayList();
-
-        if (cell.getStaticElement() instanceof Eatable) {
-            Eatable element = (Eatable) cell.getStaticElement();
-            eatables.add(element);
-        }
-
-        for (MovingGameElement element : cell.getMovingElements()) {
-            if (element instanceof Eatable) {
-                Eatable eatable = (Eatable) element;
-                eatables.add(eatable);
-            }
-        }
+        ArrayList<Eatable> eatables = cell.getAllEatableElements();
 
         for (Eatable eatable : eatables) {
             eatable.eatMe();

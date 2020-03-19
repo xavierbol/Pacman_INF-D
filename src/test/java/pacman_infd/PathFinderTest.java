@@ -80,9 +80,9 @@ public class PathFinderTest {
         assert(path.size() == 2);
         //assert that the path is correct.
         assert(path.get(0).equals(gameWorld.getCell(0,0).getNeighbor(Direction.DOWN)));
-        Cell pacCell = (Cell)path.get(1);
-        //assert that the cell that holds Pacman, holds it as the second element in the list.
-        assert(pacCell.getMovingElements().get(1).equals(pacman));
+        Cell pacCell = path.get(1);
+        //assert that the cell that contains Pacman
+        assert(pacCell.containsPacman());
     }
 
     @Test
@@ -99,8 +99,8 @@ public class PathFinderTest {
         assert (cell != null);
         //assert that cell equals the cell that holds Pacman.
         assert (cell.equals(gameWorld.getCell(1,0)));
-        //assert that cell holds an instance of Pacman as the first element in the cell.
-        assert (cell.getMovingElements().get(0) instanceof Pacman);
+        //assert that cell contain Pacman
+        assert (cell.containsPacman());
     }
 
     @Test
@@ -128,7 +128,7 @@ public class PathFinderTest {
         //Get the next cell in the path to Pacman.
         Cell cell = pathFinder.nextCellInPathToPacman((gameWorld.getCell(0,0)));
         //assert that cell holds an instance of Pacman.
-        assert (cell.getMovingElements().get(0) instanceof Pacman);
+        assert (cell.containsPacman());
         //assert that cell is a valid neighbour of gameWorld.getCell(0, 0).
         assert (gameWorld.getCell(0,0).getNeighbors().containsValue(cell));
     }

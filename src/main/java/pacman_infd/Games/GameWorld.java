@@ -220,6 +220,38 @@ public class GameWorld {
         }
     }
 
+    private void linkPortals() {
+        portalBlue.setLinkedPortal(portalOrange);
+        portalOrange.setLinkedPortal(portalBlue);
+        portalBlue.warpNeighbors();
+        portalOrange.warpNeighbors();
+    }
+
+    private void createPortal(Cell cell, PortalType portalType) {
+        Portal portal = new Portal(cell, portalType);
+
+        if (portalType == PortalType.BLUE) {
+            if (getPortalBlue() != null) {
+                getPortalBlue().remove();
+            }
+            setPortalBlue(portal);
+
+            if (portalOrange != null) {
+                linkPortals();
+            }
+        } else {
+            if (getPortalOrange() != null) {
+                getPortalOrange().remove();
+            }
+            setPortalOrange(portal);
+
+            if (portalBlue != null) {
+                linkPortals();
+            }
+        }
+        SoundManager.playSound("portal");
+    }
+
     public void spawnPortal(int x, int y, int mouseButton) {
         int cellX = x / CELL_SIZE;
         int cellY = y / CELL_SIZE;
@@ -227,31 +259,10 @@ public class GameWorld {
         if (cellY < cellMap.length) {
             if (!cellMap[cellY][cellX].hasWall() && cellMap[cellY][cellX].getStaticElement() == null) {
                 if (mouseButton == 1) {
-                    if (getPortalBlue() != null) {
-                        getPortalBlue().remove();
-                    }
-                    setPortalBlue(new Portal(cellMap[cellY][cellX], PortalType.BLUE));
-                    SoundManager.playSound("portal");
-                    if (getPortalOrange() != null) {
-                        getPortalBlue().setLinkedPortal(getPortalOrange());
-                        getPortalOrange().setLinkedPortal(getPortalBlue());
-                        getPortalBlue().warpNeighbors();
-                        getPortalOrange().warpNeighbors();
-                    }
+                    createPortal(getCell(cellX, cellY), PortalType.BLUE);
                 } else if (mouseButton == 3) {
-                    if (getPortalOrange() != null) {
-                        getPortalOrange().remove();
-                    }
-                    setPortalOrange(new Portal(cellMap[cellY][cellX], PortalType.ORANGE));
-                    SoundManager.playSound("portal");
-                    if (getPortalBlue() != null) {
-                        getPortalOrange().setLinkedPortal(getPortalBlue());
-                        getPortalBlue().setLinkedPortal(getPortalOrange());
-                        getPortalOrange().warpNeighbors();
-                        getPortalBlue().warpNeighbors();
-                    }
+                    createPortal(getCell(cellX, cellY), PortalType.ORANGE);
                 }
-
             }
         }
     }
