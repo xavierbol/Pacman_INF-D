@@ -17,6 +17,7 @@ import pacman_infd.Listeners.EventHandler;
 import pacman_infd.Strategies.ChasePacmanStrategy;
 import pacman_infd.Strategies.MoveRandomStrategy;
 import pacman_infd.Strategies.Strategy;
+import pacman_infd.Utils.SoundManager;
 
 import static pacman_infd.Enums.ElementType.*;
 
@@ -30,7 +31,6 @@ public class GameWorld {
     private int width;
     private int height;
 
-    private SoundManager soundManager;
     private View view;
     private EventHandler eventHandler;
 
@@ -43,8 +43,7 @@ public class GameWorld {
     private Portal portalBlue;
     private Portal portalOrange;
 
-    public GameWorld(GameController gameController, char[][] levelMap, SoundManager sMger, int speed) {
-        soundManager = sMger;
+    public GameWorld(GameController gameController, char[][] levelMap, int speed) {
         view = gameController.getView();
         gameSpeed = speed;
 
@@ -121,10 +120,10 @@ public class GameWorld {
         ElementType elementType = valueOfElement(element);
         switch (elementType) {
             case PELLET:
-                new Pellet(cellMap, eventHandler, soundManager);
+                new Pellet(cellMap, eventHandler);
                 break;
             case SUPER_PELLET:
-                new SuperPellet(cellMap, eventHandler, soundManager);
+                new SuperPellet(cellMap, eventHandler);
                 break;
             case BLINKY_GHOST:
             case PINKY_GHOST:
@@ -133,7 +132,7 @@ public class GameWorld {
                 createGhost(elementType, cellMap);
                 break;
             case PACMAN:
-                Pacman pacman = new Pacman(cellMap, eventHandler, gameSpeed, soundManager);
+                Pacman pacman = new Pacman(cellMap, eventHandler, gameSpeed);
                 view.addKeyListener(pacman);
                 break;
             case NO_ELEMENT:
@@ -165,7 +164,7 @@ public class GameWorld {
             color = Color.ORANGE;
         }
 
-        new Ghost(cell, eventHandler, gameSpeed, strategy, color, soundManager);
+        new Ghost(cell, eventHandler, gameSpeed, strategy, color);
     }
 
     /**
@@ -216,7 +215,7 @@ public class GameWorld {
             ArrayList<Cell> emptyCells = getEmptyCells();
             Random r = new Random();
             if (!emptyCells.isEmpty()) {
-                Cherry c = new Cherry(emptyCells.get(r.nextInt(emptyCells.size() - 1)), eventHandler, soundManager);
+                Cherry c = new Cherry(emptyCells.get(r.nextInt(emptyCells.size() - 1)), eventHandler);
             }
         }
     }
@@ -231,8 +230,8 @@ public class GameWorld {
                     if (getPortalBlue() != null) {
                         getPortalBlue().remove();
                     }
-                    setPortalBlue(new Portal(cellMap[cellY][cellX], PortalType.BLUE, soundManager));
-                    soundManager.playSound("portal");
+                    setPortalBlue(new Portal(cellMap[cellY][cellX], PortalType.BLUE));
+                    SoundManager.playSound("portal");
                     if (getPortalOrange() != null) {
                         getPortalBlue().setLinkedPortal(getPortalOrange());
                         getPortalOrange().setLinkedPortal(getPortalBlue());
@@ -243,8 +242,8 @@ public class GameWorld {
                     if (getPortalOrange() != null) {
                         getPortalOrange().remove();
                     }
-                    setPortalOrange(new Portal(cellMap[cellY][cellX], PortalType.ORANGE, soundManager));
-                    soundManager.playSound("portal");
+                    setPortalOrange(new Portal(cellMap[cellY][cellX], PortalType.ORANGE));
+                    SoundManager.playSound("portal");
                     if (getPortalBlue() != null) {
                         getPortalOrange().setLinkedPortal(getPortalBlue());
                         getPortalBlue().setLinkedPortal(getPortalOrange());

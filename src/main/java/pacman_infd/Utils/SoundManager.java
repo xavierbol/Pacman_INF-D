@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package pacman_infd.Games;
+package pacman_infd.Utils;
 
 import java.io.File;
 import java.util.HashMap;
@@ -18,15 +18,12 @@ import javax.sound.sampled.Clip;
  *
  * @author Marinus
  */
-public class SoundManager {
-    private Map<String, File> soundFiles;
+public final class SoundManager {
+    private static Map<String, File> soundFiles;
 
-    public SoundManager() {
+    public static void loadSoundFiles() {
         soundFiles = new HashMap();
-        loadSoundFiles();
-    }
 
-    private void loadSoundFiles() {
         try {
             soundFiles.put("chomp", new File(ClassLoader.getSystemResource("SFX/wakawaka.wav").toURI()));
             soundFiles.put("cherry", new File(ClassLoader.getSystemResource("SFX/eatCherry.wav").toURI()));
@@ -36,31 +33,20 @@ public class SoundManager {
             soundFiles.put("portal", new File(ClassLoader.getSystemResource("SFX/portalOpen3 2.wav").toURI()));
             soundFiles.put("superPellet", new File(ClassLoader.getSystemResource("SFX/chomp.wav").toURI()));
         } catch (Exception e) {
-            System.out.println("loadSoundFiles, exception " + e + " catched !");
+            //System.out.println("loadSoundFiles, exception " + e + " catched !");
+            e.printStackTrace();
         }
     }
 
-    public void playSound(String sound) {
+    public static void playSound(String sound) {
         try {
             AudioInputStream audio = AudioSystem.getAudioInputStream(soundFiles.get(sound));
             Clip clip = AudioSystem.getClip();
             clip.open(audio);
             clip.start();
         } catch (Exception e) {
-            System.out.println("playSound, exception " + e + " catched !");
+            //System.out.println("playSound, exception " + e + " catched !");
+            e.printStackTrace();
         }
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        SoundManager that = (SoundManager) o;
-        return soundFiles.equals(that.soundFiles);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(soundFiles);
     }
 }

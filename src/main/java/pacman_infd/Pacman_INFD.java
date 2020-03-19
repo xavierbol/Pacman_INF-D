@@ -6,6 +6,7 @@
 
 package pacman_infd;
 
+import pacman_infd.Utils.SoundManager;
 import pacman_infd.Games.View;
 
 /**
@@ -13,6 +14,7 @@ import pacman_infd.Games.View;
  */
 public class Pacman_INFD {
     public static void main(String[] args) {
+        SoundManager.loadSoundFiles();
         View view = new View();
         view.setVisible(true);
     }

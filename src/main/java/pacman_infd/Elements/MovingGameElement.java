@@ -10,7 +10,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.Timer;
 import pacman_infd.Games.Cell;
-import pacman_infd.Games.SoundManager;
 import pacman_infd.Listeners.ElementEventListener;
 
 /**
@@ -22,13 +21,12 @@ public abstract class MovingGameElement extends GameElement{
     private Timer timer;
     protected int speed;
 
-    public MovingGameElement(Cell cell, ElementEventListener gameEventListener, int speed, SoundManager sMger) {
+    public MovingGameElement(Cell cell, ElementEventListener gameEventListener, int speed) {
         this.cell = cell;
         this.elementEventListener = gameEventListener;
         cell.addMovingElement(this);
         startCell = cell;
         this.speed = speed;
-        soundManager = sMger;
 
         ActionListener moveTimerActionListener = new ActionListener() {
             @Override
@@ -48,7 +46,7 @@ public abstract class MovingGameElement extends GameElement{
     public void reset(){
         cell.getMovingElements().remove(this);
         cell = startCell;
-       cell.addMovingElement(this);
+        cell.addMovingElement(this);
     }
     
     protected Cell getStartCell(){

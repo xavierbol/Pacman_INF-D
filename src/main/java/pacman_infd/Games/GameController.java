@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 import javax.swing.Timer;
 import pacman_infd.Elements.MovingGameElement;
 import pacman_infd.Listeners.GameEventListener;
+import pacman_infd.Utils.SoundManager;
 
 /**
  *
@@ -26,19 +27,16 @@ public class GameController implements GameEventListener {
     private Timer gameTimer;
     private StopWatch stopWatch;
     private LevelManager levelManager;
-    private SoundManager soundManager;
     private int gameSpeed;
     
     private static final int REFRESH_RATE = 10;
     private static final int DEFAULT_GAME_SPEED = 250;
 
     public GameController(View view, ScorePanel scorePanel) {
-
         this.view = view;
         this.scorePanel = scorePanel;
         gameState = GameState.PREGAME;
         levelManager = new LevelManager();
-        soundManager = new SoundManager();
         gameSpeed = DEFAULT_GAME_SPEED;
 
         ActionListener gameTimerAction = new java.awt.event.ActionListener() {
@@ -50,7 +48,6 @@ public class GameController implements GameEventListener {
 
         gameTimer = new Timer(REFRESH_RATE, gameTimerAction);
         stopWatch = new StopWatch();
-
     }
 
     /**
@@ -65,7 +62,6 @@ public class GameController implements GameEventListener {
      * draw the game.
      */
     private void drawGame() {
-
         Graphics g = view.getGameWorldGraphics();
 
         if (g != null && gameWorld != null) {
@@ -89,7 +85,7 @@ public class GameController implements GameEventListener {
             gameWorld = null;
         }
         
-        gameWorld = new GameWorld(this, levelManager.getFirstLevel(), soundManager, gameSpeed);
+        gameWorld = new GameWorld(this, levelManager.getFirstLevel(), gameSpeed);
         scorePanel.resetStats();
         gameState = GameState.RUNNING;
         drawGame();
@@ -102,8 +98,7 @@ public class GameController implements GameEventListener {
      * Go to the next level.
      */
     public void nextLevel() {
-
-        soundManager.playSound("win");
+        SoundManager.playSound("win");
         pauseGame();
         JOptionPane.showMessageDialog(
                 null,
@@ -116,7 +111,7 @@ public class GameController implements GameEventListener {
             gameSpeed -= 10;
         }
         gameWorld = null;
-        gameWorld = new GameWorld(this, levelManager.getNextLevel(), soundManager, gameSpeed);
+        gameWorld = new GameWorld(this, levelManager.getNextLevel(), gameSpeed);
     }
 
     /**
@@ -190,10 +185,6 @@ public class GameController implements GameEventListener {
     public void increasePoints(int amount) {
         scorePanel.addScore(amount);
         scorePanel.repaint();
-    }
-    
-    public SoundManager getSoundManager(){
-        return soundManager;
     }
     
     public void mouseClicked(int x, int y, int mouseButton){

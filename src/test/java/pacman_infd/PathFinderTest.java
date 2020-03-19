@@ -62,14 +62,14 @@ public class PathFinderTest {
         };
         
         //create a new GameWorld.
-        gameWorld = new GameWorld(gameController, levelMap, gameController.getSoundManager(), 0);
+        gameWorld = new GameWorld(gameController, levelMap, 0);
         
         // Set up moving elements in the GameWorld.
-        Ghost ghost1 = new Ghost(gameWorld.getCellMap()[1][0], null, 100, null, Color.yellow, null);
-        Ghost ghost2 = new Ghost(gameWorld.getCellMap()[1][0], null, 100, null, Color.yellow, null);
-        Ghost ghost3 = new Ghost(gameWorld.getCellMap()[1][0], null, 100, null, Color.yellow, null);
-        Ghost ghost4 = new Ghost(gameWorld.getCellMap()[2][0], null, 100, null, Color.yellow, null);
-        Pacman pacman = new Pacman(gameWorld.getCellMap()[2][0], null, 100, null);
+        Ghost ghost1 = new Ghost(gameWorld.getCellMap()[1][0], null, 100, null, Color.yellow);
+        Ghost ghost2 = new Ghost(gameWorld.getCellMap()[1][0], null, 100, null, Color.yellow);
+        Ghost ghost3 = new Ghost(gameWorld.getCellMap()[1][0], null, 100, null, Color.yellow);
+        Ghost ghost4 = new Ghost(gameWorld.getCellMap()[2][0], null, 100, null, Color.yellow);
+        Pacman pacman = new Pacman(gameWorld.getCellMap()[2][0], null, 100);
         
         //Find the path to Pacman.
         List path = pathFinder.findPathToPacman(gameWorld.getCellMap()[0][0]);
@@ -92,7 +92,7 @@ public class PathFinderTest {
             {'A', '-'}
         };
         //create a new GameWorld.   
-        gameWorld = new GameWorld(gameController, levelMap, gameController.getSoundManager(), 0);
+        gameWorld = new GameWorld(gameController, levelMap, 0);
         //find the next cell in the shortest path to the cell that holds Pacman from LevelMap[0][1].
         Cell cell = pathFinder.nextCellInPathToPacman(gameWorld.getCellMap()[0][0]);
         // check if the cell is not null
@@ -111,7 +111,7 @@ public class PathFinderTest {
         };
         
         //create a new GameWorld.        
-        gameWorld = new GameWorld(gameController, levelMap, gameController.getSoundManager(), 0);
+        gameWorld = new GameWorld(gameController, levelMap, 0);
         //assert that there's no valid path to Pacman.
         assert (pathFinder.findPathToPacman(gameWorld.getCellMap()[0][0]) == null);
     }
@@ -124,7 +124,7 @@ public class PathFinderTest {
         };
         
         //create a new GameWorld.
-        gameWorld = new GameWorld(gameController, levelMap, gameController.getSoundManager(), 0);
+        gameWorld = new GameWorld(gameController, levelMap, 0);
         //Get the next cell in the path to Pacman.
         Cell cell = pathFinder.nextCellInPathToPacman((gameWorld.getCellMap()[0][0]));
         //assert that cell holds an instance of Pacman.

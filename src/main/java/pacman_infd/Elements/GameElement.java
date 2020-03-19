@@ -7,7 +7,6 @@
 package pacman_infd.Elements;
 
 import pacman_infd.Games.Cell;
-import pacman_infd.Games.SoundManager;
 import pacman_infd.Listeners.ElementEventListener;
 
 import java.awt.Graphics;
@@ -22,15 +21,13 @@ import java.util.Objects;
 public abstract class GameElement {
     protected Cell cell;
     protected ElementEventListener elementEventListener;
-    protected SoundManager soundManager;
-    
+
     public GameElement(){ }
     
-    public GameElement(Cell cell, ElementEventListener elementEventListener, SoundManager soundManager)
+    public GameElement(Cell cell, ElementEventListener elementEventListener)
     {
         this.cell = cell;
         this.elementEventListener = elementEventListener;
-        this.soundManager = soundManager;
         cell.setStaticElement(this);
     }
     
@@ -67,12 +64,11 @@ public abstract class GameElement {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         GameElement that = (GameElement) o;
-        return cell.equals(that.cell) &&
-                soundManager.equals(that.soundManager);
+        return cell.equals(that.cell);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(cell, soundManager);
+        return Objects.hash(cell);
     }
 }

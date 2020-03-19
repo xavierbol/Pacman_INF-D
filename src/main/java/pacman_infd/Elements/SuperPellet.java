@@ -9,7 +9,7 @@ package pacman_infd.Elements;
 import java.awt.Color;
 import java.awt.Graphics;
 import pacman_infd.Games.Cell;
-import pacman_infd.Games.SoundManager;
+import pacman_infd.Utils.SoundManager;
 import pacman_infd.Listeners.ElementEventListener;
 
 /**
@@ -19,8 +19,8 @@ import pacman_infd.Listeners.ElementEventListener;
 public class SuperPellet extends GameElement implements Eatable {
     private static final int VALUE = 100;
     
-    public SuperPellet(Cell cell, ElementEventListener evtl, SoundManager sMger) {
-        super(cell, evtl, sMger);
+    public SuperPellet(Cell cell, ElementEventListener evtl) {
+        super(cell, evtl);
     }
       
 
@@ -41,7 +41,7 @@ public class SuperPellet extends GameElement implements Eatable {
             cell.setStaticElement(null);
         }  
         elementEventListener.makeGhostsVulnerable();
-        soundManager.playSound("superPellet");
+        SoundManager.playSound("superPellet");
     }
 
     @Override

@@ -12,7 +12,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import pacman_infd.Games.Cell;
 import pacman_infd.Enums.Direction;
-import pacman_infd.Games.SoundManager;
 import pacman_infd.Listeners.ElementEventListener;
 
 /**
@@ -22,8 +21,8 @@ import pacman_infd.Listeners.ElementEventListener;
 public class Pacman extends MovingGameElement implements KeyListener {
     private Direction currentDirection;
 
-    public Pacman(Cell cell, ElementEventListener gameEventListener, int speed, SoundManager sMger) {
-        super(cell, gameEventListener, speed, sMger);
+    public Pacman(Cell cell, ElementEventListener gameEventListener, int speed) {
+        super(cell, gameEventListener, speed);
     }
 
     /**

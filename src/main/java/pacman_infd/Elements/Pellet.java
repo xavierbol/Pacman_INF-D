@@ -8,7 +8,7 @@ package pacman_infd.Elements;
 import java.awt.Color;
 import java.awt.Graphics;
 import pacman_infd.Games.Cell;
-import pacman_infd.Games.SoundManager;
+import pacman_infd.Utils.SoundManager;
 import pacman_infd.Listeners.ElementEventListener;
 
 /**
@@ -18,8 +18,8 @@ import pacman_infd.Listeners.ElementEventListener;
 public class Pellet extends GameElement implements Eatable {
     private static final int VALUE = 5;
     
-    public Pellet(Cell cell, ElementEventListener evtl, SoundManager sMger) {
-        super(cell, evtl, sMger);
+    public Pellet(Cell cell, ElementEventListener evtl) {
+        super(cell, evtl);
     }
 
     public void draw(Graphics g) {
@@ -39,7 +39,7 @@ public class Pellet extends GameElement implements Eatable {
             cell.setStaticElement(null);
         }
 
-        soundManager.playSound("chomp");
+        SoundManager.playSound("chomp");
     }
 
     @Override
