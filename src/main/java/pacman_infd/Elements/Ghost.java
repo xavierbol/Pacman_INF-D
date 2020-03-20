@@ -33,8 +33,8 @@ public class Ghost extends MovingGameElement implements Eatable{
     private Timer stateSoonChangeTimer; // To say when the state ghost change from VULNERABLE to NORMAL
     private Timer vulnerabilityTimer;
     private Timer deathTimer;
-    private final int VULNERABLE_TIMER_DELAY = 8000; // plus quarter than total (for the rendering blue and white when ghost will changed state (VULNERABLE -> NORMAL)
-    private final int DEATH_TIMER_DELAY = 15000;
+    private static final int VULNERABLE_TIMER_DELAY = 8000; // plus quarter than total (for the rendering blue and white when ghost will changed state (VULNERABLE -> NORMAL)
+    private static final int DEATH_TIMER_DELAY = 15000;
 
     private static final int VALUE = 400;
 

@@ -32,6 +32,15 @@ public class PathFinder {
      */
     public Cell nextCellInPathToPacman(Cell rootCell) {
         List<Cell> path = findPathToPacman(rootCell);
+        return nextCellInPath(path);
+    }
+
+    public Cell nextCellInPath(Cell rootCell, Cell targetCell) {
+        List<Cell> path = findPathToCell(rootCell, targetCell);
+        return nextCellInPath(path);
+    }
+
+    private Cell nextCellInPath(List<Cell> path) {
         if (path != null && !path.isEmpty()) {
             return path.get(0);
         } else {
@@ -39,14 +48,6 @@ public class PathFinder {
         }
     }
 
-    public Cell nextCellInPath(Cell rootCell, Cell targetCell) {
-        List<Cell> path = findPathToCell(rootCell, targetCell);
-        if (path != null && !path.isEmpty()) {
-            return path.get(0);
-        } else {
-            return rootCell;
-        }
-    }
 
     /**
      * Constructs a path (List of cells in order) by 'walking' back along
@@ -84,12 +85,7 @@ public class PathFinder {
         while (!queue.isEmpty()) {
             Cell cell = (Cell) queue.poll();
 
-            for (GameElement e : cell.getMovingElements()) {
-                if (e instanceof Pacman) {
-                    //pacman found
-                    return contructPath(cell);
-                }
-            }
+            searchPathToPacman(cell);
 
             //if pacman not found
             visitedCells.add(cell);
@@ -104,6 +100,17 @@ public class PathFinder {
         }
 
         //no path found
+        return null;
+    }
+
+    private List<Cell> searchPathToPacman(Cell cell) {
+        for (GameElement e : cell.getMovingElements()) {
+            if (e instanceof Pacman) {
+                //pacman found
+                return contructPath(cell);
+            }
+        }
+
         return null;
     }
 
