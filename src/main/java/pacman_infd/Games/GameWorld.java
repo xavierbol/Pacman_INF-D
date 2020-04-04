@@ -148,7 +148,7 @@ public class GameWorld {
      * @param element the type of ghost
      * @param cell the cell of the map
      */
-    private void createGhost(ElementType element, Cell cell) {
+    public void createGhost(ElementType element, Cell cell) {
         // By default, it's the BLINKY_GHOST, because we assume to know it's a ghost when we call this method
         Strategy strategy = new ChasePacmanStrategy();
         Color color = Color.RED;
@@ -215,7 +215,7 @@ public class GameWorld {
             ArrayList<Cell> emptyCells = getEmptyCells();
             Random r = new Random();
             if (!emptyCells.isEmpty()) {
-                Cherry c = new Cherry(emptyCells.get(r.nextInt(emptyCells.size() - 1)), eventHandler);
+                new Cherry(emptyCells.get(r.nextInt(emptyCells.size() - 1)), eventHandler);
             }
         }
     }
@@ -339,5 +339,9 @@ public class GameWorld {
 
     public ArrayList<Cell> getCells() {
         return cells;
+    }
+
+    public EventHandler getEventHandler() {
+        return eventHandler;
     }
 }

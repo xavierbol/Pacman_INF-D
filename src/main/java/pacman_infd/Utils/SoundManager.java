@@ -39,6 +39,10 @@ public final class SoundManager {
     }
 
     public static void playSound(String sound) {
+        if (soundFiles == null || soundFiles.isEmpty()) {
+            loadSoundFiles();
+        }
+
         try {
             AudioInputStream audio = AudioSystem.getAudioInputStream(soundFiles.get(sound));
             Clip clip = AudioSystem.getClip();

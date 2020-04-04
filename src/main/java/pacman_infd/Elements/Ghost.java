@@ -71,6 +71,10 @@ public class Ghost extends MovingGameElement implements Eatable{
         deathTimer = new Timer(DEATH_TIMER_DELAY, deathTimerAction);
     }
 
+    public Color getColor() {
+        return color;
+    }
+
     /**
      * Draw this Ghost
      *
@@ -224,9 +228,9 @@ public class Ghost extends MovingGameElement implements Eatable{
     public void eatMe() {
         if (state.equals(GhostState.VULNERABLE)) {
             SoundManager.playSound("ghost");
+            elementEventListener.eatableElementEaten(this);
             dead();
-        }
-        else if (state.equals(GhostState.NORMAL)) {
+        } else if (state.equals(GhostState.NORMAL)) {
             SoundManager.playSound("death");
             elementEventListener.killPacman();
         }

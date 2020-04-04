@@ -68,7 +68,7 @@ public class ScorePanel extends JPanel {
      */
     public void loseLife()
     {
-        lives--;
+        lives -= 1;
     }
     
     /**

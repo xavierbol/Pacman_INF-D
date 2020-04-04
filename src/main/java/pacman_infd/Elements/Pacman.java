@@ -25,6 +25,16 @@ public class Pacman extends MovingGameElement implements KeyListener {
         super(cell, gameEventListener, speed);
     }
 
+    public Direction getCurrentDirection() {
+        return currentDirection;
+    }
+
+    public void changeDirection(Direction newDirection) {
+        if (cell.getNeighbor(newDirection) != null && !cell.getNeighbor(newDirection).hasWall()) {
+            currentDirection = newDirection;
+        }
+    }
+
     /**
      * Move to the next cell according to currentDirection. Will not move if the
      * next cell has a wall. Check for collisions after move is complete.
@@ -93,11 +103,7 @@ public class Pacman extends MovingGameElement implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        Direction newDirection = Direction.getDirection(e, currentDirection);
-
-        if (cell.getNeighbor(newDirection) != null && !cell.getNeighbor(newDirection).hasWall()) {
-            currentDirection = newDirection;
-        }
+        changeDirection(Direction.getDirection(e, currentDirection));
     }
 
     @Override
