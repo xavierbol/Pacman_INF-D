@@ -6,6 +6,8 @@
 package pacman_infd.Listeners;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import pacman_infd.Games.Cell;
 import pacman_infd.Elements.Eatable;
@@ -88,12 +90,13 @@ public class EventHandler implements ElementEventListener {
         }
 
         ArrayList<MovingGameElement> movers = new ArrayList();
-        for (Cell cell : gameWorld.getCells()) {
+
+        List<Cell> listCellsWithMovingElements = gameWorld.getCells().parallelStream().filter(cell -> !cell.getMovingElements().isEmpty()).collect(Collectors.toList());
+
+        for (Cell cell : listCellsWithMovingElements) {
             movers.addAll(cell.getMovingElements());
         }
-        for (MovingGameElement mover : movers) {
-            mover.reset();
-        }
+        movers.parallelStream().forEach(MovingGameElement::reset);
     }
 
     @Override
