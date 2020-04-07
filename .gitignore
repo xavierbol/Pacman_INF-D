@@ -3,6 +3,10 @@
 /out/
 /.idea/
 *.iml
+.vscode/
+.project
+.settings
+.classpath
 
 # Created by https://www.gitignore.io/api/java,maven
 # Edit at https://www.gitignore.io/?templates=java,maven
