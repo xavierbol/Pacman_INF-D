@@ -6,8 +6,8 @@
 
 package pacman_infd;
 
-import pacman_infd.Utils.SoundManager;
-import pacman_infd.Games.View;
+import pacman_infd.utils.SoundManager;
+import pacman_infd.games.View;
 
 /**
  * @author Marinus
