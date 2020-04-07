@@ -1,7 +1,6 @@
 package pacman_infd.games;
 
 import org.junit.jupiter.api.Test;
-import pacman_infd.games.StopWatch;
 
 import java.util.concurrent.TimeUnit;
 

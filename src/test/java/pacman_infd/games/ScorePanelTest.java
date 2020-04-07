@@ -2,7 +2,6 @@ package pacman_infd.games;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import pacman_infd.games.ScorePanel;
 
 public class ScorePanelTest {
     private ScorePanel scorePanel;

@@ -9,8 +9,6 @@ import org.junit.jupiter.api.*;
 import pacman_infd.enums.Direction;
 import pacman_infd.elements.Portal;
 import pacman_infd.enums.PortalType;
-import pacman_infd.games.GameController;
-import pacman_infd.games.GameWorld;
 import pacman_infd.utils.SoundManager;
 
 /**
@@ -124,7 +122,7 @@ public class GameWorldTest {
         gameWorld.setPortalOrange(new Portal(gameWorld.getCell(1,2), PortalType.ORANGE));
         gameWorld.setPortalBlue(null);
 
-        //attempt to spawn a portal on cell location [0][1] with mousebutton 3 pressed 
+        //attempt to spawn a portal on cell location [0][1] with mousebutton 3 pressed
         gameWorld.spawnPortal(26, 0, 3);
         //assert that the orange portal is now on the new location
         assert (gameWorld.getPortalOrange().getCell().getXpos() == 1 && gameWorld.getPortalOrange().getCell().getYPos() == 0);
@@ -174,7 +172,7 @@ public class GameWorldTest {
         gameWorld.setPortalOrange(null);
         gameWorld.setPortalBlue(new Portal(gameWorld.getCell(1,2), PortalType.BLUE));
 
-        //attempt to spawn a portal on cell location [0][1] with mousebutton 1 pressed 
+        //attempt to spawn a portal on cell location [0][1] with mousebutton 1 pressed
         gameWorld.spawnPortal(26, 0, 1);
         //assert that the blue portal is now on the new location
         assert (gameWorld.getPortalBlue().getCell().getXpos() == 1 && gameWorld.getPortalBlue().getCell().getYPos() == 0);
@@ -189,7 +187,7 @@ public class GameWorldTest {
         gameWorld.setPortalOrange(new Portal(gameWorld.getCell(1,2), PortalType.ORANGE));
         gameWorld.setPortalBlue(null);
 
-        //attempt to spawn a portal on cell location [0][1] with mousebutton 1 pressed    
+        //attempt to spawn a portal on cell location [0][1] with mousebutton 1 pressed
         gameWorld.spawnPortal(26, 0, 1);
         //assert that the blue portal now excists
         assert (gameWorld.getPortalBlue() != null);
@@ -209,9 +207,9 @@ public class GameWorldTest {
         gameWorld.setPortalOrange(new Portal(gameWorld.getCell(1,2), PortalType.ORANGE));
         gameWorld.setPortalBlue(new Portal(gameWorld.getCell(1,0), PortalType.BLUE));
 
-        //attempt to spawn a portal on cell location [1][1] with mousebutton 1 pressed 
+        //attempt to spawn a portal on cell location [1][1] with mousebutton 1 pressed
         gameWorld.spawnPortal(26, 26, 1);
-        
+
         //assert that the blue portal is now on the new location
         assert (gameWorld.getPortalBlue().getCell().getXpos() == 1 && gameWorld.getPortalBlue().getCell().getYPos() == 1);
         //assert that the orange portal is still on the same location
