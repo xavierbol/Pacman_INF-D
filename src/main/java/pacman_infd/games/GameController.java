@@ -5,18 +5,17 @@
  */
 package pacman_infd.games;
 
-import pacman_infd.enums.GameState;
-import java.awt.Graphics;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.JOptionPane;
-import javax.swing.Timer;
 import pacman_infd.elements.MovingGameElement;
+import pacman_infd.enums.GameState;
 import pacman_infd.listeners.GameEventListener;
 import pacman_infd.utils.SoundManager;
 
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 /**
- *
  * @author Marinus
  */
 public class GameController implements GameEventListener {
@@ -28,7 +27,7 @@ public class GameController implements GameEventListener {
     private StopWatch stopWatch;
     private LevelManager levelManager;
     private int gameSpeed;
-    
+
     private static final int REFRESH_RATE = 10;
     private static final int DEFAULT_GAME_SPEED = 250;
 
@@ -79,12 +78,12 @@ public class GameController implements GameEventListener {
      * Start a new game, or, if the game is already running, restart the game.
      */
     public void newGame() {
-        if(gameState.equals(GameState.RUNNING)){
+        if (gameState.equals(GameState.RUNNING)) {
             pauseGame();
             gameWorld.clearGameWorld();
             gameWorld = null;
         }
-        
+
         gameWorld = new GameWorld(this, levelManager.getFirstLevel(), gameSpeed);
         scorePanel.resetStats();
         gameState = GameState.RUNNING;
@@ -107,10 +106,9 @@ public class GameController implements GameEventListener {
                 JOptionPane.ERROR_MESSAGE
         );
 
-        if(gameSpeed > 100){
+        if (gameSpeed > 100) {
             gameSpeed -= 10;
         }
-        gameWorld = null;
         gameWorld = new GameWorld(this, levelManager.getNextLevel(), gameSpeed);
     }
 
@@ -120,7 +118,7 @@ public class GameController implements GameEventListener {
     public void pauseGame() {
         if (gameState.equals(GameState.RUNNING)) {
             for (Cell cell : gameWorld.getCells()) {
-                for (MovingGameElement element: cell.getMovingElements()) {
+                for (MovingGameElement element : cell.getMovingElements()) {
                     element.stopTimer();
                 }
             }
@@ -131,7 +129,7 @@ public class GameController implements GameEventListener {
         } else if (gameState.equals(GameState.PAUSED)) {
 
             for (Cell cell : gameWorld.getCells()) {
-                for (MovingGameElement element: cell.getMovingElements()) {
+                for (MovingGameElement element : cell.getMovingElements()) {
                     element.startTimer();
                 }
 
@@ -144,18 +142,19 @@ public class GameController implements GameEventListener {
 
     /**
      * draw the game at each tick of the game timer.
-     * @param e 
+     *
+     * @param e
      */
     public void gameTimerActionPerformed(ActionEvent e) {
         drawGame();
         scorePanel.setTime(stopWatch.getElapsedTimeMinutesSeconds());
         scorePanel.repaint();
     }
-    
+
     private void gameOver() {
-       
+
         pauseGame();
-        drawGame();     
+        drawGame();
         JOptionPane.showMessageDialog(
                 null,
                 "Game over!\nYour score: " + scorePanel.getScore(),
@@ -176,7 +175,7 @@ public class GameController implements GameEventListener {
     public void decreaseLife() {
         scorePanel.loseLife();
         scorePanel.repaint();
-        if(scorePanel.getLives() == 0){
+        if (scorePanel.getLives() == 0) {
             gameOver();
         }
     }
@@ -186,10 +185,10 @@ public class GameController implements GameEventListener {
         scorePanel.addScore(amount);
         scorePanel.repaint();
     }
-    
-    public void mouseClicked(int x, int y, int mouseButton){
-        if(gameWorld != null){
-             gameWorld.spawnPortal(x, y, mouseButton);  
+
+    public void mouseClicked(int x, int y, int mouseButton) {
+        if (gameWorld != null) {
+            gameWorld.spawnPortal(x, y, mouseButton);
         }
     }
 }
