@@ -161,7 +161,6 @@ public class Ghost extends MovingGameElement implements Eatable{
             setSpeed((int) (speed * 1.50));
             vulnerabilityTimer.start();
         }
-
     }
 
     /**
@@ -173,6 +172,7 @@ public class Ghost extends MovingGameElement implements Eatable{
         setSpeed(speed);
         vulnerabilityTimer.stop();
         deathTimer.stop();
+        this.elementEventListener.ghostsBackToNormal();
     }
 
     public void dead() {

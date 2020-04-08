@@ -14,4 +14,6 @@ public interface GameEventListener {
     public void decreaseLife();
     public void increasePoints(int amount);
     public void refocus();
+    public void stopStopWatch();
+    public void restartStopWatch();
 }

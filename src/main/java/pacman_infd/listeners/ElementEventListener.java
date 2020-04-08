@@ -19,5 +19,6 @@ public interface ElementEventListener extends EventListener{
     public void movingElementActionPerformed(MovingGameElement e);
     public void eatableElementEaten(Eatable e);
     public void makeGhostsVulnerable();
+    public void ghostsBackToNormal();
     public void killPacman();
 }

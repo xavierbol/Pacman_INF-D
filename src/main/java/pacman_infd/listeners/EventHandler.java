@@ -112,5 +112,11 @@ public class EventHandler implements ElementEventListener {
                 }
             }
         }
+        gameEventListener.stopStopWatch();
+    }
+
+    @Override
+    public void ghostsBackToNormal() {
+        gameEventListener.restartStopWatch();
     }
 }

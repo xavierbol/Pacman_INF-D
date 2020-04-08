@@ -31,19 +31,26 @@ public class StopWatch {
     }
     
     public void start(){
-        if(!isRunning){
+        if (!isRunning) {
             isRunning = true;
             startTime = System.currentTimeMillis();
         }
     }
     
-    public void stop(){
-        if(isRunning){
+    public void stop() {
+        if (isRunning) {
            isRunning = false;
            long stopTime = System.currentTimeMillis();
            elapsedTime = elapsedTime + stopTime - startTime;
         }
-        
+    }
+
+    public void restart() {
+        if (!isRunning) {
+            isRunning = true;
+            startTime = System.currentTimeMillis() - elapsedTime;
+            elapsedTime = 0;
+        }
     }
     
     public long getElapsedTime(){

@@ -186,6 +186,16 @@ public class GameController implements GameEventListener {
         scorePanel.repaint();
     }
 
+    @Override
+    public void stopStopWatch() {
+        stopWatch.stop();
+    }
+
+    @Override
+    public void restartStopWatch() {
+        stopWatch.restart();
+    }
+
     public void mouseClicked(int x, int y, int mouseButton) {
         if (gameWorld != null) {
             gameWorld.spawnPortal(x, y, mouseButton);
