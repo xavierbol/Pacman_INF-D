@@ -5,19 +5,18 @@
  */
 package pacman_infd.listeners;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import pacman_infd.games.Cell;
 import pacman_infd.elements.Eatable;
 import pacman_infd.elements.Ghost;
 import pacman_infd.elements.MovingGameElement;
 import pacman_infd.elements.Pacman;
+import pacman_infd.games.Cell;
 import pacman_infd.games.GameWorld;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 /**
- *
  * @author Marinus
  */
 public class EventHandler implements ElementEventListener {
@@ -31,7 +30,8 @@ public class EventHandler implements ElementEventListener {
 
     /**
      * Checks if ghost is in the same cell as pacman
-     * @param g 
+     *
+     * @param g
      */
     private void checkCollisions(Ghost g) {
         Cell cell = g.getCell();
@@ -43,7 +43,8 @@ public class EventHandler implements ElementEventListener {
 
     /**
      * checks if pacman found any eatable object.
-     * @param p 
+     *
+     * @param p
      */
     private void checkCollisions(Pacman p) {
         Cell cell = p.getCell();
@@ -57,7 +58,8 @@ public class EventHandler implements ElementEventListener {
 
     /**
      * This is called whenever a moving gameElement has moved.
-     * @param e 
+     *
+     * @param e
      */
     @Override
     public void movingElementActionPerformed(MovingGameElement e) {
@@ -71,7 +73,8 @@ public class EventHandler implements ElementEventListener {
 
     /**
      * this is called whenever an eatable object has been eaten.
-     * @param e 
+     *
+     * @param e
      */
     @Override
     public void eatableElementEaten(Eatable e) {
@@ -81,22 +84,22 @@ public class EventHandler implements ElementEventListener {
 
     @Override
     public void killPacman() {
-        gameEventListener.decreaseLife();
-
         try {
             Thread.sleep(1000);
         } catch (InterruptedException ex) {
             Thread.currentThread().interrupt();
         }
 
+        List<Cell> listCellsWithMovingElements = gameWorld.getCells().stream()
+                .filter(cell -> !cell.getMovingElements().isEmpty())
+                .collect(Collectors.toList());
+
         ArrayList<MovingGameElement> movers = new ArrayList();
-
-        List<Cell> listCellsWithMovingElements = gameWorld.getCells().parallelStream().filter(cell -> !cell.getMovingElements().isEmpty()).collect(Collectors.toList());
-
         for (Cell cell : listCellsWithMovingElements) {
             movers.addAll(cell.getMovingElements());
         }
-        movers.parallelStream().forEach(MovingGameElement::reset);
+        movers.stream().forEach(MovingGameElement::reset);
+        gameEventListener.decreaseLife();
     }
 
     @Override
