@@ -26,9 +26,9 @@ public class LevelManager {
     }
 
     private void loadLevels() {
-        loadLevel("Levels/xlevel1.txt");
-        loadLevel("Levels/xlevel2.txt");
-        loadLevel("Levels/xlevel3.txt");
+        loadLevel("Levels/ylevel1.txt");
+        loadLevel("Levels/ylevel2.txt");
+        loadLevel("Levels/ylevel3.txt");
     }
 
     private void loadLevel(String path) {

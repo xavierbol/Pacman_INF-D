@@ -85,21 +85,12 @@ public class GameWorld {
     private void findNeighbors() {
         for (int x = 0; x < height; x++) {
             for (int y = 0; y < width; y++) {
-                if (x - 1 >= 0) {
-                    cellMap[x][y].setNeighbor(Direction.UP, cellMap[x - 1][y]);
-                }
-                if (x + 1 < height) {
-                    cellMap[x][y].setNeighbor(Direction.DOWN, cellMap[x + 1][y]);
-                }
-                if (y - 1 >= 0) {
-                    cellMap[x][y].setNeighbor(Direction.LEFT, cellMap[x][y - 1]);
-                }
-                if (y + 1 < width) {
-                    cellMap[x][y].setNeighbor(Direction.RIGHT, cellMap[x][y + 1]);
-                }
+                    cellMap[x][y].setNeighbor(Direction.UP, cellMap[(height + x - 1) % height][y]);
+                    cellMap[x][y].setNeighbor(Direction.DOWN, cellMap[(height + x + 1) % height][y]);
+                    cellMap[x][y].setNeighbor(Direction.LEFT, cellMap[x][(width + y - 1) % width]);
+                    cellMap[x][y].setNeighbor(Direction.RIGHT, cellMap[x][(width + y + 1) % width]);
             }
         }
-
     }
 
     /**
