@@ -39,6 +39,7 @@ public class SuperPellet extends GameElement implements Eatable {
         elementEventListener.eatableElementEaten(this);
         if(cell.getStaticElement().equals(this)){
             cell.setStaticElement(null);
+            cell.setFruitSpawn(true);
         }  
         elementEventListener.makeGhostsVulnerable();
         SoundManager.playSound("superPellet");

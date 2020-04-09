@@ -5,16 +5,14 @@
  */
 package pacman_infd.utils;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-
 /**
- *
  * @author Marinus
  */
 public final class SoundManager {
@@ -25,7 +23,7 @@ public final class SoundManager {
 
         try {
             soundFiles.put("chomp", new File(ClassLoader.getSystemResource("SFX/wakawaka.wav").toURI()));
-            soundFiles.put("cherry", new File(ClassLoader.getSystemResource("SFX/eatCherry.wav").toURI()));
+            soundFiles.put("fruit", new File(ClassLoader.getSystemResource("SFX/eatFruit.wav").toURI()));
             soundFiles.put("ghost", new File(ClassLoader.getSystemResource("SFX/eatGhost.wav").toURI()));
             soundFiles.put("death", new File(ClassLoader.getSystemResource("SFX/death.wav").toURI()));
             soundFiles.put("win", new File(ClassLoader.getSystemResource("SFX/intermission.wav").toURI()));

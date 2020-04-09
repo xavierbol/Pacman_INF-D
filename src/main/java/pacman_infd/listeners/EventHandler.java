@@ -79,7 +79,7 @@ public class EventHandler implements ElementEventListener {
     @Override
     public void eatableElementEaten(Eatable e) {
         gameEventListener.increasePoints(e.getValue());
-        gameWorld.placeCherryOnRandomEmptyCell();
+        gameWorld.placeFruitRandom();
     }
 
     @Override

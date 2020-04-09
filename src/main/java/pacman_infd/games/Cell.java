@@ -7,14 +7,14 @@ package pacman_infd.games;
 
 import pacman_infd.elements.*;
 import pacman_infd.enums.Direction;
-import java.awt.Graphics;
+
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
 /**
- *
  * @author Marinus
  */
 public class Cell {
@@ -25,6 +25,7 @@ public class Cell {
     private Map<Direction, Cell> neighbors;
     private ArrayList<MovingGameElement> movingElements;
     private GameElement staticElement;
+    private boolean fruitSpawn;
 
     private Cell pathParent;
 
@@ -32,6 +33,7 @@ public class Cell {
         xPos = x;
         yPos = y;
         this.size = size;
+        this.fruitSpawn = false;
 
         movingElements = new ArrayList<>();
         neighbors = new HashMap<Direction, Cell>();
@@ -39,7 +41,8 @@ public class Cell {
 
     /**
      * Draw this cell and all elements in it.
-     * @param g 
+     *
+     * @param g
      */
     public void draw(Graphics g) {
         drawElements(g);
@@ -69,8 +72,8 @@ public class Cell {
     public boolean hasWall() {
         return staticElement instanceof Wall;
     }
-    
-    public void clearCell(){
+
+    public void clearCell() {
         movingElements = null;
         staticElement = null;
     }
@@ -94,7 +97,6 @@ public class Cell {
     }
 
     /**
-     *
      * @return a list of all GameElements on this cell.
      */
     public ArrayList<MovingGameElement> getMovingElements() {
@@ -138,7 +140,6 @@ public class Cell {
     }
 
     /**
-     *
      * @param dir Direction of cell
      * @return Cell neighbor of this cell in the direction specified.
      */
@@ -147,7 +148,6 @@ public class Cell {
     }
 
     /**
-     *
      * @return a HashMap of neighboring Cells.
      */
     public Map<Direction, Cell> getNeighbors() {
@@ -155,7 +155,6 @@ public class Cell {
     }
 
     /**
-     * 
      * @return staticElement
      */
     public GameElement getStaticElement() {
@@ -163,15 +162,13 @@ public class Cell {
     }
 
     /**
-     * 
-     * @param element 
+     * @param element
      */
     public void setStaticElement(GameElement element) {
         staticElement = element;
     }
 
     /**
-     *
      * @return the size of this cell.
      */
     public int getSize() {
@@ -179,7 +176,6 @@ public class Cell {
     }
 
     /**
-     *
      * @return the x position of this cell.
      */
     public int getXpos() {
@@ -187,11 +183,28 @@ public class Cell {
     }
 
     /**
-     *
      * @return the y position of this cell.
      */
     public int getYPos() {
         return yPos;
+    }
+
+    /**
+     * Returns if the cell can serve as a spawn for a fruit.
+     *
+     * @return True if a fruit can spawn in cell.
+     */
+    public boolean isFruitSpawn() {
+        return fruitSpawn;
+    }
+
+    /**
+     * Sets if the cell can serve as a spawn for a fruit.
+     *
+     * @param fruitSpawn True if a fruit can spawn in cell.
+     */
+    public void setFruitSpawn(boolean fruitSpawn) {
+        this.fruitSpawn = fruitSpawn;
     }
 
     /**
@@ -205,7 +218,6 @@ public class Cell {
     }
 
     /**
-     *
      * @return parent of this Cell in a path
      */
     public Cell getPathParent() {
