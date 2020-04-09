@@ -37,6 +37,7 @@ public class Pellet extends GameElement implements Eatable {
         
         if(cell.getStaticElement().equals(this)){
             cell.setStaticElement(null);
+            cell.setFruitSpawn(true);
         }
 
         SoundManager.playSound("chomp");

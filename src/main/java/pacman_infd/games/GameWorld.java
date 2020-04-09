@@ -5,13 +5,10 @@
  */
 package pacman_infd.games;
 
-import pacman_infd.enums.Direction;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.util.ArrayList;
-import java.util.Random;
 import pacman_infd.elements.*;
+import pacman_infd.enums.Direction;
 import pacman_infd.enums.ElementType;
+import pacman_infd.enums.FruitType;
 import pacman_infd.enums.PortalType;
 import pacman_infd.listeners.EventHandler;
 import pacman_infd.strategies.ChasePacmanStrategy;
@@ -19,10 +16,15 @@ import pacman_infd.strategies.MoveRandomStrategy;
 import pacman_infd.strategies.Strategy;
 import pacman_infd.utils.SoundManager;
 
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.stream.Collectors;
+
 import static pacman_infd.enums.ElementType.*;
 
 /**
- *
  * @author Marinus
  */
 public class GameWorld {
@@ -85,10 +87,10 @@ public class GameWorld {
     private void findNeighbors() {
         for (int x = 0; x < height; x++) {
             for (int y = 0; y < width; y++) {
-                    cellMap[x][y].setNeighbor(Direction.UP, cellMap[(height + x - 1) % height][y]);
-                    cellMap[x][y].setNeighbor(Direction.DOWN, cellMap[(height + x + 1) % height][y]);
-                    cellMap[x][y].setNeighbor(Direction.LEFT, cellMap[x][(width + y - 1) % width]);
-                    cellMap[x][y].setNeighbor(Direction.RIGHT, cellMap[x][(width + y + 1) % width]);
+                cellMap[x][y].setNeighbor(Direction.UP, cellMap[(height + x - 1) % height][y]);
+                cellMap[x][y].setNeighbor(Direction.DOWN, cellMap[(height + x + 1) % height][y]);
+                cellMap[x][y].setNeighbor(Direction.LEFT, cellMap[x][(width + y - 1) % width]);
+                cellMap[x][y].setNeighbor(Direction.RIGHT, cellMap[x][(width + y + 1) % width]);
             }
         }
     }
@@ -97,7 +99,7 @@ public class GameWorld {
      * Places walls on the cellMap according to wallMap
      *
      * @param elementMap array of integers representing the walls (1=wall, 0=no wall)
-     * @param cellMap cell array of level.
+     * @param cellMap    cell array of level.
      */
     private void placeElements(char[][] elementMap, Cell[][] cellMap) {
         for (int x = 0; x < height; x++) {
@@ -136,8 +138,9 @@ public class GameWorld {
 
     /**
      * Create a ghost to the cell of the map
+     *
      * @param element the type of ghost
-     * @param cell the cell of the map
+     * @param cell    the cell of the map
      */
     public void createGhost(ElementType element, Cell cell) {
         // By default, it's the BLINKY_GHOST, because we assume to know it's a ghost when we call this method
@@ -199,14 +202,16 @@ public class GameWorld {
     }
 
     /**
-     * Places a cherry on a random cell that has no static element.
+     * Place a fruit randomly among the cells that can spawn a fruit.
      */
-    public void placeCherryOnRandomEmptyCell() {
+    public void placeFruitRandom() {
         if (countPellets() == numberOfPelletsAtStart / 2) {
-            ArrayList<Cell> emptyCells = getEmptyCells();
+            List<Cell> fruitSpawnCells = this.getFruitSpawnCells();
             Random r = new Random();
-            if (!emptyCells.isEmpty()) {
-                new Cherry(emptyCells.get(r.nextInt(emptyCells.size() - 1)), eventHandler);
+            if (!fruitSpawnCells.isEmpty()) {
+                new Fruit(FruitType.values()[r.nextInt(FruitType.values().length)],
+                        fruitSpawnCells.get(r.nextInt(fruitSpawnCells.size())),
+                        eventHandler);
             }
         }
     }
@@ -257,9 +262,9 @@ public class GameWorld {
             }
         }
     }
-    
+
     public void clearGameWorld() {
-        for(Cell cell: cells) {
+        for (Cell cell : cells) {
             cell.clearCell();
         }
         eventHandler = null;
@@ -268,22 +273,17 @@ public class GameWorld {
     }
 
     /**
-     * Returns a list of all cells that have no static element placed on them.
+     * Returns a list of all cells that can spawn a fruit
      *
      * @return list of cells
      */
-    private ArrayList<Cell> getEmptyCells() {
-        ArrayList<Cell> emptyCells = new ArrayList<>();
-        for (Cell cell : cells) {
-            if (cell.getStaticElement() == null) {
-                emptyCells.add(cell);
-            }
-        }
-        return emptyCells;
+    private List<Cell> getFruitSpawnCells() {
+        return cells.stream()
+                .filter(Cell::isFruitSpawn)
+                .collect(Collectors.toList());
     }
 
     /**
-     *
      * @return number of Pellets at the start of the game.
      */
     public int getNumberOfPelletsAtStart() {
