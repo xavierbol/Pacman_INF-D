@@ -5,74 +5,75 @@
  */
 package pacman_infd.elements;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import pacman_infd.enums.GhostState;
+import pacman_infd.games.Cell;
+import pacman_infd.listeners.ElementEventListener;
+import pacman_infd.strategies.ghost.FleeStrategy;
+import pacman_infd.strategies.ghost.GhostStrategy;
+import pacman_infd.strategies.ghost.ReturnHomeSrategy;
+import pacman_infd.utils.SoundManager;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.Timer;
-import pacman_infd.games.Cell;
-import pacman_infd.enums.GhostState;
-import pacman_infd.utils.SoundManager;
-import pacman_infd.listeners.ElementEventListener;
-import pacman_infd.strategies.FleeStrategy;
-import pacman_infd.strategies.ReturnHomeSrategy;
-import pacman_infd.strategies.Strategy;
 
 /**
- *
  * @author Marinus
  */
-public class Ghost extends MovingGameElement implements Eatable{
-    private Strategy strategy;
-    private Strategy initialStrategy;
+public class Ghost extends MovingGameElement implements Eatable {
+    private GhostStrategy ghostStrategy;
+    private GhostStrategy initialGhostStrategy;
+    private Color defaultColor;
     private Color color;
     private GhostState state;
 
     private Timer stateSoonChangeTimer; // To say when the state ghost change from VULNERABLE to NORMAL
     private Timer vulnerabilityTimer;
     private Timer deathTimer;
-    private static final int VULNERABLE_TIMER_DELAY = 8000; // plus quarter than total (for the rendering blue and white when ghost will changed state (VULNERABLE -> NORMAL)
-    private static final int DEATH_TIMER_DELAY = 15000;
+    private byte pauseState;
+    private static final int VULNERABLE_TIMER_DELAY = 7000;
+    private static final int STATE_SOON_CHANGE_DELAY = 2000;
+    private static final int DEATH_TIMER_DELAY = 5000;
 
     private static final int VALUE = 400;
 
-    public Ghost(Cell cell, ElementEventListener gameEventListener, int speed, Strategy strategy, Color color) {
+    public Ghost(Cell cell, ElementEventListener gameEventListener, int speed, GhostStrategy ghostStrategy, Color color) {
         super(cell, gameEventListener, speed);
-        this.strategy = strategy;
-        this.color = color;
-        initialStrategy = strategy;
+        this.ghostStrategy = ghostStrategy;
+        this.defaultColor = color;
+        initialGhostStrategy = ghostStrategy;
         state = GhostState.NORMAL;
 
-        ActionListener vulnerabilityTimerAction = new java.awt.event.ActionListener() {
+        ActionListener vulnerabilityTimerAction = this::vulnerabilityTimerActionPerformed;
 
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                vulnerabilityTimerActionPerformed(evt);
-            }
-        };
+        ActionListener deathTimerAction = this::deathTimerActionPerformed;
 
-        ActionListener deathTimerAction = new java.awt.event.ActionListener() {
+        ActionListener changeStateAction = this::changeStateActionPerformed;
 
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                deathTimerActionPerformed(evt);
-            }
-        };
-
-        ActionListener changeStateAction = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                changeStateActionPerformed(actionEvent);
-            }
-        };
-
-        stateSoonChangeTimer = new Timer(VULNERABLE_TIMER_DELAY / 4, changeStateAction);
+        stateSoonChangeTimer = new Timer(STATE_SOON_CHANGE_DELAY, changeStateAction);
         vulnerabilityTimer = new Timer(VULNERABLE_TIMER_DELAY, vulnerabilityTimerAction);
         deathTimer = new Timer(DEATH_TIMER_DELAY, deathTimerAction);
     }
 
+    /**
+     * Returns the ghost color.
+     *
+     * @return the ghost color.
+     */
     public Color getColor() {
-        return color;
+        return defaultColor;
+    }
+
+    /**
+     * Change the color of the ghost.
+     *
+     * @param g     The Graphics object.
+     * @param color The color.
+     */
+    private void setColor(Graphics g, Color color) {
+        this.color = color;
+        g.setColor(color);
     }
 
     /**
@@ -82,15 +83,15 @@ public class Ghost extends MovingGameElement implements Eatable{
      */
     public void draw(Graphics g) {
         if (state.equals(GhostState.VULNERABLE)) {
-            if (stateSoonChangeTimer.isRunning() && g.getColor().equals(Color.BLUE)) {
-                g.setColor(Color.WHITE);
+            if (stateSoonChangeTimer.isRunning() && this.color.equals(Color.BLUE)) {
+                this.setColor(g, Color.WHITE);
             } else {
-                g.setColor(Color.BLUE);
+                this.setColor(g, Color.BLUE);
             }
         } else if (state.equals(GhostState.DEAD)) {
-            g.setColor(Color.BLACK);
+            this.setColor(g, Color.BLACK);
         } else {
-            g.setColor(color);
+            this.setColor(g, defaultColor);
         }
         //body
         g.fillRoundRect(
@@ -139,7 +140,7 @@ public class Ghost extends MovingGameElement implements Eatable{
      * to move to.
      */
     protected void move() {
-        Cell nextCell = strategy.giveNextCell(cell);
+        Cell nextCell = ghostStrategy.giveNextCell(cell);
         if (nextCell != null) {
             nextCell.addMovingElement(this);
             cell.removeMovingElement(this);
@@ -156,10 +157,10 @@ public class Ghost extends MovingGameElement implements Eatable{
             vulnerabilityTimer.restart();
             stateSoonChangeTimer.stop();
         } else if (state.equals(GhostState.NORMAL)) {
-            this.strategy = new FleeStrategy();
+            this.ghostStrategy = new FleeStrategy();
             state = GhostState.VULNERABLE;
             setSpeed((int) (speed * 1.50));
-            vulnerabilityTimer.start();
+            vulnerabilityTimer.restart();
         }
     }
 
@@ -167,9 +168,10 @@ public class Ghost extends MovingGameElement implements Eatable{
      * Revert back to the initial Strategy and initial speed and stops.
      */
     public void backToNormal() {
-        strategy = initialStrategy;
+        ghostStrategy = initialGhostStrategy;
         state = GhostState.NORMAL;
         setSpeed(speed);
+        stateSoonChangeTimer.stop();
         vulnerabilityTimer.stop();
         deathTimer.stop();
         this.elementEventListener.ghostsBackToNormal();
@@ -177,18 +179,20 @@ public class Ghost extends MovingGameElement implements Eatable{
 
     public void dead() {
         setSpeed(speed);
-        strategy = new ReturnHomeSrategy(startCell);
+        ghostStrategy = new ReturnHomeSrategy(startCell);
         state = GhostState.DEAD;
+        vulnerabilityTimer.stop();
+        stateSoonChangeTimer.stop();
         deathTimer.start();
     }
-    
+
     @Override
-    public void reset(){
+    public void reset() {
         super.reset();
         backToNormal();
     }
-    
-    public GhostState getState(){
+
+    public GhostState getState() {
         return state;
     }
 
@@ -205,25 +209,23 @@ public class Ghost extends MovingGameElement implements Eatable{
     }
 
     public void changeStateActionPerformed(ActionEvent e) {
+        stateSoonChangeTimer.stop();
         if (state.equals(GhostState.VULNERABLE)) {
             backToNormal();
-        } else if (state.equals(GhostState.DEAD)) {
-            deathTimer.restart();
         }
     }
 
     private void vulnerabilityTimerActionPerformed(ActionEvent evt) {
+        vulnerabilityTimer.stop();
         if (state.equals(GhostState.VULNERABLE)) {
             stateSoonChangeTimer.start();
         }
-        vulnerabilityTimer.stop();
     }
 
     private void deathTimerActionPerformed(ActionEvent evt) {
         backToNormal();
-        deathTimer.stop();
     }
-    
+
     @Override
     public void eatMe() {
         if (state.equals(GhostState.VULNERABLE)) {
@@ -239,5 +241,35 @@ public class Ghost extends MovingGameElement implements Eatable{
     @Override
     public int getValue() {
         return VALUE;
+    }
+
+    @Override
+    public void startTimer() {
+        super.startTimer();
+
+        if (pauseState == 1) {
+            vulnerabilityTimer.start();
+        } else if (pauseState == 2) {
+            stateSoonChangeTimer.start();
+        } else if (pauseState == 3) {
+            deathTimer.start();
+        }
+    }
+
+    @Override
+    public void stopTimer() {
+        super.stopTimer();
+
+        pauseState = 0;
+        if (vulnerabilityTimer.isRunning()) {
+            vulnerabilityTimer.stop();
+            pauseState = 1;
+        } else if (stateSoonChangeTimer.isRunning()) {
+            stateSoonChangeTimer.stop();
+            pauseState = 2;
+        } else if (deathTimer.isRunning()) {
+            deathTimer.stop();
+            pauseState = 3;
+        }
     }
 }
