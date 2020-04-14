@@ -13,6 +13,7 @@ import java.awt.event.KeyListener;
 import pacman_infd.games.Cell;
 import pacman_infd.enums.Direction;
 import pacman_infd.listeners.ElementEventListener;
+import pacman_infd.strategies.pacman.PacmanStrategy;
 
 /**
  *
@@ -20,9 +21,11 @@ import pacman_infd.listeners.ElementEventListener;
  */
 public class Pacman extends MovingGameElement implements KeyListener {
     private Direction currentDirection;
+    private PacmanStrategy strategy;
 
-    public Pacman(Cell cell, ElementEventListener gameEventListener, int speed) {
+    public Pacman(Cell cell, ElementEventListener gameEventListener, int speed, PacmanStrategy strategy) {
         super(cell, gameEventListener, speed);
+        this.strategy = strategy;
     }
 
     public Direction getCurrentDirection() {
@@ -41,11 +44,11 @@ public class Pacman extends MovingGameElement implements KeyListener {
      */
     @Override
     protected void move() {
-        Cell moveTo = cell.getNeighbor(currentDirection);
-        if (moveTo != null && !moveTo.hasWall()) {
-            moveTo.addMovingElement(this);
+        Cell nextCell = strategy.getNextCell(cell, currentDirection);
+        if (nextCell != null && !nextCell.hasWall()) {
+            nextCell.addMovingElement(this);
             cell.removeMovingElement(this);
-            setCell(moveTo);
+            setCell(nextCell);
         }
     }
 
@@ -103,7 +106,7 @@ public class Pacman extends MovingGameElement implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        changeDirection(Direction.getDirection(e, currentDirection));
+        changeDirection(strategy.getNewDirection(e, this.currentDirection));
     }
 
     @Override

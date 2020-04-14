@@ -8,7 +8,6 @@ package pacman_infd.enums;
 import java.awt.event.KeyEvent;
 
 /**
- *
  * @author Marinus
  */
 public enum Direction {
@@ -37,6 +36,7 @@ public enum Direction {
 
     /**
      * Get the opposite direction
+     *
      * @return the opposite direction
      */
     public Direction getOpposite() {
@@ -45,6 +45,7 @@ public enum Direction {
 
     /**
      * Get the clockwise direction
+     *
      * @return the clockwise direction
      */
     public Direction getClockwise() {
@@ -53,26 +54,29 @@ public enum Direction {
 
     /**
      * Get the opposite clockwise direction
+     *
      * @return the opposite clockwise direction
      */
     public Direction getOppositeClockwise() {
         return oppositeClockwise;
     }
 
-    public static Direction getDirection(KeyEvent keyEvent, Direction currentDirection) {
-        Direction d = currentDirection;
-
+    public static Direction getDirection(KeyEvent keyEvent) {
         switch (keyEvent.getKeyCode()) {
-            case KeyEvent.VK_UP:
-                d = UP; break;
-            case KeyEvent.VK_DOWN:
-                d = DOWN; break;
-            case KeyEvent.VK_LEFT:
-                d = LEFT; break;
-            case KeyEvent.VK_RIGHT:
-                d = RIGHT; break;
+            case KeyEvent.VK_UP: {
+                return Direction.UP;
+            }
+            case KeyEvent.VK_DOWN: {
+                return Direction.DOWN;
+            }
+            case KeyEvent.VK_LEFT: {
+                return Direction.LEFT;
+            }
+            case KeyEvent.VK_RIGHT: {
+                return Direction.RIGHT;
+            }
+            default:
+                return Direction.UP;
         }
-
-        return d;
     }
 }

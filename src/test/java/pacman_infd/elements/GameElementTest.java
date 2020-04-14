@@ -5,6 +5,7 @@ import pacman_infd.games.GameController;
 import pacman_infd.games.GameWorld;
 import pacman_infd.games.ScorePanel;
 import pacman_infd.games.View;
+import pacman_infd.strategies.pacman.KeyControlledStrategy;
 
 public abstract class GameElementTest {
     GameController gameController;
@@ -19,6 +20,6 @@ public abstract class GameElementTest {
         };
         scorePanel = new ScorePanel();
         gameController = new GameController(new View(), scorePanel);
-        gameWorld = new GameWorld(gameController, levelMap, 0);
+        gameWorld = new GameWorld(gameController, levelMap, 0, new KeyControlledStrategy());
     }
 }

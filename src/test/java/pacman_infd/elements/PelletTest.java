@@ -3,6 +3,7 @@ package pacman_infd.elements;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pacman_infd.enums.Direction;
+import pacman_infd.strategies.pacman.KeyControlledStrategy;
 
 class PelletTest extends GameElementTest {
     Pacman pacman;
@@ -11,7 +12,7 @@ class PelletTest extends GameElementTest {
     @Override
     public void setUp() {
         super.setUp();
-        pacman = new Pacman(gameWorld.getCell(0,0), gameWorld.getEventHandler(), 0);
+        pacman = new Pacman(gameWorld.getCell(0,0), gameWorld.getEventHandler(), 0, new KeyControlledStrategy());
     }
 
     /**
