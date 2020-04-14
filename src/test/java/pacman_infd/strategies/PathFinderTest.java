@@ -18,7 +18,8 @@ import pacman_infd.games.Cell;
 import pacman_infd.games.GameController;
 import pacman_infd.games.GameWorld;
 import pacman_infd.games.View;
-import pacman_infd.strategies.PathFinder;
+import pacman_infd.strategies.ghost.PathFinder;
+import pacman_infd.strategies.pacman.KeyControlledStrategy;
 
 /**
  *
@@ -62,14 +63,14 @@ public class PathFinderTest {
         };
         
         //create a new GameWorld.
-        gameWorld = new GameWorld(gameController, levelMap, 0);
+        gameWorld = new GameWorld(gameController, levelMap, 0, new KeyControlledStrategy());
         
         // Set up moving elements in the GameWorld.
         Ghost ghost1 = new Ghost(gameWorld.getCell(0,1), null, 100, null, Color.yellow);
         Ghost ghost2 = new Ghost(gameWorld.getCell(0,1), null, 100, null, Color.yellow);
         Ghost ghost3 = new Ghost(gameWorld.getCell(0,1), null, 100, null, Color.yellow);
         Ghost ghost4 = new Ghost(gameWorld.getCell(0,2), null, 100, null, Color.yellow);
-        Pacman pacman = new Pacman(gameWorld.getCell(0,2), null, 100);
+        Pacman pacman = new Pacman(gameWorld.getCell(0,2), null, 100, new KeyControlledStrategy());
         
         //Find the path to Pacman.
         List<Cell> path = pathFinder.findPathToPacman(gameWorld.getCell(0,0));
@@ -92,7 +93,7 @@ public class PathFinderTest {
             {'A', '-'}
         };
         //create a new GameWorld.   
-        gameWorld = new GameWorld(gameController, levelMap, 0);
+        gameWorld = new GameWorld(gameController, levelMap, 0, new KeyControlledStrategy());
         //find the next cell in the shortest path to the cell that holds Pacman from LevelMap[0][1].
         Cell cell = pathFinder.nextCellInPathToPacman(gameWorld.getCell(0,0));
         // check if the cell is not null
@@ -111,7 +112,7 @@ public class PathFinderTest {
         };
         
         //create a new GameWorld.        
-        gameWorld = new GameWorld(gameController, levelMap, 0);
+        gameWorld = new GameWorld(gameController, levelMap, 0, new KeyControlledStrategy());
         //assert that there's no valid path to Pacman.
         assert (pathFinder.findPathToPacman(gameWorld.getCell(0,0)) == null);
     }
@@ -124,7 +125,7 @@ public class PathFinderTest {
         };
         
         //create a new GameWorld.
-        gameWorld = new GameWorld(gameController, levelMap, 0);
+        gameWorld = new GameWorld(gameController, levelMap, 0, new KeyControlledStrategy());
         //Get the next cell in the path to Pacman.
         Cell cell = pathFinder.nextCellInPathToPacman((gameWorld.getCell(0,0)));
         //assert that cell holds an instance of Pacman.
