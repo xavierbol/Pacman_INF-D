@@ -27,10 +27,10 @@ public class FleeStrategy implements GhostStrategy {
         ArrayList<Cell> possibleCell = new ArrayList<>();
         Cell towardsPacman = pathFinder.nextCellInPathToPacman(currentCell);
        
-        for(Cell cell : (Collection<Cell>)currentCell.getNeighbors().values()){
+        for (Cell cell : currentCell.getNeighbors().values()) {
             if(!cell.hasWall() && !cell.equals(towardsPacman) && !cell.equals(previousCell)){
                 possibleCell.add(cell);
-            }    
+            }
         }
         
         possibleCell.add(towardsPacman);

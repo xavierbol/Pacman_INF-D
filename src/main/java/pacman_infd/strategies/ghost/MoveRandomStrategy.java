@@ -32,8 +32,7 @@ public class MoveRandomStrategy implements GhostStrategy {
         for(Object o : currentCell.getNeighbors().values().toArray())
         {
             Cell cell = (Cell) o;
-            if(!cell.hasWall())
-            {
+            if (!cell.hasWall()) {
                 availableCells.add(cell);
             }
         }
