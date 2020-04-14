@@ -113,10 +113,14 @@ public class EventHandler implements ElementEventListener {
 
     @Override
     public void makeGhostsVulnerable() {
+        int remainingSuperPellet = gameWorld.countPellets(true);
         for (Cell cell : gameWorld.getCells()) {
             for (MovingGameElement element : cell.getMovingElements()) {
                 if (element instanceof Ghost) {
                     Ghost ghost = (Ghost) element;
+                    if (remainingSuperPellet == 1) {
+                        ghost.setVulnerabilityTimer(3000);
+                    }
                     ghost.flee();
                 }
             }

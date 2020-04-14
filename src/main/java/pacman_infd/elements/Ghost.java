@@ -32,7 +32,7 @@ public class Ghost extends MovingGameElement implements Eatable {
     private Timer vulnerabilityTimer;
     private Timer deathTimer;
     private byte pauseState;
-    private static final int VULNERABLE_TIMER_DELAY = 7000;
+    private static final int VULNERABLE_TIMER_DELAY = 5000;
     private static final int STATE_SOON_CHANGE_DELAY = 2000;
     private static final int DEATH_TIMER_DELAY = 5000;
 
@@ -45,14 +45,11 @@ public class Ghost extends MovingGameElement implements Eatable {
         initialGhostStrategy = ghostStrategy;
         state = GhostState.NORMAL;
 
-        ActionListener vulnerabilityTimerAction = this::vulnerabilityTimerActionPerformed;
-
         ActionListener deathTimerAction = this::deathTimerActionPerformed;
-
         ActionListener changeStateAction = this::changeStateActionPerformed;
 
         stateSoonChangeTimer = new Timer(STATE_SOON_CHANGE_DELAY, changeStateAction);
-        vulnerabilityTimer = new Timer(VULNERABLE_TIMER_DELAY, vulnerabilityTimerAction);
+        setVulnerabilityTimer(VULNERABLE_TIMER_DELAY);
         deathTimer = new Timer(DEATH_TIMER_DELAY, deathTimerAction);
     }
 
@@ -74,6 +71,11 @@ public class Ghost extends MovingGameElement implements Eatable {
     private void setColor(Graphics g, Color color) {
         this.color = color;
         g.setColor(color);
+    }
+
+    public void setVulnerabilityTimer(int time) {
+        ActionListener vulnerabilityTimerAction = this::vulnerabilityTimerActionPerformed;
+        this.vulnerabilityTimer = new Timer(time, vulnerabilityTimerAction);
     }
 
     /**
