@@ -5,6 +5,7 @@ import pacman_infd.enums.Direction;
 import pacman_infd.enums.ElementType;
 import pacman_infd.enums.GhostState;
 import pacman_infd.games.Cell;
+import pacman_infd.strategies.pacman.KeyControlledStrategy;
 
 import java.awt.*;
 import java.util.concurrent.TimeUnit;
@@ -38,7 +39,7 @@ class GhostTest extends GameElementTest {
         Ghost clyde = (Ghost) gameWorld.getCell(1,1).getMovingElements().get(0);
         assert (clyde.getState().equals(GhostState.NORMAL));
 
-        Pacman pacman = new Pacman(gameWorld.getCell(0,0), gameWorld.getEventHandler(), 0);
+        Pacman pacman = new Pacman(gameWorld.getCell(0,0), gameWorld.getEventHandler(), 0, new KeyControlledStrategy());
         new SuperPellet(gameWorld.getCell(1,0), gameWorld.getEventHandler());
         pacman.changeDirection(Direction.RIGHT);
         pacman.move();
@@ -64,7 +65,7 @@ class GhostTest extends GameElementTest {
         assert (scorePanel.getLives() == 3);
         assert (clyde.getState().equals(GhostState.NORMAL));
 
-        Pacman pacman = new Pacman(gameWorld.getCell(0,0), gameWorld.getEventHandler(), 0);
+        Pacman pacman = new Pacman(gameWorld.getCell(0,0), gameWorld.getEventHandler(), 0, new KeyControlledStrategy());
         pacman.changeDirection(Direction.RIGHT);
         pacman.move();
         gameWorld.getEventHandler().movingElementActionPerformed(pacman);

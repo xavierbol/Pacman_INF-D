@@ -9,6 +9,7 @@ import org.junit.jupiter.api.*;
 import pacman_infd.enums.Direction;
 import pacman_infd.elements.Portal;
 import pacman_infd.enums.PortalType;
+import pacman_infd.strategies.pacman.KeyControlledStrategy;
 import pacman_infd.utils.SoundManager;
 
 /**
@@ -41,7 +42,7 @@ public class GameWorldTest {
         };
 
         gameController = new GameController(null, null);
-        gameWorld = new GameWorld(new GameController(null, null), levelMap, 0);
+        gameWorld = new GameWorld(new GameController(null, null), levelMap, 0, new KeyControlledStrategy());
 
     }
 

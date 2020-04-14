@@ -8,12 +8,17 @@ package pacman_infd.games;
 import pacman_infd.elements.MovingGameElement;
 import pacman_infd.enums.GameState;
 import pacman_infd.listeners.GameEventListener;
+import pacman_infd.strategies.pacman.KeyControlledStrategy;
+import pacman_infd.strategies.pacman.PacmanStrategy;
 import pacman_infd.utils.SoundManager;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Dictionary;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Marinus
@@ -80,11 +85,17 @@ public class GameController implements GameEventListener {
     public void newGame() {
         if (gameState.equals(GameState.RUNNING)) {
             pauseGame();
-            gameWorld.clearGameWorld();
-            gameWorld = null;
         }
 
-        gameWorld = new GameWorld(this, levelManager.getFirstLevel(), gameSpeed);
+        PacmanStrategy pacmanStrategy = this.getPacmanStrategy();
+        if(pacmanStrategy == null) {
+            if(gameState.equals(GameState.PAUSED)) {
+                pauseGame();
+            }
+            return;
+        }
+
+        gameWorld = new GameWorld(this, levelManager.getFirstLevel(), gameSpeed, pacmanStrategy);
         scorePanel.resetStats();
         gameState = GameState.RUNNING;
         drawGame();
@@ -109,7 +120,12 @@ public class GameController implements GameEventListener {
         if (gameSpeed > 100) {
             gameSpeed -= 10;
         }
-        gameWorld = new GameWorld(this, levelManager.getNextLevel(), gameSpeed);
+
+        PacmanStrategy pacmanStrategy = null;
+        while(pacmanStrategy == null) {
+            pacmanStrategy = this.getPacmanStrategy();
+        }
+        gameWorld = new GameWorld(this, levelManager.getNextLevel(), gameSpeed, pacmanStrategy);
     }
 
     /**
@@ -165,6 +181,22 @@ public class GameController implements GameEventListener {
         gameWorld = null;
         gameState = GameState.PREGAME;
 
+    }
+
+    private PacmanStrategy getPacmanStrategy() {
+        HashMap<String, PacmanStrategy> pacmanStrategies = new HashMap<>();
+        pacmanStrategies.put("Key Controlled", new KeyControlledStrategy());
+
+        String s = (String) JOptionPane.showInputDialog(
+                this.view,
+                "Select a pacman strategy",
+                "PacMan Strategy",
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                pacmanStrategies.keySet().toArray(new String[0]),
+                null);
+
+        return pacmanStrategies.get(s);
     }
 
     public GameState getGameState() {

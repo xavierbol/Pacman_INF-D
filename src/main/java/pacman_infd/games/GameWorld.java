@@ -11,9 +11,11 @@ import pacman_infd.enums.ElementType;
 import pacman_infd.enums.FruitType;
 import pacman_infd.enums.PortalType;
 import pacman_infd.listeners.EventHandler;
-import pacman_infd.strategies.ChasePacmanStrategy;
-import pacman_infd.strategies.MoveRandomStrategy;
-import pacman_infd.strategies.Strategy;
+import pacman_infd.strategies.ghost.ChasePacmanStrategy;
+import pacman_infd.strategies.ghost.MoveRandomStrategy;
+import pacman_infd.strategies.ghost.GhostStrategy;
+import pacman_infd.strategies.pacman.KeyControlledStrategy;
+import pacman_infd.strategies.pacman.PacmanStrategy;
 import pacman_infd.utils.SoundManager;
 
 import java.awt.*;
@@ -39,28 +41,29 @@ public class GameWorld {
     private ArrayList<Cell> cells;
     private Cell[][] cellMap;
 
+    private PacmanStrategy pacmanStrategy;
     private int gameSpeed;
     private int numberOfPelletsAtStart;
 
     private Portal portalBlue;
     private Portal portalOrange;
 
-    public GameWorld(GameController gameController, char[][] levelMap, int speed) {
-        view = gameController.getView();
-        gameSpeed = speed;
-
-        eventHandler = new EventHandler(gameController, this);
+    public GameWorld(GameController gameController, char[][] levelMap, int speed, PacmanStrategy pacmanStrategy) {
+        this.view = gameController.getView();
+        this.gameSpeed = speed;
+        this.pacmanStrategy = pacmanStrategy;
+        this.eventHandler = new EventHandler(gameController, this);
 
         if (levelMap != null) {
 
-            width = levelMap[0].length;
-            height = levelMap.length;
+            this.width = levelMap[0].length;
+            this.height = levelMap.length;
             createCells();
             findNeighbors();
 
             placeElements(levelMap, cellMap);
 
-            numberOfPelletsAtStart = countPellets();
+            this.numberOfPelletsAtStart = countPellets();
         }
     }
 
@@ -125,8 +128,7 @@ public class GameWorld {
                 createGhost(elementType, cellMap);
                 break;
             case PACMAN:
-                Pacman pacman = new Pacman(cellMap, eventHandler, gameSpeed);
-                view.addKeyListener(pacman);
+                createPacman(cellMap);
                 break;
             case NO_ELEMENT:
                 break;
@@ -134,6 +136,11 @@ public class GameWorld {
                 new Wall(cellMap, elementType);
                 break;
         }
+    }
+
+    public void createPacman(Cell cell) {
+        Pacman pacman = new Pacman(cell, this.eventHandler, this.gameSpeed, this.pacmanStrategy);
+        view.addKeyListener(pacman);
     }
 
     /**
@@ -144,21 +151,21 @@ public class GameWorld {
      */
     public void createGhost(ElementType element, Cell cell) {
         // By default, it's the BLINKY_GHOST, because we assume to know it's a ghost when we call this method
-        Strategy strategy = new ChasePacmanStrategy();
+        GhostStrategy ghostStrategy = new ChasePacmanStrategy();
         Color color = Color.RED;
 
         if (element == PINKY_GHOST) {
-            strategy = new ChasePacmanStrategy();
+            ghostStrategy = new ChasePacmanStrategy();
             color = Color.PINK;
         } else if (element == INKY_GHOST) {
-            strategy = new MoveRandomStrategy();
+            ghostStrategy = new MoveRandomStrategy();
             color = Color.CYAN;
         } else if (element == CLYDE_GHOST) {
-            strategy = new MoveRandomStrategy();
+            ghostStrategy = new MoveRandomStrategy();
             color = Color.ORANGE;
         }
 
-        new Ghost(cell, eventHandler, gameSpeed, strategy, color);
+        new Ghost(cell, eventHandler, gameSpeed, ghostStrategy, color);
     }
 
     /**

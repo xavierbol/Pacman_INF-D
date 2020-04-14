@@ -3,6 +3,7 @@ package pacman_infd.elements;
 import org.junit.jupiter.api.Test;
 import pacman_infd.enums.Direction;
 import pacman_infd.enums.FruitType;
+import pacman_infd.strategies.pacman.KeyControlledStrategy;
 
 public class FruitTest extends GameElementTest {
     @Test
@@ -16,7 +17,7 @@ public class FruitTest extends GameElementTest {
 
     @Test
     public void testEatMe() {
-        Pacman pacman = new Pacman(gameWorld.getCell(0, 0), gameWorld.getEventHandler(), 0);
+        Pacman pacman = new Pacman(gameWorld.getCell(0, 0), gameWorld.getEventHandler(), 0, new KeyControlledStrategy());
         new Fruit(FruitType.CHERRY, gameWorld.getCell(1, 0), gameWorld.getEventHandler());
 
         // Check if the pacman and cherry are created and correctly placed
