@@ -36,7 +36,7 @@ public class Ghost extends MovingGameElement implements Eatable {
     private static final int STATE_SOON_CHANGE_DELAY = 2000;
     private static final int DEATH_TIMER_DELAY = 5000;
 
-    private static final int VALUE = 400;
+    private static final int VALUE = 200;
 
     public Ghost(Cell cell, ElementEventListener gameEventListener, int speed, GhostStrategy ghostStrategy, Color color) {
         super(cell, gameEventListener, speed);

@@ -9,6 +9,7 @@ import pacman_infd.elements.Eatable;
 import pacman_infd.elements.Ghost;
 import pacman_infd.elements.MovingGameElement;
 import pacman_infd.elements.Pacman;
+import pacman_infd.enums.GhostState;
 import pacman_infd.games.Cell;
 import pacman_infd.games.GameWorld;
 
@@ -22,10 +23,12 @@ import java.util.stream.Collectors;
 public class EventHandler implements ElementEventListener {
     private GameEventListener gameEventListener;
     private GameWorld gameWorld;
+    private int killConsecutiveGhost;
 
     public EventHandler(GameEventListener gameEventListener, GameWorld gameWorld) {
         this.gameEventListener = gameEventListener;
         this.gameWorld = gameWorld;
+        this.killConsecutiveGhost = 0;
     }
 
     /**
@@ -78,7 +81,13 @@ public class EventHandler implements ElementEventListener {
      */
     @Override
     public void eatableElementEaten(Eatable e) {
-        gameEventListener.increasePoints(e.getValue());
+        int value  = e.getValue();
+
+        if (e instanceof Ghost) {
+            value = (int) (e.getValue() * Math.pow(2, killConsecutiveGhost));
+            killConsecutiveGhost += 1;
+        }
+        gameEventListener.increasePoints(value);
         gameWorld.placeFruitRandom();
     }
 
@@ -113,6 +122,7 @@ public class EventHandler implements ElementEventListener {
             }
         }
         gameEventListener.stopStopWatch();
+        killConsecutiveGhost = 0;
     }
 
     @Override
