@@ -33,7 +33,7 @@ public class PacmanTest extends GameElementTest {
      */
     @Test
     public void testMove() {
-        assert (p.getCell().getXpos() == 1 && p.getCell().getYPos() == 0);
+        assert (p.getCell().getXpos() == 0 && p.getCell().getYPos() == 0);
 
         p.changeDirection(Direction.RIGHT);
         p.move();

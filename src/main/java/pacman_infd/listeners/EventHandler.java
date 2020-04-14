@@ -25,6 +25,8 @@ public class EventHandler implements ElementEventListener {
     private GameWorld gameWorld;
     private int killConsecutiveGhost;
 
+    private final Object moveLock = new Object();
+
     public EventHandler(GameEventListener gameEventListener, GameWorld gameWorld) {
         this.gameEventListener = gameEventListener;
         this.gameWorld = gameWorld;
@@ -66,11 +68,13 @@ public class EventHandler implements ElementEventListener {
      */
     @Override
     public void movingElementActionPerformed(MovingGameElement e) {
-        if (e instanceof Pacman) {
-            checkCollisions((Pacman) e);
-            gameEventListener.refocus();
-        } else if (e instanceof Ghost) {
-            checkCollisions((Ghost) e);
+        synchronized (moveLock){
+            if (e instanceof Pacman) {
+                checkCollisions((Pacman) e);
+                gameEventListener.refocus();
+            } else if (e instanceof Ghost) {
+                checkCollisions((Ghost) e);
+            }
         }
     }
 

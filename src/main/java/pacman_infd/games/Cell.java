@@ -136,7 +136,9 @@ public class Cell {
      * @param cell
      */
     public void setNeighbor(Direction dir, Cell cell) {
-        neighbors.put(dir, cell);
+        if (cell != null) {
+            neighbors.put(dir, cell);
+        }
     }
 
     /**

@@ -21,9 +21,6 @@ public class GameWorldTest {
     GameController gameController;
     GameWorld gameWorld;
 
-    public GameWorldTest() {
-    }
-
     @BeforeAll
     public static void setUpClass() {
         SoundManager.loadSoundFiles();
