@@ -5,11 +5,7 @@
  */
 package pacman_infd.listeners;
 
-import pacman_infd.elements.Eatable;
-import pacman_infd.elements.Ghost;
-import pacman_infd.elements.MovingGameElement;
-import pacman_infd.elements.Pacman;
-import pacman_infd.enums.GhostState;
+import pacman_infd.elements.*;
 import pacman_infd.games.Cell;
 import pacman_infd.games.GameWorld;
 
@@ -70,6 +66,9 @@ public class EventHandler implements ElementEventListener {
     public void movingElementActionPerformed(MovingGameElement e) {
         synchronized (moveLock){
             if (e instanceof Pacman) {
+                if (!gameWorld.checkRemainingPellets()) {
+                    gameEventListener.levelWon();
+                }
                 checkCollisions((Pacman) e);
                 gameEventListener.refocus();
             } else if (e instanceof Ghost) {
@@ -91,8 +90,8 @@ public class EventHandler implements ElementEventListener {
             value = (int) (e.getValue() * Math.pow(2, killConsecutiveGhost));
             killConsecutiveGhost += 1;
         }
+
         gameEventListener.increasePoints(value);
-        gameWorld.placeFruitRandom();
     }
 
     @Override

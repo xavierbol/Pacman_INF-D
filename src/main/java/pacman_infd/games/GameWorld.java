@@ -214,17 +214,32 @@ public class GameWorld {
     }
 
     /**
+     * Check if it remains pellets in the game board
+     *
+     * @return True if it remains pellets in the game, otherwise return false.
+     */
+    public boolean checkRemainingPellets() {
+        int remainingPellets = this.countPellets(false);
+
+        if (remainingPellets == numberOfPelletsAtStart / 2) {
+            this.placeFruitRandom();
+        } else if (remainingPellets == 0) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Place a fruit randomly among the cells that can spawn a fruit.
      */
-    public void placeFruitRandom() {
-        if (countPellets(false) == numberOfPelletsAtStart / 2) {
-            List<Cell> fruitSpawnCells = this.getFruitSpawnCells();
-            Random r = new Random();
-            if (!fruitSpawnCells.isEmpty()) {
-                new Fruit(FruitType.values()[r.nextInt(FruitType.values().length)],
-                        fruitSpawnCells.get(r.nextInt(fruitSpawnCells.size())),
-                        eventHandler);
-            }
+    private void placeFruitRandom() {
+        List<Cell> fruitSpawnCells = this.getFruitSpawnCells();
+        Random r = new Random();
+        if (!fruitSpawnCells.isEmpty()) {
+            new Fruit(FruitType.values()[r.nextInt(FruitType.values().length)],
+                    fruitSpawnCells.get(r.nextInt(fruitSpawnCells.size())),
+                    eventHandler);
         }
     }
 
