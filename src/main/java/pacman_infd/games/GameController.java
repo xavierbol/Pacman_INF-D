@@ -78,6 +78,18 @@ public class GameController implements GameEventListener {
     }
 
     /**
+     * Reset the game
+     */
+    private void reset() {
+        scorePanel.resetStats();
+        gameState = GameState.RUNNING;
+        drawGame();
+        gameTimer.start();
+        stopWatch.reset();
+        stopWatch.start();
+    }
+
+    /**
      * Start a new game, or, if the game is already running, restart the game.
      */
     public void newGame() {
@@ -94,12 +106,7 @@ public class GameController implements GameEventListener {
         }
 
         gameWorld = new GameWorld(this, levelManager.getFirstLevel(), gameSpeed, pacmanStrategyClazz);
-        scorePanel.resetStats();
-        gameState = GameState.RUNNING;
-        drawGame();
-        gameTimer.start();
-        stopWatch.reset();
-        stopWatch.start();
+        reset();
     }
 
     /**
@@ -124,6 +131,7 @@ public class GameController implements GameEventListener {
             pacmanStrategy = this.getPacmanStrategy();
         }
         gameWorld = new GameWorld(this, levelManager.getNextLevel(), gameSpeed, pacmanStrategy);
+        reset();
     }
 
     /**
