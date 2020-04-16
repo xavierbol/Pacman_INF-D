@@ -7,7 +7,7 @@
 package pacman_infd.strategies.ghost;
 
 import java.util.ArrayList;
-import java.util.Collection;
+
 import pacman_infd.games.Cell;
 
 /**

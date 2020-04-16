@@ -10,15 +10,15 @@ import pacman_infd.enums.GameState;
 import pacman_infd.listeners.GameEventListener;
 import pacman_infd.strategies.pacman.KeyControlledStrategy;
 import pacman_infd.strategies.pacman.PacmanStrategy;
+import pacman_infd.strategies.pacman.PriorityToScoreStrategy;
+import pacman_infd.strategies.pacman.PriorityToTimeStrategy;
 import pacman_infd.utils.SoundManager;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Dictionary;
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author Marinus
@@ -32,9 +32,16 @@ public class GameController implements GameEventListener {
     private StopWatch stopWatch;
     private LevelManager levelManager;
     private int gameSpeed;
+    private static final HashMap<String, Class<? extends PacmanStrategy>> PACMAN_STRATEGIES = new HashMap() {
+        {
+            put("Key Controlled", KeyControlledStrategy.class);
+            put("AI - priority to time", PriorityToTimeStrategy.class);
+            put("AI - priority to points", PriorityToScoreStrategy.class);
+        }
+    };
 
     private static final int REFRESH_RATE = 10;
-    private static final int DEFAULT_GAME_SPEED = 250;
+    private static final int DEFAULT_GAME_SPEED = 200;
 
     public GameController(View view, ScorePanel scorePanel) {
         this.view = view;
@@ -43,12 +50,7 @@ public class GameController implements GameEventListener {
         levelManager = new LevelManager();
         gameSpeed = DEFAULT_GAME_SPEED;
 
-        ActionListener gameTimerAction = new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                gameTimerActionPerformed(evt);
-            }
-        };
+        ActionListener gameTimerAction = this::gameTimerActionPerformed;
 
         gameTimer = new Timer(REFRESH_RATE, gameTimerAction);
         stopWatch = new StopWatch();
@@ -75,10 +77,6 @@ public class GameController implements GameEventListener {
         }
     }
 
-    public View getView() {
-        return view;
-    }
-
     /**
      * Start a new game, or, if the game is already running, restart the game.
      */
@@ -87,15 +85,15 @@ public class GameController implements GameEventListener {
             pauseGame();
         }
 
-        PacmanStrategy pacmanStrategy = this.getPacmanStrategy();
-        if(pacmanStrategy == null) {
-            if(gameState.equals(GameState.PAUSED)) {
+        Class<? extends PacmanStrategy> pacmanStrategyClazz = this.getPacmanStrategy();
+        if (pacmanStrategyClazz == null) {
+            if (gameState.equals(GameState.PAUSED)) {
                 pauseGame();
             }
             return;
         }
 
-        gameWorld = new GameWorld(this, levelManager.getFirstLevel(), gameSpeed, pacmanStrategy);
+        gameWorld = new GameWorld(this, levelManager.getFirstLevel(), gameSpeed, pacmanStrategyClazz);
         scorePanel.resetStats();
         gameState = GameState.RUNNING;
         drawGame();
@@ -121,8 +119,8 @@ public class GameController implements GameEventListener {
             gameSpeed -= 10;
         }
 
-        PacmanStrategy pacmanStrategy = null;
-        while(pacmanStrategy == null) {
+        Class<? extends PacmanStrategy> pacmanStrategy = null;
+        while (pacmanStrategy == null) {
             pacmanStrategy = this.getPacmanStrategy();
         }
         gameWorld = new GameWorld(this, levelManager.getNextLevel(), gameSpeed, pacmanStrategy);
@@ -167,8 +165,10 @@ public class GameController implements GameEventListener {
         scorePanel.repaint();
     }
 
+    /**
+     * Set up the environment of game over.
+     */
     private void gameOver() {
-
         pauseGame();
         drawGame();
         JOptionPane.showMessageDialog(
@@ -180,27 +180,42 @@ public class GameController implements GameEventListener {
         gameWorld.clearGameWorld();
         gameWorld = null;
         gameState = GameState.PREGAME;
-
     }
 
-    private PacmanStrategy getPacmanStrategy() {
-        HashMap<String, PacmanStrategy> pacmanStrategies = new HashMap<>();
-        pacmanStrategies.put("Key Controlled", new KeyControlledStrategy());
-
-        String s = (String) JOptionPane.showInputDialog(
+    /**
+     * Ask the user for the pacman strategy and return it.
+     *
+     * @return The pacman strategy class
+     */
+    private Class<? extends PacmanStrategy> getPacmanStrategy() {
+        String pacmanStrategyName = (String) JOptionPane.showInputDialog(
                 this.view,
                 "Select a pacman strategy",
                 "PacMan Strategy",
                 JOptionPane.QUESTION_MESSAGE,
                 null,
-                pacmanStrategies.keySet().toArray(new String[0]),
+                PACMAN_STRATEGIES.keySet().stream().sorted().toArray(),
                 null);
 
-        return pacmanStrategies.get(s);
+        return PACMAN_STRATEGIES.get(pacmanStrategyName);
     }
 
+    /**
+     * Accessor for game state
+     *
+     * @return The game state
+     */
     public GameState getGameState() {
         return gameState;
+    }
+
+    /**
+     * Accessor for the view
+     *
+     * @return The view
+     */
+    public View getView() {
+        return view;
     }
 
     @Override

@@ -17,12 +17,12 @@ class FleeStrategyTest extends GhostStrategyTest {
 
     @Test
     public void testGiveNextCell() {
-        Pacman pacman = new Pacman(gameWorld.getCell(0,0), null, 100, new KeyControlledStrategy());
+        Pacman pacman = new Pacman(gameWorld.getCell(0,0), null, 100, new KeyControlledStrategy(gameWorld));
 
         // Let's imagine that the ghost is in (1,0) cell and he is afraid, then he must move in Down direction
         Cell cell = ghostStrategy.giveNextCell(gameWorld.getCell(1,0));
 
         assert (!cell.equals(pacman.getCell()));
-        assert (cell.getXpos() == 1 && cell.getYPos() == 1);
+        assert (cell.getXPos() == 1 && cell.getYPos() == 1);
     }
 }

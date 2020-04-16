@@ -11,6 +11,6 @@ package pacman_infd.elements;
  * @author Marinus
  */
 public interface Eatable {
-    public void eatMe();
-    public int getValue();
+    void eatMe();
+    int getValue();
 }

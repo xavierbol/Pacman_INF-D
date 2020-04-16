@@ -21,7 +21,7 @@ public class LevelManager {
     private Queue<char[][]> levels;
 
     public LevelManager() {
-        levels = new LinkedList();
+        levels = new LinkedList<>();
         loadLevels();
     }
 
@@ -45,7 +45,7 @@ public class LevelManager {
     }
 
     public char[][] getFirstLevel() {
-        levels = new LinkedList();
+        levels = new LinkedList<>();
         loadLevels();
         return getNextLevel();
     }

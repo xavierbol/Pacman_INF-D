@@ -40,13 +40,13 @@ class GhostTest extends GameElementTest {
         Ghost clyde = (Ghost) gameWorld.getCell(1,1).getMovingElements().get(0);
         assert (clyde.getState().equals(GhostState.NORMAL));
 
-        Pacman pacman = new Pacman(gameWorld.getCell(0,0), gameWorld.getEventHandler(), 0, new KeyControlledStrategy());
+        Pacman pacman = new Pacman(gameWorld.getCell(0,0), gameWorld.getEventHandler(), 0, new KeyControlledStrategy(gameWorld));
         new SuperPellet(gameWorld.getCell(1,0), gameWorld.getEventHandler());
         pacman.changeDirection(Direction.RIGHT);
         pacman.move();
         gameWorld.getEventHandler().movingElementActionPerformed(pacman);
 
-        assert (pacman.getCell().getXpos() == 1 && pacman.getCell().getStaticElement() == null);
+        assert (pacman.getCell().getXPos() == 1 && pacman.getCell().getStaticElement() == null);
         assert (pacman.getCell().getStaticElement() == null);
         assert (clyde.getState().equals(GhostState.VULNERABLE));
 
@@ -66,7 +66,7 @@ class GhostTest extends GameElementTest {
         assert (scorePanel.getLives() == 3);
         assert (clyde.getState().equals(GhostState.NORMAL));
 
-        Pacman pacman = new Pacman(gameWorld.getCell(0,0), gameWorld.getEventHandler(), 0, new KeyControlledStrategy());
+        Pacman pacman = new Pacman(gameWorld.getCell(0,0), gameWorld.getEventHandler(), 0, new KeyControlledStrategy(gameWorld));
         pacman.changeDirection(Direction.RIGHT);
         pacman.move();
         gameWorld.getEventHandler().movingElementActionPerformed(pacman);

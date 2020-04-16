@@ -28,12 +28,7 @@ public abstract class MovingGameElement extends GameElement{
         startCell = cell;
         this.speed = speed;
 
-        ActionListener moveTimerActionListener = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent evt) {
-                moveTimerActionPerformed(evt);
-            }
-        };
+        ActionListener moveTimerActionListener = this::moveTimerActionPerformed;
         
         timer = new Timer(speed, moveTimerActionListener);
         timer.start();

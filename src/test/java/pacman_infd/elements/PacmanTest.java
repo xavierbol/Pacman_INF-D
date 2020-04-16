@@ -13,13 +13,13 @@ public class PacmanTest extends GameElementTest {
     @Override
     public void setUp() {
         super.setUp();
-        p = new Pacman(gameWorld.getCell(0,0), gameWorld.getEventHandler(), 0, new KeyControlledStrategy());
+        p = new Pacman(gameWorld.getCell(0,0), gameWorld.getEventHandler(), 0, new KeyControlledStrategy(gameWorld));
     }
 
     @Test
     public void testCreate() {
         // Check if pacman is correctly created into the cell (0,0)
-        assert (p.getCell().getXpos() == 0 && p.getCell().getYPos() == 0);
+        assert (p.getCell().getXPos() == 0 && p.getCell().getYPos() == 0);
         assert (p.getStartCell().equals(p.getCell()));
         assert (p.getCurrentDirection() == null);
 
@@ -40,7 +40,7 @@ public class PacmanTest extends GameElementTest {
         p.move();
         gameWorld.getEventHandler().movingElementActionPerformed(p);
 
-        assert (p.getCell().getXpos() == 1 && p.getCell().getYPos() == 0);
+        assert (p.getCell().getXPos() == 1 && p.getCell().getYPos() == 0);
     }
 
     /**
@@ -54,7 +54,7 @@ public class PacmanTest extends GameElementTest {
         gameWorld.getEventHandler().movingElementActionPerformed(p);
 
         assert (p.getCurrentDirection().equals(Direction.RIGHT));
-        assert (p.getCell().getXpos() == 1 && p.getCell().getYPos() == 0);
+        assert (p.getCell().getXPos() == 1 && p.getCell().getYPos() == 0);
 
         // Try to go up, normally it is not possible because it is a wall
         // Then the current direction must always be RIGHT

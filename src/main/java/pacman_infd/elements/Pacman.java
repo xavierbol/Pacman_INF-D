@@ -44,7 +44,11 @@ public class Pacman extends MovingGameElement implements KeyListener {
      */
     @Override
     protected void move() {
-        Cell nextCell = strategy.getNextCell(cell, currentDirection);
+        Direction nextDirection = strategy.getNextDirection(cell, currentDirection);
+        if(currentDirection != nextDirection) {
+            currentDirection = nextDirection;
+        }
+        Cell nextCell = cell.getNeighbor(nextDirection);
         if (nextCell != null && !nextCell.hasWall()) {
             nextCell.addMovingElement(this);
             cell.removeMovingElement(this);
@@ -106,7 +110,7 @@ public class Pacman extends MovingGameElement implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        changeDirection(strategy.getNewDirection(e, this.currentDirection));
+        changeDirection(strategy.changeDirection(e, this.currentDirection));
     }
 
     @Override

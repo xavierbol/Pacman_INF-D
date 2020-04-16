@@ -12,13 +12,13 @@ import pacman_infd.enums.FruitType;
 import pacman_infd.enums.PortalType;
 import pacman_infd.listeners.EventHandler;
 import pacman_infd.strategies.ghost.ChasePacmanStrategy;
-import pacman_infd.strategies.ghost.MoveRandomStrategy;
 import pacman_infd.strategies.ghost.GhostStrategy;
-import pacman_infd.strategies.pacman.KeyControlledStrategy;
+import pacman_infd.strategies.ghost.MoveRandomStrategy;
 import pacman_infd.strategies.pacman.PacmanStrategy;
 import pacman_infd.utils.SoundManager;
 
 import java.awt.*;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -48,12 +48,11 @@ public class GameWorld {
     private Portal portalBlue;
     private Portal portalOrange;
 
-    public GameWorld(GameController gameController, char[][] levelMap, int speed, PacmanStrategy pacmanStrategy) {
+    public GameWorld(GameController gameController, char[][] levelMap, int speed, Class<? extends PacmanStrategy> pacmanStrategyClazz) {
         this.view = gameController.getView();
         this.gameSpeed = speed;
-        this.pacmanStrategy = pacmanStrategy;
         this.eventHandler = new EventHandler(gameController, this);
-
+        this.pacmanStrategy = this.createPacmanStrategy(pacmanStrategyClazz);
         if (levelMap != null) {
 
             this.width = levelMap[0].length;
@@ -65,6 +64,23 @@ public class GameWorld {
 
             this.numberOfPelletsAtStart = countPellets(false);
         }
+
+
+    }
+
+    /**
+     * Create the pacman strategy
+     *
+     * @param pacmanStrategyClazz
+     */
+    private PacmanStrategy createPacmanStrategy(Class<? extends PacmanStrategy> pacmanStrategyClazz) {
+        PacmanStrategy pacmanStrategy = null;
+        try {
+            pacmanStrategy = pacmanStrategyClazz.getDeclaredConstructor(GameWorld.class).newInstance(this);
+        } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        return pacmanStrategy;
     }
 
     /**
@@ -112,6 +128,12 @@ public class GameWorld {
         }
     }
 
+    /**
+     * Create the element, designated by the character, on the cell.
+     *
+     * @param element The character designating the type of element
+     * @param cellMap The cell
+     */
     private void createElement(char element, Cell cellMap) {
         ElementType elementType = valueOfElement(element);
         switch (elementType) {
@@ -138,6 +160,11 @@ public class GameWorld {
         }
     }
 
+    /**
+     * Create pacman to the cell of the map
+     *
+     * @param cell The cell
+     */
     public void createPacman(Cell cell) {
         Pacman pacman = new Pacman(cell, this.eventHandler, this.gameSpeed, this.pacmanStrategy);
         view.addKeyListener(pacman);
@@ -214,20 +241,20 @@ public class GameWorld {
     }
 
     /**
-     * Check if it remains pellets in the game board
+     * Returns cells containing at least one ghost
      *
-     * @return True if it remains pellets in the game, otherwise return false.
+     * @return Cells containing at least one ghost
      */
-    public boolean checkRemainingPellets() {
-        int remainingPellets = this.countPellets(false);
-
-        if (remainingPellets == numberOfPelletsAtStart / 2) {
-            this.placeFruitRandom();
-        } else if (remainingPellets == 0) {
-            return false;
+    public List<Cell> getGhostCells() {
+        ArrayList<Cell> cells = new ArrayList<>();
+        for (Cell cell : this.getCells()) {
+            for (MovingGameElement movingGameElement : cell.getMovingElements()) {
+                if (movingGameElement instanceof Ghost) {
+                    cells.add(cell);
+                }
+            }
         }
-
-        return true;
+        return cells;
     }
 
     /**

@@ -18,11 +18,11 @@ import java.util.Objects;
  * @author Marinus
  */
 public class Cell {
-    private int xPos;
-    private int yPos;
-    private int size;
+    private final int xPos;
+    private final int yPos;
+    private final int size;
 
-    private Map<Direction, Cell> neighbors;
+    private final Map<Direction, Cell> neighbors;
     private ArrayList<MovingGameElement> movingElements;
     private GameElement staticElement;
     private boolean fruitSpawn;
@@ -36,7 +36,7 @@ public class Cell {
         this.fruitSpawn = false;
 
         movingElements = new ArrayList<>();
-        neighbors = new HashMap<Direction, Cell>();
+        neighbors = new HashMap<>();
     }
 
     /**
@@ -73,6 +73,9 @@ public class Cell {
         return staticElement instanceof Wall;
     }
 
+    /**
+     * Deletes all the elements contained in the cell.
+     */
     public void clearCell() {
         movingElements = null;
         staticElement = null;
@@ -110,7 +113,6 @@ public class Cell {
                 return true;
             }
         }
-
         return false;
     }
 
@@ -127,6 +129,16 @@ public class Cell {
         }
 
         return eatables;
+    }
+
+    /**
+     * Returns all the game elements contained in the cell.
+     * @return The game elements contained in the cell
+     */
+    public ArrayList<GameElement> getAllGameElements() {
+        ArrayList<GameElement> gameElements = new ArrayList<>(movingElements);
+        gameElements.add(staticElement);
+        return gameElements;
     }
 
     /**
@@ -180,7 +192,7 @@ public class Cell {
     /**
      * @return the x position of this cell.
      */
-    public int getXpos() {
+    public int getXPos() {
         return xPos;
     }
 
@@ -228,7 +240,7 @@ public class Cell {
 
     @Override
     public String toString() {
-        return "xPos: " + xPos + "\nYPos: " + yPos + "\nNumber of Neighbors: " + neighbors.size();
+        return "(" + xPos + ", " + yPos + ")";
     }
 
     @Override
@@ -247,6 +259,6 @@ public class Cell {
 
     @Override
     public int hashCode() {
-        return Objects.hash(xPos, yPos, size, neighbors, movingElements, staticElement, pathParent);
+        return Objects.hash(xPos, yPos);
     }
 }

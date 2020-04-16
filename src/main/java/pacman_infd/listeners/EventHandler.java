@@ -106,11 +106,12 @@ public class EventHandler implements ElementEventListener {
                 .filter(cell -> !cell.getMovingElements().isEmpty())
                 .collect(Collectors.toList());
 
-        ArrayList<MovingGameElement> movers = new ArrayList();
+        ArrayList<MovingGameElement> movers = new ArrayList<>();
         for (Cell cell : listCellsWithMovingElements) {
             movers.addAll(cell.getMovingElements());
         }
-        movers.stream().forEach(MovingGameElement::reset);
+
+        movers.forEach(MovingGameElement::reset);
         gameEventListener.decreaseLife();
     }
 

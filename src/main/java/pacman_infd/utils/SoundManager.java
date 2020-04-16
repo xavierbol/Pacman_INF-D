@@ -19,7 +19,7 @@ public final class SoundManager {
     private static Map<String, File> soundFiles;
 
     public static void loadSoundFiles() {
-        soundFiles = new HashMap();
+        soundFiles = new HashMap<>();
 
         try {
             soundFiles.put("chomp", new File(ClassLoader.getSystemResource("SFX/wakawaka.wav").toURI()));
@@ -30,7 +30,6 @@ public final class SoundManager {
             soundFiles.put("portal", new File(ClassLoader.getSystemResource("SFX/portalOpen3 2.wav").toURI()));
             soundFiles.put("superPellet", new File(ClassLoader.getSystemResource("SFX/chomp.wav").toURI()));
         } catch (Exception e) {
-            //System.out.println("loadSoundFiles, exception " + e + " catched !");
             e.printStackTrace();
         }
     }
@@ -46,7 +45,6 @@ public final class SoundManager {
             clip.open(audio);
             clip.start();
         } catch (Exception e) {
-            //System.out.println("playSound, exception " + e + " catched !");
             e.printStackTrace();
         }
     }

@@ -18,7 +18,7 @@ class ChasePacmanStrategyTest extends GhostStrategyTest {
     @Test
     public void testGiveNextCell() {
         // Set up moving element in the GameWorld
-        Pacman pacman = new Pacman(gameWorld.getCell(0,0), null, 100, new KeyControlledStrategy());
+        Pacman pacman = new Pacman(gameWorld.getCell(0,0), null, 100, new KeyControlledStrategy(gameWorld));
 
         // Let's imagine the ghost is in (1, 0), we use the giveNextCell to go to pacman
         Cell cellPacman = ghostStrategy.giveNextCell(gameWorld.getCell(1,0));

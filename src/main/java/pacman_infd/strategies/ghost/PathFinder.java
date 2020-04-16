@@ -5,18 +5,22 @@
  */
 package pacman_infd.strategies.ghost;
 
-import java.util.List;
-import java.util.LinkedList;
-import java.util.Queue;
-
+import pacman_infd.elements.GameElement;
+import pacman_infd.elements.Pacman;
+import pacman_infd.enums.Direction;
 import pacman_infd.games.Cell;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
+
 /**
- *
  * @author Marinus
  */
 public class PathFinder {
-    public PathFinder() { }
+    public PathFinder() {
+    }
 
     /**
      * The first cell in the path List is the one that the object moving towards
@@ -26,16 +30,7 @@ public class PathFinder {
      * @return first cell in the path towards pacman.
      */
     public Cell nextCellInPathToPacman(Cell rootCell) {
-        List<Cell> path = findPathToPacman(rootCell);
-        return nextCellInPath(path);
-    }
-
-    public Cell nextCellInPath(Cell rootCell, Cell targetCell) {
-        List<Cell> path = findPathToCell(rootCell, targetCell);
-        return nextCellInPath(path);
-    }
-
-    private Cell nextCellInPath(List<Cell> path) {
+        List<Cell> path = this.breathFirstSearch(rootCell, Pacman.class);
         if (path != null && !path.isEmpty()) {
             return path.get(0);
         } else {
@@ -60,61 +55,128 @@ public class PathFinder {
         return path;
     }
 
-    private List<Cell> breathFirstSearch(Cell rootCell, Cell targetCell) {
+    /**
+     * Performs a breath first search of the targetCell from the rootCell and return the path found or null if no
+     * path was found.
+     *
+     * @param rootCell   The root cell
+     * @param targetCell The target cell
+     * @return The path found or null if no path was found
+     */
+    public List<Cell> breathFirstSearch(Cell rootCell, Cell targetCell) {
         LinkedList<Cell> visitedCells = new LinkedList<>();
 
-        Queue<Cell> queue = new LinkedList<Cell>();
+        Queue<Cell> queue = new LinkedList<>();
         queue.offer(rootCell);
         rootCell.setPathParent(null);
 
         while (!queue.isEmpty()) {
             Cell cell = queue.poll();
 
-            if (targetCell == null) {
-                if (cell.containsPacman()) {
-                    return contructPath(cell);
-                }
-            } else {
-                if (cell.equals(targetCell)) {
-                    // targetCell found
-                    return contructPath(cell);
-                }
+            if (cell.equals(targetCell)) {
+                return contructPath(cell);
             }
-
-            visitedCells.add(cell);
-
-            for (Cell cellChild : cell.getNeighbors().values()) {
-                if (!cellChild.hasWall() && !visitedCells.contains(cellChild) && !queue.contains(cellChild)) {
-                    cellChild.setPathParent(cell);
-                    queue.add(cellChild);
-                }
-            }
+            this.handleCell(cell, visitedCells, queue);
         }
-
-        // no path found
         return null;
     }
 
     /**
-     * Uses a Breath-First search algorithm to determine the shortest path from
-     * the start cell to the cell containing Pacman.
+     * Performs a breath first search of the GameElement from the rootCell and return the path found or null if no
+     * path was found.
+     * The search stops as soon as an object of the requested class has been found.
      *
-     * @param startCell the first cell of the map where the algorithm will search Pacman.
-     * @return a path to reach Pacman, if the algorithm doesn't find a path, then it returns null.
+     * @param rootCell    The root cell
+     * @param targetClass The class of the GameElement we are looking for
+     * @return The path found or null if no path was found
      */
-    public List<Cell> findPathToPacman(Cell startCell) {
-        return breathFirstSearch(startCell, null);
+    public List<Cell> breathFirstSearch(Cell rootCell, Class<? extends GameElement> targetClass) {
+        LinkedList<Cell> visitedCells = new LinkedList<>();
+
+        Queue<Cell> queue = new LinkedList<>();
+        queue.offer(rootCell);
+        rootCell.setPathParent(null);
+
+        while (!queue.isEmpty()) {
+            Cell cell = queue.poll();
+
+            for (GameElement e : cell.getAllGameElements()) {
+                if (targetClass.isInstance(e)) {
+                    return contructPath(cell);
+                }
+            }
+            this.handleCell(cell, visitedCells, queue);
+        }
+        return null;
     }
 
     /**
-     * Uses a Breath-First search algorithm to determine the shortest path from
-     * the start cell to the target cell.
+     * Returns the paths from the current cell to the next intersections.
      *
-     * @param startCell the first cell of the map where the algorithm will search Pacman.
-     * @param targetCell the cell to reach.
-     * @return a path or null if the algorithm doesn't find a path.
+     * @param currentCell The current cell
+     * @return The paths from the current cell to the next intersections.
      */
-    private List<Cell> findPathToCell(Cell startCell, Cell targetCell) {
-        return breathFirstSearch(startCell, targetCell);
+    public List<List<Cell>> getPathsToIntersections(Cell currentCell) {
+        LinkedList<Cell> visitedCells = new LinkedList<>();
+
+        Queue<Cell> queue = new LinkedList<>();
+        currentCell.setPathParent(null);
+
+        List<List<Cell>> allPaths = new ArrayList<>();
+
+        for (Direction searchDirection : this.getPossibleDirections(currentCell)) {
+            Cell cellChild = currentCell.getNeighbor(searchDirection);
+            cellChild.setPathParent(currentCell);
+            queue.add(cellChild);
+        }
+        visitedCells.add(currentCell);
+
+        while (!queue.isEmpty()) {
+            Cell cell = queue.poll();
+
+            // crossroads = end of path
+            if (getPossibleDirections(cell).size() > 2) {
+                allPaths.add(contructPath(cell));
+            } else {
+                this.handleCell(cell, visitedCells, queue);
+            }
+        }
+        return allPaths;
+    }
+
+    /**
+     * Adds the cell to the visitedCells and, for each neighboring cell, checks if it can be added to the queue and if
+     * it can be added does it.
+     * A cell can be added to the queue if it is not already in the queue, it has not been visited and it is not a wall.
+     *
+     * @param cell         The cell to handle
+     * @param visitedCells The visited cells
+     * @param queue        The queue
+     */
+    private void handleCell(Cell cell, List<Cell> visitedCells, Queue<Cell> queue) {
+        visitedCells.add(cell);
+
+        for (Cell cellChild : cell.getNeighbors().values()) {
+            if (!cellChild.hasWall() && !visitedCells.contains(cellChild) && !queue.contains(cellChild)) {
+                cellChild.setPathParent(cell);
+                queue.add(cellChild);
+            }
+        }
+    }
+
+    /**
+     * Returns the list of directions that we can follow from the cell.
+     *
+     * @param cell The cell
+     * @return The list of directions that we can follow from the cell
+     */
+    public List<Direction> getPossibleDirections(Cell cell) {
+        ArrayList<Direction> possibleDirections = new ArrayList<>();
+        for (Direction d : Direction.values()) {
+            if (!cell.getNeighbor(d).hasWall()) {
+                possibleDirections.add(d);
+            }
+        }
+        return possibleDirections;
     }
 }
