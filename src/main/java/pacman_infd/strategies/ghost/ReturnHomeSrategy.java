@@ -8,6 +8,8 @@ package pacman_infd.strategies.ghost;
 
 import pacman_infd.games.Cell;
 
+import java.util.List;
+
 /**
  *
  * @author Marinus
@@ -23,6 +25,11 @@ public class ReturnHomeSrategy implements GhostStrategy {
     
     @Override
     public Cell giveNextCell(Cell currentCell) {
-        return pathFinder.nextCellInPath(currentCell, homeCell);
+        List<Cell> homePath = pathFinder.breathFirstSearch(currentCell, homeCell);
+        if(homePath.isEmpty()) {
+            return null;
+        } else {
+            return homePath.get(0);
+        }
     }
 }

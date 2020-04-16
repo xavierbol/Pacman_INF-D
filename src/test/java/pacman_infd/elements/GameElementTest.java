@@ -20,6 +20,6 @@ public abstract class GameElementTest {
         };
         scorePanel = new ScorePanel();
         gameController = new GameController(new View(), scorePanel);
-        gameWorld = new GameWorld(gameController, levelMap, 0, new KeyControlledStrategy());
+        gameWorld = new GameWorld(gameController, levelMap, 0, KeyControlledStrategy.class);
     }
 }

@@ -17,6 +17,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Objects;
 
 /**
  * @author Marinus
@@ -192,6 +193,11 @@ public class Ghost extends MovingGameElement implements Eatable {
         backToNormal();
     }
 
+    /**
+     * Accessor of the state of the ghost.
+     *
+     * @return The state of the ghost
+     */
     public GhostState getState() {
         return state;
     }
@@ -224,6 +230,15 @@ public class Ghost extends MovingGameElement implements Eatable {
 
     private void deathTimerActionPerformed(ActionEvent evt) {
         backToNormal();
+    }
+
+    /**
+     * Returns if the ghost is in its end of vulnerability phase.
+     *
+     * @return True if the ghost is in its end of vulnerability phase, false otherwise.
+     */
+    public boolean isEndingVulnerability() {
+        return this.stateSoonChangeTimer.isRunning();
     }
 
     @Override
@@ -271,5 +286,24 @@ public class Ghost extends MovingGameElement implements Eatable {
             deathTimer.stop();
             pauseState = 3;
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Ghost ghost = (Ghost) o;
+        return pauseState == ghost.pauseState &&
+                Objects.equals(ghostStrategy, ghost.ghostStrategy) &&
+                initialGhostStrategy.equals(ghost.initialGhostStrategy) &&
+                defaultColor.equals(ghost.defaultColor) &&
+                color.equals(ghost.color) &&
+                state == ghost.state;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), ghostStrategy, initialGhostStrategy, defaultColor, color, state, pauseState);
     }
 }

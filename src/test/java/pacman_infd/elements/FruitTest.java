@@ -17,7 +17,7 @@ public class FruitTest extends GameElementTest {
 
     @Test
     public void testEatMe() {
-        Pacman pacman = new Pacman(gameWorld.getCell(0, 0), gameWorld.getEventHandler(), 0, new KeyControlledStrategy());
+        Pacman pacman = new Pacman(gameWorld.getCell(0, 0), gameWorld.getEventHandler(), 0, new KeyControlledStrategy(gameWorld));
         new Fruit(FruitType.CHERRY, gameWorld.getCell(1, 0), gameWorld.getEventHandler());
 
         // Check if the pacman and cherry are created and correctly placed
@@ -30,7 +30,7 @@ public class FruitTest extends GameElementTest {
 
         gameWorld.getEventHandler().movingElementActionPerformed(pacman);
 
-        assert (pacman.getCell().getXpos() == 1 && pacman.getCell().getYPos() == 0);
+        assert (pacman.getCell().getXPos() == 1 && pacman.getCell().getYPos() == 0);
         assert (pacman.getCell().getStaticElement() == null);
         assert (scorePanel.getScore() == 100);
     }

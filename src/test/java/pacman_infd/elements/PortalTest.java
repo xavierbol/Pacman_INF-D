@@ -15,7 +15,7 @@ class PortalTest extends GameElementTest {
     @Override
     public void setUp() {
         super.setUp();
-        pacman = new Pacman(gameWorld.getCell(0,0), gameWorld.getEventHandler(), 0, new KeyControlledStrategy());
+        pacman = new Pacman(gameWorld.getCell(0,0), gameWorld.getEventHandler(), 0, new KeyControlledStrategy(gameWorld));
     }
 
     @Test

@@ -2,25 +2,24 @@ package pacman_infd.strategies.pacman;
 
 import pacman_infd.enums.Direction;
 import pacman_infd.games.Cell;
+import pacman_infd.games.GameWorld;
 
 import java.awt.event.KeyEvent;
 
+/**
+ * Strategy where pacman is controlled by the directional keys of the keyboard.
+ */
 public class KeyControlledStrategy implements PacmanStrategy {
-
-    private static final String NAME = "Key controlled";
-
-    @Override
-    public Cell getNextCell(Cell currentCell, Direction currentDirection) {
-        return currentCell.getNeighbor(currentDirection);
+    public KeyControlledStrategy(GameWorld gameWorld) {
     }
 
     @Override
-    public Direction getNewDirection(KeyEvent e, Direction currentDirection) {
+    public Direction getNextDirection(Cell currentCell, Direction currentDirection) {
+        return currentDirection;
+    }
+
+    @Override
+    public Direction changeDirection(KeyEvent e, Direction currentDirection) {
         return Direction.getDirection(e);
-    }
-
-    @Override
-    public String getName() {
-        return NAME;
     }
 }
