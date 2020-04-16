@@ -5,10 +5,7 @@
  */
 package pacman_infd.listeners;
 
-import pacman_infd.elements.Eatable;
-import pacman_infd.elements.Ghost;
-import pacman_infd.elements.MovingGameElement;
-import pacman_infd.elements.Pacman;
+import pacman_infd.elements.*;
 import pacman_infd.games.Cell;
 import pacman_infd.games.GameWorld;
 
@@ -22,10 +19,14 @@ import java.util.stream.Collectors;
 public class EventHandler implements ElementEventListener {
     private GameEventListener gameEventListener;
     private GameWorld gameWorld;
+    private int killConsecutiveGhost;
+
+    private final Object moveLock = new Object();
 
     public EventHandler(GameEventListener gameEventListener, GameWorld gameWorld) {
         this.gameEventListener = gameEventListener;
         this.gameWorld = gameWorld;
+        this.killConsecutiveGhost = 0;
     }
 
     /**
@@ -63,11 +64,16 @@ public class EventHandler implements ElementEventListener {
      */
     @Override
     public void movingElementActionPerformed(MovingGameElement e) {
-        if (e instanceof Pacman) {
-            checkCollisions((Pacman) e);
-            gameEventListener.refocus();
-        } else if (e instanceof Ghost) {
-            checkCollisions((Ghost) e);
+        synchronized (moveLock){
+            if (e instanceof Pacman) {
+                if (!gameWorld.checkRemainingPellets()) {
+                    gameEventListener.levelWon();
+                }
+                checkCollisions((Pacman) e);
+                gameEventListener.refocus();
+            } else if (e instanceof Ghost) {
+                checkCollisions((Ghost) e);
+            }
         }
     }
 
@@ -78,8 +84,14 @@ public class EventHandler implements ElementEventListener {
      */
     @Override
     public void eatableElementEaten(Eatable e) {
-        gameEventListener.increasePoints(e.getValue());
-        gameWorld.placeFruitRandom();
+        int value  = e.getValue();
+
+        if (e instanceof Ghost) {
+            value = (int) (e.getValue() * Math.pow(2, killConsecutiveGhost));
+            killConsecutiveGhost += 1;
+        }
+
+        gameEventListener.increasePoints(value);
     }
 
     @Override
@@ -105,15 +117,20 @@ public class EventHandler implements ElementEventListener {
 
     @Override
     public void makeGhostsVulnerable() {
+        int remainingSuperPellet = gameWorld.countPellets(true);
         for (Cell cell : gameWorld.getCells()) {
             for (MovingGameElement element : cell.getMovingElements()) {
                 if (element instanceof Ghost) {
                     Ghost ghost = (Ghost) element;
+                    if (remainingSuperPellet == 1) {
+                        ghost.setVulnerabilityTimer(3000);
+                    }
                     ghost.flee();
                 }
             }
         }
         gameEventListener.stopStopWatch();
+        killConsecutiveGhost = 0;
     }
 
     @Override

@@ -62,7 +62,7 @@ public class GameWorld {
 
             placeElements(levelMap, cellMap);
 
-            this.numberOfPelletsAtStart = countPellets();
+            this.numberOfPelletsAtStart = countPellets(false);
         }
 
 
@@ -225,10 +225,15 @@ public class GameWorld {
      *
      * @return number of pellets
      */
-    public int countPellets() {
+    public int countPellets(boolean superPellet) {
         int number = 0;
+        boolean containPellet = false;
         for (Cell cell : cells) {
-            if (cell.getStaticElement() instanceof Pellet) {
+            containPellet = superPellet ?
+                    cell.getStaticElement() instanceof SuperPellet :
+                    cell.getStaticElement() instanceof Pellet;
+
+            if (containPellet) {
                 number++;
             }
         }
@@ -255,15 +260,13 @@ public class GameWorld {
     /**
      * Place a fruit randomly among the cells that can spawn a fruit.
      */
-    public void placeFruitRandom() {
-        if (countPellets() == numberOfPelletsAtStart / 2) {
-            List<Cell> fruitSpawnCells = this.getFruitSpawnCells();
-            Random r = new Random();
-            if (!fruitSpawnCells.isEmpty()) {
-                new Fruit(FruitType.values()[r.nextInt(FruitType.values().length)],
-                        fruitSpawnCells.get(r.nextInt(fruitSpawnCells.size())),
-                        eventHandler);
-            }
+    private void placeFruitRandom() {
+        List<Cell> fruitSpawnCells = this.getFruitSpawnCells();
+        Random r = new Random();
+        if (!fruitSpawnCells.isEmpty()) {
+            new Fruit(FruitType.values()[r.nextInt(FruitType.values().length)],
+                    fruitSpawnCells.get(r.nextInt(fruitSpawnCells.size())),
+                    eventHandler);
         }
     }
 

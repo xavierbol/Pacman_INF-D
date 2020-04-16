@@ -3,6 +3,7 @@ package pacman_infd.elements;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pacman_infd.enums.Direction;
+import pacman_infd.enums.ElementType;
 import pacman_infd.strategies.pacman.KeyControlledStrategy;
 
 public class PacmanTest extends GameElementTest {
@@ -33,7 +34,7 @@ public class PacmanTest extends GameElementTest {
      */
     @Test
     public void testMove() {
-        assert (p.getCell().getXPos() == 1 && p.getCell().getYPos() == 0);
+        assert (p.getCell().getXpos() == 0 && p.getCell().getYPos() == 0);
 
         p.changeDirection(Direction.RIGHT);
         p.move();
@@ -47,6 +48,7 @@ public class PacmanTest extends GameElementTest {
      */
     @Test
     public void testChangeDirection() {
+        new Wall(gameWorld.getCell(1,1), ElementType.HORIZONTAL_WALL);
         p.changeDirection(Direction.RIGHT);
         p.move();
         gameWorld.getEventHandler().movingElementActionPerformed(p);
@@ -56,10 +58,14 @@ public class PacmanTest extends GameElementTest {
 
         // Try to go up, normally it is not possible because it is a wall
         // Then the current direction must always be RIGHT
-        p.changeDirection(Direction.UP);
+        p.changeDirection(Direction.DOWN);
         assert (p.getCurrentDirection().equals(Direction.RIGHT));
 
-        // Now, we check that pacman correctly change its current direction to DOWN
+        p.changeDirection(Direction.LEFT);
+        p.move();
+        gameWorld.getEventHandler().movingElementActionPerformed(p);
+
+        // Now, we check that Pacman can change the direction to the down
         p.changeDirection(Direction.DOWN);
         assert (p.getCurrentDirection().equals(Direction.DOWN));
     }

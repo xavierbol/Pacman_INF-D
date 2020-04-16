@@ -33,6 +33,5 @@ class SuperPelletTest extends GameElementTest {
 
         assert (gameWorld.getCell(1,0).getStaticElement() == null);
         assert (scorePanel.getScore() == 50);
-
     }
 }

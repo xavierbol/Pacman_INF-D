@@ -248,4 +248,9 @@ public class GameController implements GameEventListener {
             gameWorld.spawnPortal(x, y, mouseButton);
         }
     }
+
+    @Override
+    public void levelWon() {
+        this.nextLevel();
+    }
 }

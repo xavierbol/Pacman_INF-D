@@ -1,5 +1,6 @@
 package pacman_infd.elements;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pacman_infd.enums.Direction;
 import pacman_infd.enums.ElementType;
@@ -55,7 +56,7 @@ class GhostTest extends GameElementTest {
 
         assert (pacman.getCell().getYPos() == 1);
         assert (clyde.getState().equals(GhostState.DEAD));
-        assert (scorePanel.getScore() >= 400);
+        assert (scorePanel.getScore() == 250);
     }
 
     @Test
