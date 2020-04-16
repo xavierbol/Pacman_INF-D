@@ -16,4 +16,5 @@ public interface GameEventListener {
     void refocus();
     void stopStopWatch();
     void restartStopWatch();
+    void levelWon();
 }

@@ -64,7 +64,7 @@ public class EventHandler implements ElementEventListener {
      */
     @Override
     public void movingElementActionPerformed(MovingGameElement e) {
-        synchronized (moveLock){
+        synchronized (moveLock) {
             if (e instanceof Pacman) {
                 if (!gameWorld.checkRemainingPellets()) {
                     gameEventListener.levelWon();
