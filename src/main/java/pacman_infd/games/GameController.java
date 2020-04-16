@@ -50,12 +50,7 @@ public class GameController implements GameEventListener {
         levelManager = new LevelManager();
         gameSpeed = DEFAULT_GAME_SPEED;
 
-        ActionListener gameTimerAction = new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                gameTimerActionPerformed(evt);
-            }
-        };
+        ActionListener gameTimerAction = this::gameTimerActionPerformed;
 
         gameTimer = new Timer(REFRESH_RATE, gameTimerAction);
         stopWatch = new StopWatch();
@@ -124,7 +119,7 @@ public class GameController implements GameEventListener {
             gameSpeed -= 10;
         }
 
-        Class pacmanStrategy = null;
+        Class<? extends PacmanStrategy> pacmanStrategy = null;
         while (pacmanStrategy == null) {
             pacmanStrategy = this.getPacmanStrategy();
         }

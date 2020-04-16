@@ -43,7 +43,7 @@ class PortalTest extends GameElementTest {
     }
 
     @Test
-    public void testPortalOnPacman() throws InterruptedException {
+    public void testPortalOnPacman() {
         bluePortal = new Portal(gameWorld.getCell(1,0), PortalType.BLUE);
         orangePortal = new Portal(gameWorld.getCell(0,1), PortalType.ORANGE);
 

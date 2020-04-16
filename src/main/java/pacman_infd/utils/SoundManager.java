@@ -19,7 +19,7 @@ public final class SoundManager {
     private static Map<String, File> soundFiles;
 
     public static void loadSoundFiles() {
-        soundFiles = new HashMap();
+        soundFiles = new HashMap<>();
 
         try {
             soundFiles.put("chomp", new File(ClassLoader.getSystemResource("SFX/wakawaka.wav").toURI()));

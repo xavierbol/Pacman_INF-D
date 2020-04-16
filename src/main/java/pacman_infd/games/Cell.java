@@ -18,11 +18,11 @@ import java.util.Objects;
  * @author Marinus
  */
 public class Cell {
-    private int xPos;
-    private int yPos;
-    private int size;
+    private final int xPos;
+    private final int yPos;
+    private final int size;
 
-    private Map<Direction, Cell> neighbors;
+    private final Map<Direction, Cell> neighbors;
     private ArrayList<MovingGameElement> movingElements;
     private GameElement staticElement;
     private boolean fruitSpawn;
@@ -36,7 +36,7 @@ public class Cell {
         this.fruitSpawn = false;
 
         movingElements = new ArrayList<>();
-        neighbors = new HashMap<Direction, Cell>();
+        neighbors = new HashMap<>();
     }
 
     /**

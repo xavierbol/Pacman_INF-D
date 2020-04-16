@@ -55,18 +55,10 @@ public class View extends JFrame implements MouseListener {
         gamePanel = new JPanel();
         gamePanel.addMouseListener(this);
         startButton = new JButton("Start");
-        startButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                startButtontActionPerformed(evt);
-            }
-        });
+        startButton.addActionListener(this::startButtontActionPerformed);
 
         pauseButton = new JButton("Pause");
-        pauseButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                pauseButtontActionPerformed(evt);
-            }
-        });
+        pauseButton.addActionListener(this::pauseButtontActionPerformed);
 
         JPanel controlPanel = new JPanel();
         controlPanel.setLayout(new FlowLayout());

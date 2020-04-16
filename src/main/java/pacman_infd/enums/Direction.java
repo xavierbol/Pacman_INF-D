@@ -43,24 +43,6 @@ public enum Direction {
         return opposite;
     }
 
-    /**
-     * Get the clockwise direction
-     *
-     * @return the clockwise direction
-     */
-    public Direction getClockwise() {
-        return clockwise;
-    }
-
-    /**
-     * Get the opposite clockwise direction
-     *
-     * @return the opposite clockwise direction
-     */
-    public Direction getOppositeClockwise() {
-        return oppositeClockwise;
-    }
-
     public static Direction getDirection(KeyEvent keyEvent) {
         switch (keyEvent.getKeyCode()) {
             case KeyEvent.VK_UP: {

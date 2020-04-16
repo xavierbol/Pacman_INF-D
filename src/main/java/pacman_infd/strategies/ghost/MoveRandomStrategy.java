@@ -26,7 +26,7 @@ public class MoveRandomStrategy implements GhostStrategy {
     public Cell giveNextCell(Cell currentCell)
     {
         // new list of cells
-        ArrayList<Cell> availableCells = new ArrayList();
+        ArrayList<Cell> availableCells = new ArrayList<>();
         
         // put all neighboring cells that have no wall in the new list.
         for(Object o : currentCell.getNeighbors().values().toArray())

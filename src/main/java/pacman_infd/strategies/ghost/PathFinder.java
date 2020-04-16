@@ -66,7 +66,7 @@ public class PathFinder {
     public List<Cell> breathFirstSearch(Cell rootCell, Cell targetCell) {
         LinkedList<Cell> visitedCells = new LinkedList<>();
 
-        Queue<Cell> queue = new LinkedList<Cell>();
+        Queue<Cell> queue = new LinkedList<>();
         queue.offer(rootCell);
         rootCell.setPathParent(null);
 
@@ -93,7 +93,7 @@ public class PathFinder {
     public List<Cell> breathFirstSearch(Cell rootCell, Class<? extends GameElement> targetClass) {
         LinkedList<Cell> visitedCells = new LinkedList<>();
 
-        Queue<Cell> queue = new LinkedList<Cell>();
+        Queue<Cell> queue = new LinkedList<>();
         queue.offer(rootCell);
         rootCell.setPathParent(null);
 
@@ -119,7 +119,7 @@ public class PathFinder {
     public List<List<Cell>> getPathsToIntersections(Cell currentCell) {
         LinkedList<Cell> visitedCells = new LinkedList<>();
 
-        Queue<Cell> queue = new LinkedList<Cell>();
+        Queue<Cell> queue = new LinkedList<>();
         currentCell.setPathParent(null);
 
         List<List<Cell>> allPaths = new ArrayList<>();

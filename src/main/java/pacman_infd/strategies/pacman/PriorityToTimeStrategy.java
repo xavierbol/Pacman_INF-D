@@ -46,8 +46,8 @@ public class PriorityToTimeStrategy implements PacmanStrategy {
         List<List<Cell>> safePaths = PacmanAI.getSafePaths(currentCell, ghostCells, unblockedPaths);
 
         // Add risky paths that are worthwhile to safePaths.
-        Set<List<Cell>> setSafePaths = new HashSet<List<Cell>>(safePaths);
-        Set<List<Cell>> setDangerousPaths = new HashSet<List<Cell>>(unblockedPaths);
+        Set<List<Cell>> setSafePaths = new HashSet<>(safePaths);
+        Set<List<Cell>> setDangerousPaths = new HashSet<>(unblockedPaths);
         setDangerousPaths.removeAll(setSafePaths);
 
         safePaths.addAll(PacmanAI.getWorthItPaths(currentCell, ghostCells, new ArrayList<>(setDangerousPaths)));
