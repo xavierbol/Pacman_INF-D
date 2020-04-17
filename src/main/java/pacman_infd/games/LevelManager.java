@@ -26,8 +26,8 @@ public class LevelManager {
     }
 
     private void loadLevels() {
+        loadLevel("Levels/default.txt");
         loadLevel("Levels/ylevel1.txt");
-        loadLevel("Levels/ylevel2.txt");
         loadLevel("Levels/ylevel3.txt");
     }
 
