@@ -11,32 +11,54 @@ public class StopWatch {
     private long elapsedTime;
     
     private boolean isRunning;
-    
-    public StopWatch(){
+
+    /**
+     * Default constructor of this class.
+     */
+    public StopWatch() {
         reset();
     }
 
+    /**
+     * Constructor of this class.
+     *
+     * @param elapsedTime the elapsed time.
+     */
     public StopWatch(long elapsedTime) {
         isRunning = false;
         this.elapsedTime = elapsedTime;
     }
 
+    /**
+     * Check if the stopwatch is running.
+     *
+     * @return True if the stopwatch is running, otherwise return false.
+     */
     public boolean isRunning() {
         return isRunning;
     }
 
-    public void reset(){
+    /**
+     * Reset the stopwatch.
+     */
+    public void reset() {
         elapsedTime = 0;
         isRunning = false;
     }
-    
-    public void start(){
+
+    /**
+     * Start the stopwatch.
+     */
+    public void start() {
         if (!isRunning) {
             isRunning = true;
             startTime = System.currentTimeMillis();
         }
     }
-    
+
+    /**
+     * Stop the stopwatch
+     */
     public void stop() {
         if (isRunning) {
            isRunning = false;
@@ -45,6 +67,9 @@ public class StopWatch {
         }
     }
 
+    /**
+     * Restart the stopwatch.
+     */
     public void restart() {
         if (!isRunning) {
             isRunning = true;
@@ -52,17 +77,26 @@ public class StopWatch {
             elapsedTime = 0;
         }
     }
-    
-    public long getElapsedTime(){
-        if(isRunning){
+
+    /**
+     * Get the elapsed time.
+     *
+     * @return The elapsed time.
+     */
+    public long getElapsedTime() {
+        if (isRunning) {
             long endTime = System.currentTimeMillis();
             return elapsedTime + endTime - startTime;
-        }else{
+        } else {
             return elapsedTime;
-        
         }
     }
-    
+
+    /**
+     * Get the elapsed time in minutes and seconds.
+     *
+     * @return the formatted elapsed time.
+     */
     public String getElapsedTimeMinutesSeconds(){
         long time = getElapsedTime();
         long seconds = (time / 1000) % 60;
@@ -70,5 +104,4 @@ public class StopWatch {
         
         return String.format("%02d:%02d", minutes, seconds);
     }
-
 }

@@ -6,11 +6,11 @@
 
 package pacman_infd.elements;
 
-import java.awt.Color;
-import java.awt.Graphics;
 import pacman_infd.games.Cell;
-import pacman_infd.utils.SoundManager;
 import pacman_infd.listeners.ElementEventListener;
+import pacman_infd.utils.SoundManager;
+
+import java.awt.*;
 
 /**
  *
@@ -18,7 +18,13 @@ import pacman_infd.listeners.ElementEventListener;
  */
 public class SuperPellet extends GameElement implements Eatable {
     private static final int VALUE = 50;
-    
+
+    /**
+     * Creates a Super Pellet.
+     *
+     * @param cell the position of the super pellet in the game board.
+     * @param evtl the element event listener.
+     */
     public SuperPellet(Cell cell, ElementEventListener evtl) {
         super(cell, evtl);
     }

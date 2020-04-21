@@ -17,7 +17,12 @@ import java.util.List;
 public class ReturnHomeSrategy implements GhostStrategy {
     private PathFinder pathFinder;
     private Cell homeCell;
-    
+
+    /**
+     * Constructor of this class.
+     *
+     * @param homeCell the home cell.
+     */
     public ReturnHomeSrategy(Cell homeCell){
         pathFinder = new PathFinder();
         this.homeCell = homeCell;

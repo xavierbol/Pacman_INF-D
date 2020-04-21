@@ -12,5 +12,11 @@ package pacman_infd.elements;
  */
 public interface Eatable {
     void eatMe();
+
+    /**
+     * Get value of the element.
+     *
+     * @return The value of the element.
+     */
     int getValue();
 }

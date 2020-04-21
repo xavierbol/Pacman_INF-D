@@ -19,6 +19,9 @@ import java.util.Queue;
  * @author Marinus
  */
 public class PathFinder {
+    /**
+     * Constructor by default of this class.
+     */
     public PathFinder() {
     }
 

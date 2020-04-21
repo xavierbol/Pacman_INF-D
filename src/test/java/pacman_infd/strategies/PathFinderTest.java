@@ -5,8 +5,6 @@
  */
 package pacman_infd.strategies;
 
-import java.awt.Color;
-import java.util.List;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,6 +18,9 @@ import pacman_infd.games.GameWorld;
 import pacman_infd.games.View;
 import pacman_infd.strategies.ghost.PathFinder;
 import pacman_infd.strategies.pacman.KeyControlledStrategy;
+
+import java.awt.*;
+import java.util.List;
 
 /**
  *

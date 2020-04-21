@@ -5,21 +5,19 @@
  */
 package pacman_infd.elements;
 
-import java.awt.Color;
-import java.awt.Graphics;
-
 import pacman_infd.enums.ElementType;
 import pacman_infd.games.Cell;
+
+import java.awt.*;
 
 /**
  *
  * @author ivanweller
  */
 public class Wall extends GameElement {
-    private ElementType type;
+    private final ElementType type;
 
     public Wall(Cell cell, ElementType type) {
-
         super(cell, null);
         this.type = type;
     }

@@ -18,6 +18,9 @@ import java.util.Map;
 public final class SoundManager {
     private static Map<String, File> soundFiles;
 
+    /**
+     * Load all sound files.
+     */
     public static void loadSoundFiles() {
         soundFiles = new HashMap<>();
 
@@ -34,6 +37,11 @@ public final class SoundManager {
         }
     }
 
+    /**
+     * Play the sound based on the key given in parameter
+     *
+     * @param sound the sound to play.
+     */
     public static void playSound(String sound) {
         if (soundFiles == null || soundFiles.isEmpty()) {
             loadSoundFiles();

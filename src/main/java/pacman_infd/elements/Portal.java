@@ -5,11 +5,11 @@
  */
 package pacman_infd.elements;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import pacman_infd.games.Cell;
 import pacman_infd.enums.Direction;
 import pacman_infd.enums.PortalType;
+import pacman_infd.games.Cell;
+
+import java.awt.*;
 
 /**
  *
@@ -17,19 +17,31 @@ import pacman_infd.enums.PortalType;
  */
 public class Portal extends GameElement {
     private Portal linkedPortal;
-    private PortalType type;
+    private final PortalType type;
 
+    /**
+     * Creates a portal.
+     *
+     * @param cell the position of the portal in the game board.
+     * @param type the type of the portal.
+     */
     public Portal(Cell cell, PortalType type) {
         super(cell, null);
         this.type = type;
     }
 
+    /**
+     * Remove the portal in the board game.
+     */
     public void remove() {
         if (cell.getStaticElement().equals(this)) {
             cell.setStaticElement(null);
         }
     }
 
+    /**
+     * Warp the neighbor cells into the cell containing the portal.
+     */
     public void warpNeighbors() {
         setNeighborCell(Direction.UP);
         setNeighborCell(Direction.DOWN);
@@ -37,16 +49,31 @@ public class Portal extends GameElement {
         setNeighborCell(Direction.RIGHT);
     }
 
+    /**
+     * Set the neighboor cell.
+     *
+     * @param d the direction to search the neighboor cell.
+     */
     private void setNeighborCell(Direction d) {
         if (cell.getNeighbor(d) != null && !cell.getNeighbor(d).hasWall()) {
             cell.getNeighbor(d).setNeighbor(d.getOpposite(), linkedPortal.getCell());
         }
     }
 
+    /**
+     * Set the linked portal
+     *
+     * @param portal the portal to set the link
+     */
     public void setLinkedPortal(Portal portal) {
         linkedPortal = portal;
     }
 
+    /**
+     * Get the linked portal.
+     *
+     * @return the linked portal.
+     */
     public Portal getLinkedPortal() {
         return linkedPortal;
     }

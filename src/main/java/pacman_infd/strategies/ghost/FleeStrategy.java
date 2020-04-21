@@ -6,9 +6,9 @@
 
 package pacman_infd.strategies.ghost;
 
-import java.util.ArrayList;
-
 import pacman_infd.games.Cell;
+
+import java.util.ArrayList;
 
 /**
  *
@@ -18,6 +18,9 @@ public class FleeStrategy implements GhostStrategy {
     private PathFinder pathFinder;
     private Cell previousCell;
 
+    /**
+     * Constructor of this class.
+     */
     public FleeStrategy(){
         pathFinder = new PathFinder();
     }

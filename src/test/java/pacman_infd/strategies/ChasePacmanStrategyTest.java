@@ -3,7 +3,7 @@ package pacman_infd.strategies;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pacman_infd.elements.Pacman;
-import pacman_infd.games.*;
+import pacman_infd.games.Cell;
 import pacman_infd.strategies.ghost.ChasePacmanStrategy;
 import pacman_infd.strategies.pacman.KeyControlledStrategy;
 
