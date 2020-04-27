@@ -17,10 +17,17 @@ import pacman_infd.listeners.ElementEventListener;
  * @author Marinus
  */
 public abstract class MovingGameElement extends GameElement{
-    protected Cell startCell;
+    protected final Cell startCell;
     private Timer timer;
     protected int speed;
 
+    /**
+     * Constructor of this class.
+     *
+     * @param cell the initial position of the moving game element.
+     * @param gameEventListener the game listener
+     * @param speed the initial speed of the moving game element.
+     */
     public MovingGameElement(Cell cell, ElementEventListener gameEventListener, int speed) {
         this.cell = cell;
         this.elementEventListener = gameEventListener;
@@ -33,31 +40,58 @@ public abstract class MovingGameElement extends GameElement{
         timer = new Timer(speed, moveTimerActionListener);
         timer.start();
     }
-    
-    protected abstract void move();   
 
-    public abstract void moveTimerActionPerformed(ActionEvent e); 
-    
-    public void reset(){
+    /**
+     * Move this moving game element
+     */
+    protected abstract void move();
+
+    /**
+     * This is called each 'tick' of the timer. This is used by the GameWorld to
+     *
+     * @param e the action event
+     */
+    public abstract void moveTimerActionPerformed(ActionEvent e);
+
+    /**
+     * Reset the moving game element to replace it to its initial position
+     */
+    public void reset() {
         cell.removeMovingElement(this);
         cell = startCell;
         cell.addMovingElement(this);
     }
-    
-    protected Cell getStartCell(){
+
+    /**
+     * Return the initial cell of this element.
+     *
+     * @return The initial cell of this element.
+     */
+    protected Cell getStartCell() {
         return startCell;
     }
-    
-    public void setSpeed(int speed)
-    {
+
+    /**
+     * Set the speed of this moving game element
+     *
+     * @param speed the new speed to set.
+     */
+    public void setSpeed(int speed) {
         timer.setDelay(speed);
     }
-    
-    public void startTimer(){
+
+
+    /**
+     * Start timer to move this moving game element.
+     */
+    public void startTimer() {
         timer.start();
     }
-    
-    public void stopTimer(){
+
+    /**
+     * Stop the timer.
+     */
+    public void stopTimer() {
         timer.stop();
     }  
 }

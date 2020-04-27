@@ -21,17 +21,35 @@ import pacman_infd.strategies.pacman.PacmanStrategy;
  */
 public class Pacman extends MovingGameElement implements KeyListener {
     private Direction currentDirection;
-    private PacmanStrategy strategy;
+    private final PacmanStrategy strategy;
 
+    /**
+     * Create the Pacman.
+     *
+     * @param cell the initial position of the Pacman.
+     * @param gameEventListener the game listener.
+     * @param speed the initial speed of the Pacman.
+     * @param strategy the selected strategy for the Pacman.
+     */
     public Pacman(Cell cell, ElementEventListener gameEventListener, int speed, PacmanStrategy strategy) {
         super(cell, gameEventListener, speed);
         this.strategy = strategy;
     }
 
+    /**
+     * Get the current direction of this Pacman.
+     *
+     * @return the current direction.
+     */
     public Direction getCurrentDirection() {
         return currentDirection;
     }
 
+    /**
+     * Change the direction of Pacman.
+     *
+     * @param newDirection the new direction to adopt.
+     */
     public void changeDirection(Direction newDirection) {
         if (cell.getNeighbor(newDirection) != null && !cell.getNeighbor(newDirection).hasWall()) {
             currentDirection = newDirection;
@@ -69,7 +87,7 @@ public class Pacman extends MovingGameElement implements KeyListener {
      * to change this we need to use Graphics2D and not Graphics
      * See <a href="https://docs.oracle.com/javase/7/docs/api/java/awt/Graphics2D.html#rotate%28double,%20double,%20double%29">For more details</a>
      *
-     * @param g
+     * @param g the graphics object to draw the Pacman.
      */
     @Override
     public void draw(Graphics g) {

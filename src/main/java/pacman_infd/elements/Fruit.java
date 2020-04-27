@@ -8,8 +8,7 @@ import pacman_infd.utils.SoundManager;
 import java.awt.*;
 
 public class Fruit extends GameElement implements Eatable {
-
-    private FruitType type;
+    private final FruitType type;
 
     /**
      * Constructor of the class

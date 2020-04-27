@@ -24,6 +24,16 @@ import java.util.HashMap;
  * @author Marinus
  */
 public class GameController implements GameEventListener {
+    private static final HashMap<String, Class<? extends PacmanStrategy>> PACMAN_STRATEGIES = new HashMap() {
+        {
+            put("Key Controlled", KeyControlledStrategy.class);
+            put("AI - priority to time", PriorityToTimeStrategy.class);
+            put("AI - priority to score", PriorityToScoreStrategy.class);
+        }
+    };
+    private static final int REFRESH_RATE = 10;
+    private static final int DEFAULT_GAME_SPEED = 200;
+
     private GameWorld gameWorld;
     private View view;
     private ScorePanel scorePanel;
@@ -32,17 +42,13 @@ public class GameController implements GameEventListener {
     private StopWatch stopWatch;
     private LevelManager levelManager;
     private int gameSpeed;
-    private static final HashMap<String, Class<? extends PacmanStrategy>> PACMAN_STRATEGIES = new HashMap() {
-        {
-            put("Key Controlled", KeyControlledStrategy.class);
-            put("AI - priority to time", PriorityToTimeStrategy.class);
-            put("AI - priority to score", PriorityToScoreStrategy.class);
-        }
-    };
 
-    private static final int REFRESH_RATE = 10;
-    private static final int DEFAULT_GAME_SPEED = 200;
-
+    /**
+     * Creates the game controller of the game.
+     *
+     * @param view the view of the game.
+     * @param scorePanel the score panel.
+     */
     public GameController(View view, ScorePanel scorePanel) {
         this.view = view;
         this.scorePanel = scorePanel;
@@ -165,7 +171,7 @@ public class GameController implements GameEventListener {
     /**
      * draw the game at each tick of the game timer.
      *
-     * @param e
+     * @param e the action event.
      */
     public void gameTimerActionPerformed(ActionEvent e) {
         drawGame();
@@ -251,6 +257,13 @@ public class GameController implements GameEventListener {
         stopWatch.restart();
     }
 
+    /**
+     * Event of the mouse clicked.
+     *
+     * @param x the x position of the mouse clicked.
+     * @param y the y position of the mouse clicked.
+     * @param mouseButton the button of the mouse has been clicked.
+     */
     public void mouseClicked(int x, int y, int mouseButton) {
         if (gameWorld != null) {
             gameWorld.spawnPortal(x, y, mouseButton);

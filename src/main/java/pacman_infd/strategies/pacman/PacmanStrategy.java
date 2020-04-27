@@ -11,16 +11,18 @@ import java.awt.event.KeyEvent;
 public interface PacmanStrategy {
     /**
      * Returns the next direction to follow
-     * @param currentCell The current cell
-     * @param currentDirection The current direction
+     *
+     * @param currentCell       The current cell
+     * @param currentDirection  The current direction
      * @return The new direction
      */
     Direction getNextDirection(Cell currentCell, Direction currentDirection);
 
     /**
      * Handle the pressure of a directional button.
-     * @param e The KeyEvent
-     * @param currentDirection The current direction
+     *
+     * @param e                 The KeyEvent
+     * @param currentDirection  The current direction
      * @return The new direction
      */
     Direction changeDirection(KeyEvent e, Direction currentDirection);

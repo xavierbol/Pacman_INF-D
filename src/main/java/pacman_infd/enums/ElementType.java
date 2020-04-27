@@ -24,14 +24,28 @@ public enum ElementType {
 
     private final char element;
 
+    /**
+     * Constructor for the values of the element.
+     *
+     * @param element the element of the enum.
+     */
     ElementType(char element) {
         this.element = element;
     }
 
+    /**
+     * Default constructor for the values of the element.
+     */
     ElementType() {
         this.element = '\u0000';
     }
 
+    /**
+     * Return the value of the element given in parameter.
+     *
+     * @param element the element.
+     * @return the value of this element.
+     */
     public static ElementType valueOfElement(char element) {
         for (ElementType e : values()) {
             if (e.element == element) {

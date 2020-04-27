@@ -14,7 +14,10 @@ import pacman_infd.games.Cell;
  */
 public class ChasePacmanStrategy implements GhostStrategy {
     private PathFinder pathFinder;
-    
+
+    /**
+     * Constructor of this class.
+     */
     public ChasePacmanStrategy(){
         pathFinder = new PathFinder();
     }

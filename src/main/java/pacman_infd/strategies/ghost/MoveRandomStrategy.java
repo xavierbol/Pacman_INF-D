@@ -6,9 +6,10 @@
 
 package pacman_infd.strategies.ghost;
 
+import pacman_infd.games.Cell;
+
 import java.util.ArrayList;
 import java.util.Random;
-import pacman_infd.games.Cell;
 
 /**
  *
@@ -17,20 +18,13 @@ import pacman_infd.games.Cell;
 public class MoveRandomStrategy implements GhostStrategy {
     private Cell previousCell;
     
-    /**
-     * 
-     * @param currentCell
-     * @return 
-     */
     @Override
-    public Cell giveNextCell(Cell currentCell)
-    {
+    public Cell giveNextCell(Cell currentCell) {
         // new list of cells
         ArrayList<Cell> availableCells = new ArrayList<>();
         
         // put all neighboring cells that have no wall in the new list.
-        for(Object o : currentCell.getNeighbors().values().toArray())
-        {
+        for (Object o : currentCell.getNeighbors().values().toArray()) {
             Cell cell = (Cell) o;
             if (!cell.hasWall()) {
                 availableCells.add(cell);
@@ -39,8 +33,7 @@ public class MoveRandomStrategy implements GhostStrategy {
         
         // remove the last cell that the element was on from the list so it doesn't
         // move back and forth between the same cells except if it's the only available cell.
-        if(availableCells.size() > 1 && previousCell != null)
-        {
+        if (availableCells.size() > 1 && previousCell != null) {
             availableCells.remove(previousCell);
         }
 

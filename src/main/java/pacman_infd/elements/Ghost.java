@@ -23,22 +23,31 @@ import java.util.Objects;
  * @author Marinus
  */
 public class Ghost extends MovingGameElement implements Eatable {
+    private static final int VULNERABLE_TIMER_DELAY = 5000;
+    private static final int STATE_SOON_CHANGE_DELAY = 2000;
+    private static final int DEATH_TIMER_DELAY = 5000;
+    private static final int VALUE = 200;
+
     private GhostStrategy ghostStrategy;
-    private GhostStrategy initialGhostStrategy;
-    private Color defaultColor;
+    private final GhostStrategy initialGhostStrategy;
+    private final Color defaultColor;
     private Color color;
     private GhostState state;
+    private byte pauseState;
 
     private Timer stateSoonChangeTimer; // To say when the state ghost change from VULNERABLE to NORMAL
     private Timer vulnerabilityTimer;
     private Timer deathTimer;
-    private byte pauseState;
-    private static final int VULNERABLE_TIMER_DELAY = 5000;
-    private static final int STATE_SOON_CHANGE_DELAY = 2000;
-    private static final int DEATH_TIMER_DELAY = 5000;
 
-    private static final int VALUE = 200;
-
+    /**
+     * Creates a new ghost in the game.
+     *
+     * @param cell              the cell where the ghost must appear
+     * @param gameEventListener the game listener
+     * @param speed             the speed of the ghost
+     * @param ghostStrategy     the initial strategy that the ghost must adopt.
+     * @param color             the default color of the ghost
+     */
     public Ghost(Cell cell, ElementEventListener gameEventListener, int speed, GhostStrategy ghostStrategy, Color color) {
         super(cell, gameEventListener, speed);
         this.ghostStrategy = ghostStrategy;
@@ -82,7 +91,7 @@ public class Ghost extends MovingGameElement implements Eatable {
     /**
      * Draw this Ghost
      *
-     * @param g
+     * @param g the graphics object to draw the current ghost in the game board
      */
     public void draw(Graphics g) {
         if (state.equals(GhostState.VULNERABLE)) {
@@ -180,6 +189,9 @@ public class Ghost extends MovingGameElement implements Eatable {
         this.elementEventListener.ghostsBackToNormal();
     }
 
+    /**
+     * Treatment when this ghost die
+     */
     public void dead() {
         setSpeed(speed);
         ghostStrategy = new ReturnHomeSrategy(startCell);
@@ -204,25 +216,32 @@ public class Ghost extends MovingGameElement implements Eatable {
         return state;
     }
 
-    /**
-     * This is called each 'tick' of the timer. This is used by the GameWorld to
-     *
-     * @param e
-     */
     @Override
     public void moveTimerActionPerformed(ActionEvent e) {
         move();
-        //checkCollisions();
         elementEventListener.movingElementActionPerformed(this);
     }
 
-    public void changeStateActionPerformed(ActionEvent e) {
+    /**
+     * Change the state of the ghost, from vulnerable state to normal state.
+     * This method is called when the time of the ghost is vulnerable is finished.
+     *
+     * @param e the action event
+     */
+    private void changeStateActionPerformed(ActionEvent e) {
         stateSoonChangeTimer.stop();
         if (state.equals(GhostState.VULNERABLE)) {
             backToNormal();
         }
     }
 
+    /**
+     * Launch the second timer when the ghost is vulnerable, that is
+     * the timer to notify that the state of this ghost will change
+     * soon to the normal state.
+     *
+     * @param evt the action event.
+     */
     private void vulnerabilityTimerActionPerformed(ActionEvent evt) {
         vulnerabilityTimer.stop();
         if (state.equals(GhostState.VULNERABLE)) {
@@ -230,6 +249,11 @@ public class Ghost extends MovingGameElement implements Eatable {
         }
     }
 
+    /**
+     * Return this ghost to the normal state when the timer of death state is finished.
+     *
+     * @param evt the action event.
+     */
     private void deathTimerActionPerformed(ActionEvent evt) {
         backToNormal();
     }

@@ -20,9 +20,18 @@ public abstract class GameElement {
     protected Cell cell;
     protected ElementEventListener elementEventListener;
 
+    /**
+     * Default constructor.
+     */
     public GameElement() {
     }
 
+    /**
+     * Constructor of this class.
+     *
+     * @param cell the initial position of the game element.
+     * @param elementEventListener the element event listener.
+     */
     public GameElement(Cell cell, ElementEventListener elementEventListener) {
         this.cell = cell;
         this.elementEventListener = elementEventListener;

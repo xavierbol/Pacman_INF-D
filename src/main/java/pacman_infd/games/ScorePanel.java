@@ -6,27 +6,28 @@
 
 package pacman_infd.games;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import javax.swing.JPanel;
+import javax.swing.*;
+import java.awt.*;
 
 /**
  *
  * @author Marinus
  */
 public class ScorePanel extends JPanel {
-    private int score;
-    private int lives;
-    private String time;
-    
     private static final int PANEL_WIDTH = 730;
     private static final int PANEL_HEIGHT = 50;
 
     private static final int DEFAULT_SCORE = 0;
     private static final int NUMBER_LIVES = 3;
     private static final String DEFAULT_TIME = "00:00";
-    
+
+    private int score;
+    private int lives;
+    private String time;
+
+    /**
+     * Create a score panel.
+     */
     public ScorePanel()
     {
         resetStats();
@@ -43,6 +44,7 @@ public class ScorePanel extends JPanel {
     
     /**
      * Set score
+     *
      * @param n amount
      */
     public void setScore(int n)
@@ -52,6 +54,7 @@ public class ScorePanel extends JPanel {
     
     /**
      * Add to current score
+     *
      * @param n amount
      */
     public void addScore(int n)
@@ -72,8 +75,9 @@ public class ScorePanel extends JPanel {
     }
     
     /**
-     * 
-     * @return lives
+     * Get the lives.
+     *
+     * @return lives.
      */
     public int getLives()
     {
@@ -81,8 +85,9 @@ public class ScorePanel extends JPanel {
     }
     
     /**
-     * Set time
-     * @param time 
+     * Set the time.
+     *
+     * @param time the time.
      */
     public void setTime(String time){
         this.time = time;
@@ -90,6 +95,7 @@ public class ScorePanel extends JPanel {
     
     /**
      * Paint this panel
+     *
      * @param g Graphics object.
      */
     @Override

@@ -6,8 +6,8 @@
 package pacman_infd.games;
 
 import org.junit.jupiter.api.*;
-import pacman_infd.enums.Direction;
 import pacman_infd.elements.Portal;
+import pacman_infd.enums.Direction;
 import pacman_infd.enums.PortalType;
 import pacman_infd.strategies.pacman.KeyControlledStrategy;
 import pacman_infd.utils.SoundManager;

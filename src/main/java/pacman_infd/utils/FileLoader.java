@@ -13,8 +13,13 @@ import java.net.URI;
  * @author Marinus
  */
 public class FileLoader {
-    private URI path;
-    
+    private final URI path;
+
+    /**
+     * Constructor of this class.
+     *
+     * @param path the path of the file to load.
+     */
     public FileLoader(URI path){
         this.path = path;
     }
@@ -22,7 +27,7 @@ public class FileLoader {
     /**
      * Opens a text file and reads all lines and puts then in a String array.
      * @return String[] of all lines in the text file.
-     * @throws IOException 
+     * @throws IOException
      */
     public String[] openFile() throws IOException {
         FileReader fr = new FileReader(new File(path));
@@ -31,7 +36,7 @@ public class FileLoader {
         int lines = readLines();
         String[] textData = new String[lines];
         
-        for(int i = 0; i < lines; i++){
+        for (int i = 0; i < lines; i++){
             textData[i] = textReader.readLine();
         }
         
@@ -54,8 +59,8 @@ public class FileLoader {
       
         char[][] map = new char[mapHeight][mapWidth];
         
-        for(int i = 0; i < mapHeight; i++){
-            for(int j = 0; j < mapWidth; j++){
+        for (int i = 0; i < mapHeight; i++) {
+            for (int j = 0; j < mapWidth; j++) {
                 map[i][j] = textData[i].charAt(j);
             }
         }
@@ -76,7 +81,7 @@ public class FileLoader {
         String line;
         int numberOfLines = 0;
         
-        while((line = bf.readLine()) != null){
+        while ((line = bf.readLine()) != null) {
             numberOfLines++;
         }
         bf.close();

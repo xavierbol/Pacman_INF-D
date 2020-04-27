@@ -29,6 +29,12 @@ public class Cell {
 
     private Cell pathParent;
 
+    /**
+     * Creates a cell of the board game.
+     * @param x     the axis-x position of this cell in the board game.
+     * @param y     the axis y position of this cell in the board game.
+     * @param size  the size of this cell.
+     */
     public Cell(int x, int y, int size) {
         xPos = x;
         yPos = y;
@@ -42,7 +48,7 @@ public class Cell {
     /**
      * Draw this cell and all elements in it.
      *
-     * @param g
+     * @param g Graphics object to draw the elements contained on this cell.
      */
     public void draw(Graphics g) {
         drawElements(g);
@@ -66,8 +72,6 @@ public class Cell {
 
     /**
      * Returns true if one of the movingElements on this Cell is a Wall.
-     *
-     * @return
      */
     public boolean hasWall() {
         return staticElement instanceof Wall;
@@ -82,30 +86,37 @@ public class Cell {
     }
 
     /**
-     * Add a GameElement to this cell.
+     * Add a moving game element to this cell.
      *
-     * @param e GameElement
+     * @param e the moving game element to add on this cell.
      */
     public void addMovingElement(MovingGameElement e) {
         movingElements.add(e);
     }
 
     /**
-     * Remove a GameElement from this cell.
+     * Remove a moving game element from this cell.
      *
-     * @param e GameElement
+     * @param e the moving game element.
      */
     public void removeMovingElement(MovingGameElement e) {
         movingElements.remove(e);
     }
 
     /**
+     * Returns the list containing the moving elements on this cell.
+     *
      * @return a list of all GameElements on this cell.
      */
     public ArrayList<MovingGameElement> getMovingElements() {
         return movingElements;
     }
 
+    /**
+     * Check if Pacman is on this cell.
+     *
+     * @return true if Pacman is on this cell, otherwise return false.
+     */
     public boolean containsPacman() {
         for (GameElement e : this.movingElements) {
             if (e instanceof Pacman) {
@@ -116,6 +127,11 @@ public class Cell {
         return false;
     }
 
+    /**
+     * Return all eatable elements on this cells.
+     *
+     * @return all eatable elements on this cells.
+     */
     public ArrayList<Eatable> getAllEatableElements() {
         ArrayList<Eatable> eatables = new ArrayList<>();
         if (staticElement instanceof Eatable) {
@@ -133,6 +149,7 @@ public class Cell {
 
     /**
      * Returns all the game elements contained in the cell.
+     *
      * @return The game elements contained in the cell
      */
     public ArrayList<GameElement> getAllGameElements() {
@@ -144,8 +161,8 @@ public class Cell {
     /**
      * Set the neighboring cells for this cell
      *
-     * @param dir
-     * @param cell
+     * @param dir the direction of the neighbor cell.
+     * @param cell the neighbor cell.
      */
     public void setNeighbor(Direction dir, Cell cell) {
         if (cell != null) {
@@ -154,7 +171,9 @@ public class Cell {
     }
 
     /**
-     * @param dir Direction of cell
+     * Get the neighbor cell based on the direction given in parameter.
+     *
+     * @param dir Direction of cell.
      * @return Cell neighbor of this cell in the direction specified.
      */
     public Cell getNeighbor(Direction dir) {
@@ -162,6 +181,8 @@ public class Cell {
     }
 
     /**
+     * Get the neighboring cells.
+     *
      * @return a HashMap of neighboring Cells.
      */
     public Map<Direction, Cell> getNeighbors() {
@@ -169,20 +190,26 @@ public class Cell {
     }
 
     /**
-     * @return staticElement
+     * Get the static element on this cell.
+     *
+     * @return the static element on this cell.
      */
     public GameElement getStaticElement() {
         return staticElement;
     }
 
     /**
-     * @param element
+     * Set the static element on this cell.
+     *
+     * @param element the static element to set
      */
     public void setStaticElement(GameElement element) {
         staticElement = element;
     }
 
     /**
+     * Get the size of this cell.
+     *
      * @return the size of this cell.
      */
     public int getSize() {
@@ -190,6 +217,8 @@ public class Cell {
     }
 
     /**
+     * Get the x position of this cell.
+     *
      * @return the x position of this cell.
      */
     public int getXPos() {
@@ -197,6 +226,8 @@ public class Cell {
     }
 
     /**
+     * Get the y position of this cell.
+     *
      * @return the y position of this cell.
      */
     public int getYPos() {
@@ -232,7 +263,9 @@ public class Cell {
     }
 
     /**
-     * @return parent of this Cell in a path
+     * Get the parent of this cell in a path.
+     *
+     * @return parent of this Cell in a path.
      */
     public Cell getPathParent() {
         return pathParent;

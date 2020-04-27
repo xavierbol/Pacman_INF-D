@@ -43,6 +43,12 @@ public enum Direction {
         return opposite;
     }
 
+    /**
+     * Get the correct direction based on the key event given in parameter.
+     *
+     * @param keyEvent the key event.
+     * @return the correct direction based on the key event.
+     */
     public static Direction getDirection(KeyEvent keyEvent) {
         switch (keyEvent.getKeyCode()) {
             case KeyEvent.VK_UP: {

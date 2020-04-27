@@ -48,6 +48,14 @@ public class GameWorld {
     private Portal portalBlue;
     private Portal portalOrange;
 
+    /**
+     * Create the game world.
+     *
+     * @param gameController        the game controller.
+     * @param levelMap              the map of the level.
+     * @param speed                 the default speed.
+     * @param pacmanStrategyClazz   the selected class for the strategy of pacman.
+     */
     public GameWorld(GameController gameController, char[][] levelMap, int speed, Class<? extends PacmanStrategy> pacmanStrategyClazz) {
         this.view = gameController.getView();
         this.gameSpeed = speed;
@@ -64,14 +72,12 @@ public class GameWorld {
 
             this.numberOfPelletsAtStart = countPellets(false);
         }
-
-
     }
 
     /**
-     * Create the pacman strategy
+     * Create the pacman strategy.
      *
-     * @param pacmanStrategyClazz
+     * @param pacmanStrategyClazz the selected class for the strategy of the pacman.
      */
     private PacmanStrategy createPacmanStrategy(Class<? extends PacmanStrategy> pacmanStrategyClazz) {
         PacmanStrategy pacmanStrategy = null;
@@ -287,6 +293,9 @@ public class GameWorld {
         }
     }
 
+    /**
+     * Link the portals.
+     */
     private void linkPortals() {
         portalBlue.setLinkedPortal(portalOrange);
         portalOrange.setLinkedPortal(portalBlue);
@@ -294,6 +303,12 @@ public class GameWorld {
         portalOrange.warpNeighbors();
     }
 
+    /**
+     * Create the portal.
+     *
+     * @param cell          the cell where the portal must be created.
+     * @param portalType    the type of the portal to create.
+     */
     private void createPortal(Cell cell, PortalType portalType) {
         Portal portal = new Portal(cell, portalType);
 
@@ -319,6 +334,13 @@ public class GameWorld {
         SoundManager.playSound("portal");
     }
 
+    /**
+     * Spawn the portal
+     *
+     * @param x             the x position of the portal to spawn
+     * @param y             the y position of the portal to spawn
+     * @param mouseButton   the mouse button which has been clicked.
+     */
     public void spawnPortal(int x, int y, int mouseButton) {
         int cellX = x / CELL_SIZE;
         int cellY = y / CELL_SIZE;
@@ -334,6 +356,9 @@ public class GameWorld {
         }
     }
 
+    /**
+     * Clear the game world.
+     */
     public void clearGameWorld() {
         for (Cell cell : cells) {
             cell.clearCell();
@@ -355,6 +380,8 @@ public class GameWorld {
     }
 
     /**
+     * Get the initial number of pellets.
+     *
      * @return number of Pellets at the start of the game.
      */
     public int getNumberOfPelletsAtStart() {
@@ -362,33 +389,48 @@ public class GameWorld {
     }
 
     /**
-     * @return the portalBlue
+     * Get the blue portal.
+     *
+     * @return the portalBlue.
      */
     public Portal getPortalBlue() {
         return portalBlue;
     }
 
     /**
-     * @param portalBlue the portalBlue to set
+     * Set the blue portal.
+     *
+     * @param portalBlue the portalBlue to set.
      */
     public void setPortalBlue(Portal portalBlue) {
         this.portalBlue = portalBlue;
     }
 
     /**
-     * @return the portalOrange
+     * Get the orange portal.
+     *
+     * @return the portalOrange.
      */
     public Portal getPortalOrange() {
         return portalOrange;
     }
 
     /**
-     * @param portalOrange the portalOrange to set
+     * Set the orange portal.
+     *
+     * @param portalOrange the portalOrange to set.
      */
     public void setPortalOrange(Portal portalOrange) {
         this.portalOrange = portalOrange;
     }
 
+    /**
+     * Get the cell based on the position given in parameter.
+     *
+     * @param x     the x position of the wished cell.
+     * @param y     the y position of the wished cell.
+     * @return      the wished cell.
+     */
     public Cell getCell(int x, int y) {
         if (y >= 0 && y < cellMap.length) {
             if (x >= 0 && x < cellMap[y].length) {
@@ -399,10 +441,20 @@ public class GameWorld {
         return null;
     }
 
+    /**
+     * Get all cells of the game board.
+     *
+     * @return all cells.
+     */
     public ArrayList<Cell> getCells() {
         return cells;
     }
 
+    /**
+     * Get event handler
+     *
+     * @return the event handler
+     */
     public EventHandler getEventHandler() {
         return eventHandler;
     }

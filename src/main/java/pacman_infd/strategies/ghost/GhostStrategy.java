@@ -13,5 +13,11 @@ import pacman_infd.games.Cell;
  * @author Marinus
  */
 public interface GhostStrategy {
+    /**
+     * Give the next cell that the ghost will go.
+     *
+     * @param currentCell the current cell where the ghost is.
+     * @return the next cell where the ghost will go.
+     */
     Cell giveNextCell(Cell currentCell);
 }

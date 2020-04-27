@@ -20,7 +20,7 @@ import java.awt.image.BufferedImage;
 public class View extends JFrame implements MouseListener {
     private static final int FRAME_WIDTH = 740;
     private static final int FRAME_HEIGHT = 918;
-    private static String TITLE = "Pacman";
+    private static final String TITLE = "Pacman";
 
     private BufferedImage image;
 
@@ -32,6 +32,9 @@ public class View extends JFrame implements MouseListener {
     private JButton startButton;
     private JButton pauseButton;
 
+    /**
+     * Creates the view of the game.
+     */
     public View() {
         initComponents();
 
@@ -39,6 +42,9 @@ public class View extends JFrame implements MouseListener {
         image = new BufferedImage(FRAME_WIDTH, 850, BufferedImage.TYPE_INT_ARGB);
     }
 
+    /**
+     * Initialize all components for this view.
+     */
     private void initComponents() {
         setSize(FRAME_WIDTH, FRAME_HEIGHT);
         setTitle(TITLE);
@@ -75,14 +81,27 @@ public class View extends JFrame implements MouseListener {
         setFocusable(true);
     }
 
+    /**
+     * Get the graphics object of this view.
+     *
+     * @return the graphics object of this view.
+     */
     public Graphics getGameWorldGraphics() {
         return image.getGraphics();
     }
 
+    /**
+     * Draw the game world.
+     */
     public void drawGameWorld() {
         gamePanel.getGraphics().drawImage(image, 0, 0, null);
     }
 
+    /**
+     * The behaviour of the start button when the user clicks on it.
+     *
+     * @param evt the action event.
+     */
     private void startButtontActionPerformed(ActionEvent evt) {
         gameController.newGame();
 
@@ -93,6 +112,11 @@ public class View extends JFrame implements MouseListener {
         }
     }
 
+    /**
+     * The behaviour of the pause button when the user clicks on it.
+     *
+     * @param evt the action event.
+     */
     private void pauseButtontActionPerformed(ActionEvent evt) {
         gameController.pauseGame();
 
@@ -101,7 +125,6 @@ public class View extends JFrame implements MouseListener {
         } else {
             pauseButton.setText("Pause");
         }
-
     }
 
     @Override

@@ -10,6 +10,12 @@ import java.awt.event.KeyEvent;
  * Strategy where pacman is controlled by the directional keys of the keyboard.
  */
 public class KeyControlledStrategy implements PacmanStrategy {
+
+    /**
+     * Constructor of this class
+     *
+     * @param gameWorld the game world.
+     */
     public KeyControlledStrategy(GameWorld gameWorld) {
     }
 

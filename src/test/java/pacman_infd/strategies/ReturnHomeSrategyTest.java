@@ -20,5 +20,4 @@ class ReturnHomeSrategyTest extends GhostStrategyTest {
 
         assert(cell.equals(homeCell));
     }
-
 }

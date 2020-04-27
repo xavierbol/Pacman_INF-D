@@ -1,6 +1,5 @@
 package pacman_infd.elements;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pacman_infd.enums.Direction;
 import pacman_infd.enums.ElementType;

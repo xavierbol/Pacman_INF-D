@@ -20,17 +20,28 @@ import java.util.Queue;
 public class LevelManager {
     private Queue<char[][]> levels;
 
+    /**
+     * Create a level manager
+     */
     public LevelManager() {
         levels = new LinkedList<>();
         loadLevels();
     }
 
+    /**
+     * Load all available levels
+     */
     private void loadLevels() {
         loadLevel("Levels/default.txt");
         loadLevel("Levels/ylevel1.txt");
         loadLevel("Levels/ylevel3.txt");
     }
 
+    /**
+     * Load a level based on the path given in parameter
+     *
+     * @param path the path containing the file with the level.
+     */
     private void loadLevel(String path) {
         try {
             URI filePath = ClassLoader.getSystemResource(path).toURI();
@@ -44,12 +55,22 @@ public class LevelManager {
         }
     }
 
+    /**
+     * Get the first level.
+     *
+     * @return The first level.
+     */
     public char[][] getFirstLevel() {
         levels = new LinkedList<>();
         loadLevels();
         return getNextLevel();
     }
 
+    /**
+     * Get the next level.
+     *
+     * @return the next level.
+     */
     public char[][] getNextLevel() {
         char[][] nextLevel = levels.poll();
         levels.offer(nextLevel);

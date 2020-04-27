@@ -17,12 +17,18 @@ import java.util.stream.Collectors;
  * @author Marinus
  */
 public class EventHandler implements ElementEventListener {
-    private GameEventListener gameEventListener;
-    private GameWorld gameWorld;
+    private final GameEventListener gameEventListener;
+    private final GameWorld gameWorld;
     private int killConsecutiveGhost;
 
     private final Object moveLock = new Object();
 
+    /**
+     * Constructor of this class.
+     *
+     * @param gameEventListener the game event listener.
+     * @param gameWorld the game world.
+     */
     public EventHandler(GameEventListener gameEventListener, GameWorld gameWorld) {
         this.gameEventListener = gameEventListener;
         this.gameWorld = gameWorld;
@@ -30,9 +36,9 @@ public class EventHandler implements ElementEventListener {
     }
 
     /**
-     * Checks if ghost is in the same cell as pacman
+     * Checks if ghost is in the same cell as pacman.
      *
-     * @param g
+     * @param g the ghost.
      */
     private void checkCollisions(Ghost g) {
         Cell cell = g.getCell();
@@ -43,9 +49,9 @@ public class EventHandler implements ElementEventListener {
     }
 
     /**
-     * checks if pacman found any eatable object.
+     * Checks if pacman found any eatable object.
      *
-     * @param p
+     * @param p the pacman.
      */
     private void checkCollisions(Pacman p) {
         Cell cell = p.getCell();
@@ -60,7 +66,7 @@ public class EventHandler implements ElementEventListener {
     /**
      * This is called whenever a moving gameElement has moved.
      *
-     * @param e
+     * @param e the moving game element.
      */
     @Override
     public void movingElementActionPerformed(MovingGameElement e) {
@@ -78,9 +84,9 @@ public class EventHandler implements ElementEventListener {
     }
 
     /**
-     * this is called whenever an eatable object has been eaten.
+     * This is called whenever an eatable object has been eaten.
      *
-     * @param e
+     * @param e the eatable element.
      */
     @Override
     public void eatableElementEaten(Eatable e) {
