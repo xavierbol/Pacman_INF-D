@@ -16,7 +16,7 @@ import java.awt.*;
  * @author ivanweller
  */
 public class Pellet extends GameElement implements Eatable {
-    private static final int VALUE = 5;
+    private static final int VALUE = 10;
 
     /**
      * Create a pellet.

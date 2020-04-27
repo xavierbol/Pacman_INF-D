@@ -28,7 +28,7 @@ public class GameController implements GameEventListener {
         {
             put("Key Controlled", KeyControlledStrategy.class);
             put("AI - priority to time", PriorityToTimeStrategy.class);
-            put("AI - priority to points", PriorityToScoreStrategy.class);
+            put("AI - priority to score", PriorityToScoreStrategy.class);
         }
     };
     private static final int REFRESH_RATE = 10;
